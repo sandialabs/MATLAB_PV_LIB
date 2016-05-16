@@ -1,0 +1,165 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_sapmcelltemp</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_sapmcelltemp_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_sapmcelltemp</h1><!--introduction--><p>Estimate cell temperature from irradiance, windspeed, ambient temperature, and SAPM module parameters.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description</a></li><li><a href="#4">Inputs</a></li><li><a href="#6">Outputs</a></li><li><a href="#8">Example</a></li><li><a href="#9">References</a></li><li><a href="#11">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>Tcell = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)</tt></p><p><tt>[Tcell Tmodule] = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)</tt></p><h2>Description<a name="3"></a></h2><p>Estimate cell and module temperatures using the Sandia Array Performance Model (SAPM) [1], when given the incident irradiance, wind speed, and ambient temperature.</p><p>The cell temperature model is</p><p><img src="pvl_sapmcelltemp_help_eq01000226452344603674.png" alt="$$T_c = T_m + {\frac{E}{E_0}} \Delta T $$"></p><p><img src="pvl_sapmcelltemp_help_eq03219983695159028104.png" alt="$$T_m = E \left( \exp \left( a + b W \right) \right) + T_a $$"></p><p>where</p><div><ul><li><img src="pvl_sapmcelltemp_help_eq11046168025807619678.png" alt="$T_c$"> is the cell temperature (C).</li><li><img src="pvl_sapmcelltemp_help_eq16003806544088477123.png" alt="$T_m$"> is the module backsurface temperature (C).</li><li><img src="pvl_sapmcelltemp_help_eq00772285443793674075.png" alt="$T_a$"> is the ambient air temperature (C).</li><li><img src="pvl_sapmcelltemp_help_eq14900514129597942148.png" alt="$W$"> is the wind speed (m/s).</li><li><img src="pvl_sapmcelltemp_help_eq05508344529756732484.png" alt="$a$">, <img src="pvl_sapmcelltemp_help_eq02044268985122151499.png" alt="$b$"> and <img src="pvl_sapmcelltemp_help_eq17300045553938971479.png" alt="$\Delta T$"> are parameters.</li></ul></div><h2>Inputs<a name="4"></a></h2><div><ul><li><b><tt>E</tt></b> - Total incident irradiance in W/m^2. E must be a scalar or a vector     of the same size as windspeed, and Tamb. Must be &gt;=0.</li><li><b><tt>E0</tt></b> - Reference irradiance used when determining delta T, in W/m^2. E0     must be a scalar. Must be &gt;=0.  Typically equals 1,000 W/m^2;</li><li><b><tt>a</tt></b> - SAPM module parameter for establishing the upper limit for module     temperature at low wind speeds and high solar irradiance (see SAPM     eqn. 11). Must be a scalar.</li><li><b><tt>b</tt></b> - SAPM module parameter for establishing the rate at which the module     temperature drops as wind speed increases (see SAPM eqn. 11). Must be     a scalar.</li><li><b><tt>windspeed</tt></b> - Wind speed in m/s at a height of 10 meters. windspeed must     be a scalar or a vector of the same size as E and Tamb. Must be &gt;=0;</li><li><b><tt>Tamb</tt></b> - Ambient dry bulb temperature in degrees C. Tamb must be a scalar     or a vector of the same size as windspeed and E. Must be &gt;= -273.15.</li><li><b><tt>deltaT</tt></b> - SAPM module parameter giving the temperature difference     between the cell and module back surface at the reference irradiance,  <tt>E0</tt>. Must be a numeric scalar &gt;=0.</li></ul></div><h2>Outputs<a name="6"></a></h2><div><ul><li><tt>Tcell</tt> - A column vector of cell temperatures in degrees C.</li><li><tt>Tmodule</tt> - A column vector of module back temperature in degrees C.</li></ul></div><h2>Example<a name="8"></a></h2><p>Calculate cell temperature for a typical glass/cell/polymer sheet module mounted on an open rack. a, b, and deltaT parameter from [1], Table 1.  Sample weather conditions are used.</p><pre class="codeinput">deltaT = 3;
+a = -3.56;
+b = -0.075;
+E = 800; <span class="comment">% Incident irradiance</span>
+E0 = 1000;
+windspeed = 5; <span class="comment">%5 m/s</span>
+Tamb = 10; <span class="comment">%10 deg C</span>
+Tcell = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)
+</pre><pre class="codeoutput">
+Tcell =
+
+   28.0366
+
+</pre><h2>References<a name="9"></a></h2><p>[1] King, D. et al, 2004, "Sandia Photovoltaic Array Performance Model", SAND2004-3535, Sandia National Laboratories, Albuquerque, NM <a href="http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND-2004_PV-Performance-Array-Model.pdf">Web Link</a></p><h2>See Also<a name="11"></a></h2><p><a href="pvl_samp_help.html"><tt>pvl_samp</tt></a>, <a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_sapmcelltemp
+% Estimate cell temperature from irradiance, windspeed, ambient
+% temperature, and SAPM module parameters.
+%
+%% Syntax
+%%
+% |Tcell = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)|
+%
+% |[Tcell Tmodule] = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb,
+% deltaT)|
+%
+%% Description
+% Estimate cell and module temperatures using the Sandia Array
+% Performance Model (SAPM) [1], when given the incident
+% irradiance, wind speed, and ambient temperature.
+%
+% The cell temperature model is
+%
+% $$T_c = T_m + {\frac{E}{E_0}} \Delta T $$
+%
+% $$T_m = E \left( \exp \left( a + b W \right) \right) + T_a $$
+%
+% where
+%
+% * $T_c$ is the cell temperature (C).
+% * $T_m$ is the module backsurface temperature (C).
+% * $T_a$ is the ambient air temperature (C).
+% * $W$ is the wind speed (m/s).
+% * $a$, $b$ and $\Delta T$ are parameters.
+%
+%% Inputs
+%%
+% * *|E|* - Total incident irradiance in W/m^2. E must be a scalar or a vector
+%     of the same size as windspeed, and Tamb. Must be >=0.
+% * *|E0|* - Reference irradiance used when determining delta T, in W/m^2. E0
+%     must be a scalar. Must be >=0.  Typically equals 1,000 W/m^2;
+% * *|a|* - SAPM module parameter for establishing the upper limit for module 
+%     temperature at low wind speeds and high solar irradiance (see SAPM
+%     eqn. 11). Must be a scalar.
+% * *|b|* - SAPM module parameter for establishing the rate at which the module
+%     temperature drops as wind speed increases (see SAPM eqn. 11). Must be
+%     a scalar.
+% * *|windspeed|* - Wind speed in m/s at a height of 10 meters. windspeed must
+%     be a scalar or a vector of the same size as E and Tamb. Must be >=0;
+% * *|Tamb|* - Ambient dry bulb temperature in degrees C. Tamb must be a scalar
+%     or a vector of the same size as windspeed and E. Must be >= -273.15.
+% * *|deltaT|* - SAPM module parameter giving the temperature difference
+%     between the cell and module back surface at the reference irradiance,
+%  |E0|. Must be a numeric scalar >=0.
+%  
+%% Outputs
+%%
+% * |Tcell| - A column vector of cell temperatures in degrees C.
+% * |Tmodule| - A column vector of module back temperature in degrees C.
+%
+%% Example
+% Calculate cell temperature for a typical glass/cell/polymer sheet module mounted on an open rack.
+% a, b, and deltaT parameter from [1], Table 1.  Sample weather conditions
+% are used.
+deltaT = 3;
+a = -3.56;
+b = -0.075;
+E = 800; % Incident irradiance
+E0 = 1000;
+windspeed = 5; %5 m/s
+Tamb = 10; %10 deg C
+Tcell = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)
+%% References
+%%
+% [1] King, D. et al, 2004, "Sandia Photovoltaic Array Performance Model", SAND2004-3535,
+% Sandia National Laboratories, Albuquerque, NM
+% <http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND-2004_PV-Performance-Array-Model.pdf Web Link>
+%
+%% See Also 
+% <pvl_samp_help.html |pvl_samp|>, 
+% <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|>
+%
+%%
+% Copyright 2014 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

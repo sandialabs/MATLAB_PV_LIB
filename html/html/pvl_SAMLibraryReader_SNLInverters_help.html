@@ -1,0 +1,156 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_SAMLibraryReader_SNLInverters</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_SAMLibraryReader_SNLInverters_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_SAMLibraryReader_SNLInverters</h1><!--introduction--><p>Open a System Advisor Model (SAM) Sandia Inverter Library</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Input</a></li><li><a href="#4">Output</a></li><li><a href="#5">Notes</a></li><li><a href="#6">Sources</a></li><li><a href="#7">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>[SNLInverterDB, InverterNames] = pvl_SAMLibraryReader_SNLInverters()</tt></li><li><tt>[SNLInverterDB, InverterNames] = pvl_SAMLibraryReader_SNLInverters(LibraryFile)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p>pvl_SAMLibraryReader_SNLInverters reads a System Advisor Model (SAM) [1] library of Sandia Inverter model parameters [2].</p><h2>Input<a name="3"></a></h2><div><ul><li><b><tt>LibraryFile</tt></b> - An optional input string to select which SAM library to     read. If omitted, a user dialog box will prompt the user to browse and     select a module library. Note that if LibraryFile is input to the     function, the standard MATLAB precedence order applies.</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>SNLInverterDB</tt></b> - The parameters in the SAM inverter library. SNLInverterDB is   a column vector of size [NumberOfLibraryEntries, 1], where each element   is a struct with the following fields. These fields may be described in   more detail in [2].</li><li><b><tt>name</tt></b> - Name of the module entry in the library. Generally the name         may consist of the manufacturer, model (and OEM if necessary), AC         voltage, data source, and year of entry into the library</li><li><b><tt>Vac</tt></b> - Nominal AC voltage for the output of the inverter (V)</li><li><b><tt>Pac0</tt></b> - Maximum AC power "rating" for the inverter at nominal         operating condition (W)</li><li><b><tt>Pdc0</tt></b> - DC power level at which the AC power rating (Pac0) is         achieved (W)</li><li><b><tt>Vdc0</tt></b> - DC voltage level at which the AC power rating is achieved (V)</li><li><b><tt>Ps0</tt></b> - DC power required to start the inversion process, or         self-consumption by the inverter (W)</li><li><b><tt>C0</tt></b> - Parameter defining the curvature (parabolic) of the         relationship between AC power and DC power at the reference         operating condition (1/W)</li><li><b><tt>C1</tt></b> - Empirical coefficient allowing Pdc0 to vary linearly with DC         voltage input (1/V)</li><li><b><tt>C2</tt></b> - Empirical coefficient allowing Ps0 to vary linearly with DC         voltage input (1/V)</li><li><b><tt>C3</tt></b> - Empirical coefficient allowing C0 to vary linearly with DC         voltage input (1/V)</li><li><b><tt>Pnt</tt></b> - Power consumed by the inverter when no DC input power is         present (e.g. at night), also known as "night tare" or "tare         loss" (W). Note that in the SAM library (and the preceding Sandia         database) some Pnt values are positive, while others are         negative, thus it may be necessary to use the absolute value of         Pnt to ensure a consistent sign.</li><li><b><tt>Vdcmax</tt></b> - Maximum DC voltage allowed to the inverter (V)</li><li><b><tt>Idcmax</tt></b> - Maximum DC current allowed to the inverter (A)</li><li><b><tt>MPPTLow</tt></b> - Low voltage limit for maximum power point tracking (V)</li><li><b><tt>MPPTHi</tt></b> - High voltage limit for maximum power point tracking (V)</li><li><b><tt>LibraryType</tt></b> - Library type as listed in the header information of          the SAM library file.</li><li><b><tt>LibraryName</tt></b> - Library name as listed in the header information of          the SAM library file.</li></ul></div><div><ul><li><tt>InverterNames</tt>* - A cell array of size [NumberOfLibraryEntries, 1] with the       names of the inverters in the SAM library.</li></ul></div><h2>Notes<a name="5"></a></h2><p>If this function detects that the selected input library is not of type "SNLInverter", it will display a warning to the command window and continue to try and read the library.</p><p>The PV_LIB team would also like to thank the SAM team for maintaining the inverter parameter library and allowing for interaction with the library files.</p><h2>Sources<a name="6"></a></h2><p>[1] System Advisor Model web page. https://sam.nrel.gov.</p><p>[2] King, D. et al, 2007, "Performance Model for Grid-Connected     Photovoltaic Inverters", SAND2007-5036, Sandia National     Laboratories, Albuquerque, NM.</p><h2>See also<a name="7"></a></h2><p><a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_SAMLibraryReader_SNLInverters
+% Open a System Advisor Model (SAM) Sandia Inverter Library
+%
+%% Syntax
+% * |[SNLInverterDB, InverterNames] = pvl_SAMLibraryReader_SNLInverters()|
+% * |[SNLInverterDB, InverterNames] = pvl_SAMLibraryReader_SNLInverters(LibraryFile)|
+%
+%% Description
+% pvl_SAMLibraryReader_SNLInverters reads a System Advisor Model (SAM) [1]
+% library of Sandia Inverter model parameters [2].
+%
+%% Input
+% * *|LibraryFile|* - An optional input string to select which SAM library to
+%     read. If omitted, a user dialog box will prompt the user to browse and
+%     select a module library. Note that if LibraryFile is input to the
+%     function, the standard MATLAB precedence order applies.
+%
+%% Output
+% * *|SNLInverterDB|* - The parameters in the SAM inverter library. SNLInverterDB is
+%   a column vector of size [NumberOfLibraryEntries, 1], where each element
+%   is a struct with the following fields. These fields may be described in
+%   more detail in [2].
+% * *|name|* - Name of the module entry in the library. Generally the name
+%         may consist of the manufacturer, model (and OEM if necessary), AC
+%         voltage, data source, and year of entry into the library
+% * *|Vac|* - Nominal AC voltage for the output of the inverter (V)
+% * *|Pac0|* - Maximum AC power "rating" for the inverter at nominal
+%         operating condition (W)
+% * *|Pdc0|* - DC power level at which the AC power rating (Pac0) is
+%         achieved (W)
+% * *|Vdc0|* - DC voltage level at which the AC power rating is achieved (V)
+% * *|Ps0|* - DC power required to start the inversion process, or
+%         self-consumption by the inverter (W)
+% * *|C0|* - Parameter defining the curvature (parabolic) of the
+%         relationship between AC power and DC power at the reference
+%         operating condition (1/W)
+% * *|C1|* - Empirical coefficient allowing Pdc0 to vary linearly with DC
+%         voltage input (1/V)
+% * *|C2|* - Empirical coefficient allowing Ps0 to vary linearly with DC
+%         voltage input (1/V)
+% * *|C3|* - Empirical coefficient allowing C0 to vary linearly with DC
+%         voltage input (1/V)
+% * *|Pnt|* - Power consumed by the inverter when no DC input power is
+%         present (e.g. at night), also known as "night tare" or "tare
+%         loss" (W). Note that in the SAM library (and the preceding Sandia 
+%         database) some Pnt values are positive, while others are 
+%         negative, thus it may be necessary to use the absolute value of 
+%         Pnt to ensure a consistent sign.
+% * *|Vdcmax|* - Maximum DC voltage allowed to the inverter (V)
+% * *|Idcmax|* - Maximum DC current allowed to the inverter (A)
+% * *|MPPTLow|* - Low voltage limit for maximum power point tracking (V)
+% * *|MPPTHi|* - High voltage limit for maximum power point tracking (V)
+% * *|LibraryType|* - Library type as listed in the header information of
+%          the SAM library file.
+% * *|LibraryName|* - Library name as listed in the header information of
+%          the SAM library file.
+%
+% * |InverterNames|* - A cell array of size [NumberOfLibraryEntries, 1] with the
+%       names of the inverters in the SAM library. 
+%
+%
+%% Notes
+% If this function detects that the selected input library is not of
+% type "SNLInverter", it will display a warning to the command window and
+% continue to try and read the library.
+%
+% The PV_LIB team would also like to thank the SAM team for maintaining
+% the inverter parameter library and allowing for interaction with the
+% library files.
+%
+%% Sources
+%
+% [1] System Advisor Model web page. https://sam.nrel.gov.
+%
+% [2] King, D. et al, 2007, "Performance Model for Grid-Connected 
+%     Photovoltaic Inverters", SAND2007-5036, Sandia National 
+%     Laboratories, Albuquerque, NM. 
+%
+%
+%% See also
+% <pvl_snlinverter_help.html |pvl_snlinverter|>
+%
+%%
+% Copyright 2015 Sandia National Laboratories
+##### SOURCE END #####
+--></body></html>

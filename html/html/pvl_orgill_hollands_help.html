@@ -1,0 +1,246 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_orgill_hollands</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_orgill_hollands_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_orgill_hollands</h1><!--introduction--><p>Estimate DNI and DHI from GHI using the Orgill and Hollands model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example</a></li><li><a href="#8">References</a></li><li><a href="#10">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[DNI, DHI, Kt] = pvl_orgill_hollands(GHI,Z, doy)</tt></p><h2>Description<a name="2"></a></h2><p>The Orgill and Hollands model estimates the diffuse fraction (DF) from global horizontal irradiance (GHI) using an empirical relationship between DF and the ratio Kt of GHI to extraterrestrial irradiance.  Diffuse horizontal irradiance (DHI) is then computed as</p><p><img src="pvl_orgill_hollands_help_eq05972791546753565183.png" alt="$$DHI = DF \times GHI $$"></p><p>and direct normal irradiance (DNI) is computed as</p><p><img src="pvl_orgill_hollands_help_eq12378267008453587436.png" alt="$$DNI = {\frac{ GHI - DHI }{ \cos\left(Z \right) }} $$"></p><p>where <img src="pvl_orgill_hollands_help_eq05013124788323701083.png" alt="$Z$"> is the true solar zenith angle.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>GHI</tt></b> - a scalar or vector of global horizontal irradiance in W/m^2. If GHI     is a vector it must be of the same size as all other vector inputs.     GHI must be &gt;=0.</li><li><b><tt>Z</tt></b> - a scalar or vector of true (not refraction-corrected) zenith     angles in decimal degrees. If Z is a vector it must be of the     same size as all other vector inputs. Z must be &gt;=0 and &lt;=180.</li><li><b><tt>doy</tt></b> - a scalar or vector of values providing the day of the year. If     doy is a vector it must be of the same size as all other vector inputs.     doy must be &gt;= 1 and &lt; 367.</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>DNI</tt></b> - the modeled direct normal irradiance in W/m^2.</li><li><b><tt>DHI</tt></b> - the modeled diffuse horizontal irradiance in W/m^2.</li><li><b><tt>Kt</tt></b> - Ratio of global to extraterrestrial irradiance on a horizontal     plane.</li></ul></div><h2>Example<a name="7"></a></h2><p>This example compares DHI for August 6 from the TMY3 file for Albuquerque, NM, with DHI estimated from GHI from the TMY3 file, using the Erbs model.</p><pre class="codeinput">TMYData = pvl_readtmy3(<span class="string">'723650TY.csv'</span>);
+TimeMatlab = TMYData.DateNumber;
+Time = pvl_maketimestruct(TimeMatlab, ones(size(TimeMatlab))*TMYData.SiteTimeZone);
+dayofyear = pvl_date2doy(Time.year, Time.month, Time.day);
+DNI = TMYData.DNI; <span class="comment">% Read in for comparison with results</span>
+DHI = TMYData.DHI; <span class="comment">% Read in for comparison with results</span>
+GHI = TMYData.GHI;
+Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,<span class="keyword">...</span>
+TMYData.SiteElevation); <span class="comment">%Altitude is optional</span>
+PresPa = TMYData.Pressure*100; <span class="comment">%Convert pressure from mbar to Pa</span>
+
+<span class="comment">% Models that rely on sun position that are run at specific time steps</span>
+<span class="comment">% (e.g., hourly) run into numerical problems during timesteps when the sun</span>
+<span class="comment">% straddles the horizon (i.e., spends part of the timestep above and part</span>
+<span class="comment">% below the horizon).  Since in this example we use TMY day, which is</span>
+<span class="comment">% hourly and reported at the end of the hour, we adjust the sun position in</span>
+<span class="comment">% the following two ways.  (1) For hours when the sun is above the horizon</span>
+<span class="comment">% we adjust sun position so it is for the middle of the hour.  For example,</span>
+<span class="comment">% sun position reported at 4PM is the sun position at 3:30 PM.  (2) For</span>
+<span class="comment">% hours where the sun straddles the horizon, we report the position half</span>
+<span class="comment">% way between the horizon and the position of the sun at the end of the</span>
+<span class="comment">% hour.  This is appropriate because the GHI data is essentially a sum of the GHI</span>
+<span class="comment">% measurements made in the past hour.</span>
+<span class="comment">%</span>
+<span class="comment">%Run sun position twice:  Once for end of hour positions.</span>
+<span class="comment">% A second time for mid hour positions.</span>
+<span class="comment">% Adjust sun elevation and GHI for hours when the sun traverses the horizon</span>
+<span class="comment">% Include these adjusted values in the mid hour positions</span>
+<span class="comment">%</span>
+[~, ~, AppSunEl, ~] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+Time.hour = Time.hour-.5; <span class="comment">% shift times back 1/2 hour for sun position calculation because of tmy</span>
+<span class="comment">% timestamps</span>
+[~, ~, AppSunEla, ~] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+
+A=diff(sign(AppSunEl)); <span class="comment">%identifies hour before sun straddles horizon (2,-2)</span>
+ind1 = find(A==2)+1; <span class="comment">% AM hour where sun straddles horizon</span>
+ind2 = find(A==-2)+1; <span class="comment">% PM hour where sun straddles horizon</span>
+<span class="comment">%AM Adjustment</span>
+    AppSunEl(ind1) = AppSunEl(ind1)/2; <span class="comment">%change sun elevation to mid way above the horizon</span>
+ <span class="comment">%PM Adjustment</span>
+    AppSunEl(ind2) = AppSunEl(ind2)/2; <span class="comment">%change sun elevation to mid way above the horizon</span>
+AppSunEla(ind1)=  AppSunEl(ind1);
+AppSunEla(ind2)=  AppSunEl(ind2);
+
+[DNI_model, DHI_model, ~] = pvl_orgill_hollands(GHI,90-AppSunEla, dayofyear);
+
+figure
+tfilter = and(Time.month == 8,Time.day == 6);
+plot(Time.hour(tfilter),DHI_model(tfilter),<span class="string">'-s'</span>)
+hold <span class="string">all</span>
+plot(Time.hour(tfilter),DHI(tfilter),<span class="string">'-o'</span>)
+xlim([0 25])
+legend(<span class="string">'DHI (O&amp;H Model)'</span>,<span class="string">'DHI (TMY3)'</span>,<span class="string">'Location'</span>,<span class="string">'NE'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Irradiance (W/m^2)'</span>)
+title({<span class="string">'Diffuse Horizontal Irradiance Comparison'</span>;<span class="string">'Albuquerque - Aug 6'</span>},<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="pvl_orgill_hollands_help_01.png" alt=""> <h2>References<a name="8"></a></h2><p>[1] Orgill J.F., Hollands K.G.T., 1977. Correlation equation for hourly diffuse ratiation on a horizontal surface, Solar Energy v19, pp 357-9.</p><h2>See also<a name="10"></a></h2><p><a href="pvl_disc_help.html"><tt>pvl_disc</tt></a> , <a href="pvl_dirint_help.html"><tt>pvl_dirint</tt></a> , <a href="pvl_erbs_help.html"><tt>pvl_erbs</tt></a> , <a href="pvl_louche_help.html"><tt>pvl_louche</tt></a> , <a href="pvl_reindl_1_help.html"><tt>pvl_reindl_1</tt></a> , <a href="pvl_reindl_2_help.html"><tt>pvl_reindl_2</tt></a> , <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a> , <a href="pvl_date2doy_help.html"><tt>pvl_date2doy</tt></a> , <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_orgill_hollands
+% Estimate DNI and DHI from GHI using the Orgill and Hollands model.
+%
+%% Syntax
+% |[DNI, DHI, Kt] = pvl_orgill_hollands(GHI,Z, doy)|
+%
+%% Description
+% The Orgill and Hollands model estimates the diffuse fraction (DF) from global 
+% horizontal irradiance (GHI) using an empirical relationship between DF
+% and the ratio Kt of GHI to extraterrestrial irradiance.  Diffuse horizontal 
+% irradiance (DHI) is then computed as
+%
+% $$DHI = DF \times GHI $$
+%
+% and direct normal irradiance (DNI) is computed as 
+%
+% $$DNI = {\frac{ GHI - DHI }{ \cos\left(Z \right) }} $$
+%
+% where $Z$ is the true solar zenith angle.
+%
+%
+%% Inputs
+%%
+% * *|GHI|* - a scalar or vector of global horizontal irradiance in W/m^2. If GHI
+%     is a vector it must be of the same size as all other vector inputs. 
+%     GHI must be >=0.
+% * *|Z|* - a scalar or vector of true (not refraction-corrected) zenith
+%     angles in decimal degrees. If Z is a vector it must be of the
+%     same size as all other vector inputs. Z must be >=0 and <=180.
+% * *|doy|* - a scalar or vector of values providing the day of the year. If
+%     doy is a vector it must be of the same size as all other vector inputs.
+%     doy must be >= 1 and < 367.
+%
+%% Outputs
+%%
+% * *|DNI|* - the modeled direct normal irradiance in W/m^2. 
+% * *|DHI|* - the modeled diffuse horizontal irradiance in W/m^2. 
+% * *|Kt|* - Ratio of global to extraterrestrial irradiance on a horizontal
+%     plane.
+%
+%% Example
+% This example compares DHI for August 6 from the TMY3 file for Albuquerque, NM,
+% with DHI estimated from GHI from the TMY3 file, using the Erbs model.
+TMYData = pvl_readtmy3('723650TY.csv');
+TimeMatlab = TMYData.DateNumber;
+Time = pvl_maketimestruct(TimeMatlab, ones(size(TimeMatlab))*TMYData.SiteTimeZone); 
+dayofyear = pvl_date2doy(Time.year, Time.month, Time.day);
+DNI = TMYData.DNI; % Read in for comparison with results
+DHI = TMYData.DHI; % Read in for comparison with results
+GHI = TMYData.GHI;
+Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,...
+TMYData.SiteElevation); %Altitude is optional
+PresPa = TMYData.Pressure*100; %Convert pressure from mbar to Pa
+
+% Models that rely on sun position that are run at specific time steps
+% (e.g., hourly) run into numerical problems during timesteps when the sun
+% straddles the horizon (i.e., spends part of the timestep above and part
+% below the horizon).  Since in this example we use TMY day, which is
+% hourly and reported at the end of the hour, we adjust the sun position in
+% the following two ways.  (1) For hours when the sun is above the horizon
+% we adjust sun position so it is for the middle of the hour.  For example,
+% sun position reported at 4PM is the sun position at 3:30 PM.  (2) For
+% hours where the sun straddles the horizon, we report the position half
+% way between the horizon and the position of the sun at the end of the
+% hour.  This is appropriate because the GHI data is essentially a sum of the GHI
+% measurements made in the past hour.
+%
+%Run sun position twice:  Once for end of hour positions.  
+% A second time for mid hour positions.  
+% Adjust sun elevation and GHI for hours when the sun traverses the horizon
+% Include these adjusted values in the mid hour positions
+%
+[~, ~, AppSunEl, ~] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+Time.hour = Time.hour-.5; % shift times back 1/2 hour for sun position calculation because of tmy
+% timestamps
+[~, ~, AppSunEla, ~] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+
+A=diff(sign(AppSunEl)); %identifies hour before sun straddles horizon (2,-2)
+ind1 = find(A==2)+1; % AM hour where sun straddles horizon
+ind2 = find(A==-2)+1; % PM hour where sun straddles horizon
+%AM Adjustment
+    AppSunEl(ind1) = AppSunEl(ind1)/2; %change sun elevation to mid way above the horizon 
+ %PM Adjustment
+    AppSunEl(ind2) = AppSunEl(ind2)/2; %change sun elevation to mid way above the horizon 
+AppSunEla(ind1)=  AppSunEl(ind1);
+AppSunEla(ind2)=  AppSunEl(ind2);
+
+[DNI_model, DHI_model, ~] = pvl_orgill_hollands(GHI,90-AppSunEla, dayofyear);
+
+figure
+tfilter = and(Time.month == 8,Time.day == 6);
+plot(Time.hour(tfilter),DHI_model(tfilter),'-s')
+hold all
+plot(Time.hour(tfilter),DHI(tfilter),'-o')
+xlim([0 25])
+legend('DHI (O&H Model)','DHI (TMY3)','Location','NE')
+xlabel('Hour of Day')
+ylabel('Irradiance (W/m^2)')
+title({'Diffuse Horizontal Irradiance Comparison';'Albuquerque - Aug 6'},'FontSize',14)
+%% References
+%%
+% [1] Orgill J.F., Hollands K.G.T., 1977. Correlation equation for hourly diffuse 
+% ratiation on a horizontal surface, Solar Energy v19, pp 357-9. 
+%   
+%
+%% See also
+% <pvl_disc_help.html |pvl_disc|> , 
+% <pvl_dirint_help.html |pvl_dirint|> , 
+% <pvl_erbs_help.html |pvl_erbs|> , 
+% <pvl_louche_help.html |pvl_louche|> , 
+% <pvl_reindl_1_help.html |pvl_reindl_1|> , 
+% <pvl_reindl_2_help.html |pvl_reindl_2|> , 
+% <pvl_ephemeris_help.html |pvl_ephemeris|> ,
+% <pvl_date2doy_help.html |pvl_date2doy|> ,
+% <pvl_alt2pres_help.html |pvl_alt2pres|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

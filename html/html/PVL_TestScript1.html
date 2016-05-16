@@ -1,0 +1,560 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PVL_TestScript1</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="PVL_TestScript1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PVL_TestScript1</h1><!--introduction--><p>Example script to demonstrate the modeling of a PV system</p><p>This script demonstrates how to use the PV_Lib Toolbox to model the power output of a fixed-tilt photovoltaic array in Albuquerque, New Mexico, USA. The script uses irradiance and weather data that is read in from a Typical Meteorological  Year 3 (TMY3) formatted file that contains one year of hourly-averaged data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">PV_LIB Functions used in this example</a></li><li><a href="#3"><b>Step 0: Define PV System</b></a></li><li><a href="#6">0.1   Define the PV module</a></li><li><a href="#7">0.2    Define the Inverter</a></li><li><a href="#8">0.3    Define the Array configuration</a></li><li><a href="#9">0.4    Define Additional Array Parameters</a></li><li><a href="#10"><b>Step 1: Read in Irradiance and Weather</b></a></li><li><a href="#11">1.1 Define Time and Irradiance Variabiles</a></li><li><a href="#15">1.2   Define the Site Location</a></li><li><a href="#16">1.3 Calculate Sun Position</a></li><li><a href="#18">1.4 Calculate Air Mass</a></li><li><a href="#19"><b>Step 2: Calculate Incident Radiation</b></a></li><li><a href="#20">2.1 Calculate Solar Angle of Incidence</a></li><li><a href="#22">2.2 Calculate Beam Radiation Component on Array</a></li><li><a href="#23">2.3 Calculate SkyDiffuse Radiation Component on Array</a></li><li><a href="#26">2.4 Calculate Ground Reflected Radiation Component on Array</a></li><li><a href="#29"><b>Step 3 Shading and Soiling</b></a></li><li><a href="#30"><b>Step 4: Calculate Cell Temperature</b></a></li><li><a href="#31"><b>Step 5: Calculate Module/Array IV Performance</b></a></li><li><a href="#35"><b>Step 6: DC and Mismatch Losses</b></a></li><li><a href="#36"><b>Step 7: DC to DC Max Power Point Tracking</b></a></li><li><a href="#37"><b>Step 8: DC to AC Conversion</b></a></li></ul></div><h2>PV_LIB Functions used in this example<a name="1"></a></h2><div><ul><li><a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a></li><li><a href="pvl_snlinverterdb_help.html"><tt>pvl_snlinverterdb</tt></a></li><li><a href="pvl_readtmy3_help.html"><tt>pvl_readtmy3</tt></a></li><li><a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a></li><li><a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a></li><li><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a></li><li><a href="pvl_absoluteairmass_help.html"><tt>pvl_absoluteairmass</tt></a></li><li><a href="pvl_relativeairmass_help.html"><tt>pvl_relativeairmass</tt></a></li><li><a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_grounddiffuse_help.html"><tt>pvl_grounddiffuse</tt></a></li><li><a href="pvl_sapmcelltemp_help.html"><tt>pvl_sapmcelltemp</tt></a></li><li><a href="pvl_sapm_help.html"><tt>pvl_sapm</tt></a></li><li><a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a></li></ul></div><pre class="codeinput">clear <span class="string">all</span>; <span class="comment">%clear memory before running script</span>
+close <span class="string">all</span>; <span class="comment">%close all files and figures</span>
+</pre><h2><b>Step 0: Define PV System</b><a name="3"></a></h2><p>Before modeling can even begin, the PV system must be defined so that it can be properly represented by the model.  This system we use for this example is outlined below:</p><div><ul><li><b>Location:</b> Albuquerque, New Mexico USA</li><li><b>Module:</b> Candadian Solar CS5P-220M</li><li><b>Inverter:</b> PV Powered PVP2500</li><li><b># of Modules per String:</b> 9</li><li><b># of Parallel strings:</b> 2</li><li><b>Array Tilt Angle:</b> 35.04 degrees</li><li><b>Array Azimuth Angle:</b> 180 degrees*</li></ul></div><p>*Azumuth angle convention is decimal degrees East of North.  With North = 0 deg, East = 90 deg, South = 180 deg, and West = 270 deg.</p><h2>0.1   Define the PV module<a name="6"></a></h2><p>Define the PV module from the Sandia PV Module Database.</p><p>This step uses the PV_LIB function <a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a> to extract a selected module from the excel version of the Sandia PV Module Database.  The module selected is found on row 123 in that file.</p><pre class="codeinput">ModuleParameters = pvl_sapmmoduledb(123,<span class="string">'SandiaModuleDatabase_20120925.xlsx'</span>)
+</pre><pre class="codeoutput">
+ModuleParameters = 
+
+        name: 'Canadian Solar CS5P-220M'
+     vintage: 2009
+    material: 'c-Si'
+        area: 1.7010
+    AlphaIsc: 3.9700e-04
+    AlphaImp: 1.8100e-04
+        Isc0: 5.0911
+        Imp0: 4.5463
+        Voc0: 59.2608
+        Vmp0: 48.3156
+     BetaVoc: -0.2170
+     BetaVmp: -0.2355
+    mBetaVoc: 0
+    mBetaVmp: 0
+          Ns: 96
+          Np: 1
+        delT: 3
+          fd: 1
+           n: 1.4032
+         Ix0: 4.9760
+        Ixx0: 3.1880
+      a_wind: -3.4064
+      b_wind: -0.0842
+           c: [1.0128 -0.0128 0.2793 -7.2446 0.9964 0.0036 1.1554 -0.1554]
+           a: [-6.9304e-05 0.0017 -0.0158 0.0681 0.9284]
+           b: [-1.3590e-09 2.1120e-07 -1.2460e-05 3.1030e-04 -0.0024 1]
+
+</pre><h2>0.2    Define the Inverter<a name="7"></a></h2><p>Inverter database maintained by NREL System Advisor Model has been converted to a structure and saved in \Required Data folder. This .mat file can be generated from the latest SAM file using the function: <tt>pvl_SAMLibraryReader_SNLInverters.m</tt>.</p><pre class="codeinput">load(<span class="string">'SandiaInverterDatabaseSAM2014.1.14.mat'</span>)
+<span class="comment">% PV Powered PVP2500 inverter is #793 in the InverterNames cell array</span>
+Inverter = SNLInverterDB(793)
+clear <span class="string">InverterNames</span> <span class="string">SNLInverterDB</span>
+</pre><pre class="codeoutput">
+Inverter = 
+
+           name: {'PV Powered: PVP2500 240V [CEC 2006]'}
+            Vac: 240
+           Pac0: 2500
+           Pdc0: 2.6301e+03
+           Vdc0: 219.2317
+            Ps0: 41.3618
+             C0: -1.2650e-05
+             C1: 6.6747e-05
+             C2: 0.0017
+             C3: 6.1375e-04
+            Pnt: 3.9000
+         Vdcmax: 500
+         Idcmax: 20
+        MPPTLow: 140
+         MPPTHi: 450
+    LibraryType: {'SandiaInverter'}
+    LibraryName: {'Sandia Inverters'}
+
+</pre><h2>0.3    Define the Array configuration<a name="8"></a></h2><pre class="codeinput">Array.Tilt = 23; <span class="comment">% Array tilt angle (deg)</span>
+Array.Azimuth = 180; <span class="comment">%Array azimuth (180 deg indicates array faces South)</span>
+Array.Ms = 9; <span class="comment">%Number of modules in series</span>
+Array.Mp = 2; <span class="comment">%Number of paralell strings</span>
+</pre><h2>0.4    Define Additional Array Parameters<a name="9"></a></h2><p>Because we will be using the module temperature model from the Sandia Photovoltaic Array Performance Model (SAPM), we will define the necessary parameters <tt>a</tt> and <tt>b</tt> here.</p><pre class="codeinput">Array.a = -3.56;
+Array.b = -0.075;
+</pre><h2><b>Step 1: Read in Irradiance and Weather</b><a name="10"></a></h2><p>Read in weather data from Albuquerque TMY3 file: <tt>723650TY.csv</tt>. This step uses the PV_LIB function <a href="pvl_readtmy3_help.html"><tt>pvl_readtmy3</tt></a> to read in data from this TMY3 formatted file.</p><pre class="codeinput">TMYData = pvl_readtmy3(<span class="string">'723650TY.csv'</span>);
+</pre><h2>1.1 Define Time and Irradiance Variabiles<a name="11"></a></h2><div><ul><li>Create time structure (Time) by using the PV_LIB function <a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a>.</li><li>Define variables for direct normal irradiance (DNI), diffuse horizontal irradiance (DHI), and global horizontal irradiance (GHI)</li></ul></div><pre class="codeinput">TimeMatlab = TMYData.DateNumber;
+Time = pvl_maketimestruct(TimeMatlab, ones(size(TimeMatlab))*TMYData.SiteTimeZone);
+DNI = TMYData.DNI;
+DHI = TMYData.DHI;
+GHI = TMYData.GHI;
+</pre><p><b>Let's examine irradiance for a sample day (August 2)</b></p><pre class="codeinput">figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),DNI(tfilter),<span class="string">'-*'</span>)
+hold <span class="string">all</span>
+plot(Time.hour(tfilter),DHI(tfilter),<span class="string">'-o'</span>)
+plot(Time.hour(tfilter),GHI(tfilter),<span class="string">'-x'</span>)
+legend(<span class="string">'DNI'</span>,<span class="string">'DHI'</span>,<span class="string">'GHI'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Irradiance (W/m^2)'</span>)
+title(<span class="string">'Albuquerque TMY3 - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_01.png" alt=""> <h2>1.2   Define the Site Location<a name="15"></a></h2><p>Create a Location structure using the PV_LIB function <a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a>.</p><pre class="codeinput">Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,TMYData.SiteElevation) <span class="comment">%Altitude is optional</span>
+</pre><pre class="codeoutput">
+Location = 
+
+     latitude: 35.0400
+    longitude: -106.6200
+     altitude: 1619
+
+</pre><h2>1.3 Calculate Sun Position<a name="16"></a></h2><p>Calculate sun position using PV_LIB function <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>. If Pressure and Temperature are specified they must be in units of Pa and deg C, respectively.</p><pre class="codeinput">PresPa = TMYData.Pressure*100; <span class="comment">%Convert pressure from mbar to Pa</span>
+[SunAz, SunEl, AppSunEl, SolarTime] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+</pre><p><b>Let's examine a plot of sun position for our site on August 2</b></p><pre class="codeinput">figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),90-AppSunEl(tfilter),<span class="string">'-s'</span>)
+hold <span class="string">all</span>
+plot(Time.hour(tfilter),SunAz(tfilter),<span class="string">'-o'</span>)
+legend(<span class="string">'Zenith angle'</span>,<span class="string">'Azimuth Angle'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Angle (deg)'</span>)
+title(<span class="string">'Albuquerque Sun Position - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_02.png" alt=""> <h2>1.4 Calculate Air Mass<a name="18"></a></h2><p>Air mass represents the optical path length of the sun through the Earth's atmosphere.  It is primarily a function of the zenith angle but also varies with surface elevation and atmospheric pressure.  It is calculated using the PV_LIB finctions <a href="pvl_absoluteairmass_help.html"><tt>pvl_absoluteairmass</tt></a> and <a href="pvl_relativeairmass_help.html"><tt>pvl_relativeairmass</tt></a>.</p><pre class="codeinput">AMa = pvl_absoluteairmass(pvl_relativeairmass(90-AppSunEl),PresPa);
+</pre><h2><b>Step 2: Calculate Incident Radiation</b><a name="19"></a></h2><p>This step includes accounting for so</p><h2>2.1 Calculate Solar Angle of Incidence<a name="20"></a></h2><p>This step calculates the angle between direct beam from the sun to the array surface using the PV_LIB function <a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a>.</p><pre class="codeinput">AOI = pvl_getaoi(Array.Tilt, Array.Azimuth, 90-AppSunEl, SunAz);
+</pre><p><b>Let's examine a plot of sun angle of incidence on the array on August 2</b></p><pre class="codeinput">figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),AOI(tfilter),<span class="string">'-s'</span>)
+legend(<span class="string">'AOI'</span>,<span class="string">'Location'</span>,<span class="string">'SE'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Angle (deg)'</span>)
+title(<span class="string">'Albuquerque Angle of Incidence - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_03.png" alt=""> <h2>2.2 Calculate Beam Radiation Component on Array<a name="22"></a></h2><p>The beam component of the irradiance, <tt>Eb</tt> is simply:</p><p><img src="PVL_TestScript1_eq01540178742677260109.png" alt="$DNI*cos(AOI)$"></p><pre class="codeinput">Eb = 0*AOI; <span class="comment">%Initiallize variable</span>
+Eb(AOI&lt;90) = DNI(AOI&lt;90).*cosd(AOI(AOI&lt;90)); <span class="comment">%Only calculate when sun is in view of the plane of array</span>
+</pre><h2>2.3 Calculate SkyDiffuse Radiation Component on Array<a name="23"></a></h2><p>There are many models that have been developed to estimate the amount of diffuse radiation that reaches a tlited plane from the sky <tt>EdiffSky</tt>.  The PV_LIB Toolbox provides several of the more popular ones to choose from.  They are listed below.</p><div><ul><li><a href="pvl_isotropicsky_help.html"> <tt>pvl_isotropicsky</tt></a></li><li><a href="pvl_haydavies1980_help.html"><tt>pvl_haydavies1980</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_reindl1990_help.html"><tt>pvl_reindl1990</tt></a></li></ul></div><p>We will use <a href="pvl_kingdiffuse_help.html"> <tt>pvl_kingdiffuse</tt></a> for this example.</p><pre class="codeinput">EdiffSky = pvl_kingdiffuse(Array.Tilt,DHI, GHI, 90-AppSunEl);
+</pre><h2>2.4 Calculate Ground Reflected Radiation Component on Array<a name="26"></a></h2><p>If the array is tilted there will be a small amount of diffuse radiation reflecting off the ground surfaxce and hitting the plane of the array <tt>EdiffGround</tt>.  We calculate this component using the PV_LIB function <a href="pvl_grounddiffuse_help.html"> <tt>pvl_grounddiffuse</tt></a>. The ground reflectance or albedo is an input to this function.  A good source of albedo values can be found in ...(add link to web).</p><pre class="codeinput">Albedo = 0.2;
+EdiffGround = pvl_grounddiffuse(Array.Tilt,GHI, Albedo);
+E = Eb + EdiffSky + EdiffGround; <span class="comment">% Total incident irradiance (W/m^2)</span>
+Ediff = EdiffSky + EdiffGround; <span class="comment">% Total diffuse incident irradiance (W/m^2)</span>
+</pre><p>The total diffuse radiation reaching the array is calculated as the sum of the sky diffuse and the ground diffuse components.  The total Plane of Array (<b>POA</b>) irradiance is the sum of <tt>Eb</tt> + <tt>EdiffSky</tt> + <tt>EdiffGround</tt>.</p><p>The following plot shows all of these components of August 2.</p><pre class="codeinput">figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),Eb(tfilter),<span class="string">'-s'</span>)
+hold <span class="string">all</span>
+plot(Time.hour(tfilter),EdiffSky(tfilter),<span class="string">'-o'</span>)
+plot(Time.hour(tfilter),EdiffGround(tfilter),<span class="string">'-x'</span>)
+legend(<span class="string">'Eb'</span>,<span class="string">'EdiffSky'</span>,<span class="string">'EdiffGround'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Irradiance (W/m^2'</span>)
+title(<span class="string">'Albuquerque POA Irradiance Components - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_04.png" alt=""> <h2><b>Step 3 Shading and Soiling</b><a name="29"></a></h2><p>Soiling reduces the amount of light reaching the array. For this example we will assume that soling levels are 2%</p><pre class="codeinput">SF=0.98;
+</pre><h2><b>Step 4: Calculate Cell Temperature</b><a name="30"></a></h2><p>Cell temperature is calculated using the PV_LIB function: <a href="pvl_sapmcelltemp_help.html"> <tt>pvl_sapmcelltemp</tt></a>, which is based on a method developed by King et al., 2004 (Eqs. 11 &amp; 12).</p><pre class="codeinput">E0 = 1000; <span class="comment">%Reference irradiance (1000 W/m^2)</span>
+celltemp = pvl_sapmcelltemp(E, E0, Array.a, Array.b, TMYData.Wspd, TMYData.DryBulb, ModuleParameters.delT);
+</pre><h2><b>Step 5: Calculate Module/Array IV Performance</b><a name="31"></a></h2><p>For this example we use the Sandia PV Array Performance Model to represent the IV performance of the array at each time step.  We can apply this model using the PV_LIB function: <a href="pvl_sapm_help.html"><tt>pvl_sapm</tt></a>.  This function requires that we define the "effective irradiance" <tt>Ee</tt> as defined by King et al., 2004 in Eq. 7. <tt>Ee</tt> is esentially the POA irradiance corrected for spectral mismatch losses (<tt>F1</tt>) and angle of incidence losses (<tt>F2</tt>).  The <tt>F1</tt> and <tt>F2</tt> functions are defined as 5th and 6th degree polynomials, respectively.</p><p>The output of this step is the IV characteristics of the array at each time step.  The Sandia PV Array Performance Model used here only provides five points on the IV curve (Isc, Ix, Imp, Ixx, and Voc).</p><p><img vspace="5" hspace="5" src="sapm_IV_crop.png" alt=""> </p><pre class="codeinput">F1 = max(0,polyval(ModuleParameters.a,AMa)); <span class="comment">%Spectral loss function</span>
+F2 = max(0,polyval(ModuleParameters.b,AOI)); <span class="comment">% Angle of incidence loss function</span>
+Ee = F1.*((Eb.*F2+ModuleParameters.fd.*Ediff)/E0)*SF; <span class="comment">%Effective irradiance</span>
+Ee(isnan(Ee))=0; <span class="comment">% Set any NaNs to zero</span>
+mSAPMResults = pvl_sapm(ModuleParameters, Ee, celltemp);
+aSAPMResults.Vmp = Array.Ms  *mSAPMResults.Vmp;
+aSAPMResults.Imp = Array.Mp  *mSAPMResults.Imp;
+aSAPMResults.Pmp = aSAPMResults.Vmp .* aSAPMResults.Imp;
+</pre><p>The following plot shows the PV DC output predicted for the system on August 2.</p><pre class="codeinput">figure(<span class="string">'OuterPosition'</span>,[100 100 600 800])
+tfilter = and(Time.month == 8,Time.day == 2);
+subplot(3,1,1)
+plot(Time.hour(tfilter),aSAPMResults.Pmp(tfilter),<span class="string">'-sr'</span>)
+legend(<span class="string">'Pmp'</span>)
+<span class="comment">%xlabel('Hour of Day')</span>
+ylabel(<span class="string">'DC Power (W)'</span>)
+title(<span class="string">'Albuquerque DC Array Output - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+subplot(3,1,2)
+plot(Time.hour(tfilter),aSAPMResults.Imp(tfilter),<span class="string">'-ob'</span>)
+legend(<span class="string">'Imp'</span>)
+<span class="comment">%xlabel('Hour of Day')</span>
+ylabel(<span class="string">'DC Current (A)'</span>)
+<span class="comment">%title('Albuquerque Vmp and Imp - Aug 2','FontSize',12)</span>
+subplot(3,1,3)
+plot(Time.hour(tfilter),aSAPMResults.Vmp(tfilter),<span class="string">'-xg'</span>)
+legend(<span class="string">'Vmp'</span>)
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'DC Volatage (V)'</span>)
+<span class="comment">%title('Albuquerque Vmp and Imp - Aug 2','FontSize',12)</span>
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_05.png" alt=""> <h2><b>Step 6: DC and Mismatch Losses</b><a name="35"></a></h2><p>In this step any losses between the PV array and the max power point tracker are included.  In the present small system example, we will assume that these losses are neglegible.  If you want to include such losses (e.g., wireing losses), you would have to module each DC circuit separately and adjust the current values.</p><h2><b>Step 7: DC to DC Max Power Point Tracking</b><a name="36"></a></h2><p>In this step of the process the functionality of the maximum power point tracking (MPPT) is simulated.  In most cases standard arrays, it is assumed that the inverter (with MPPT capability) is able to perfectly track the max power point (MPP) and thus there is no calculation required other than to calculate Pmp as was done in Step 5 above.</p><h2><b>Step 8: DC to AC Conversion</b><a name="37"></a></h2><p>This step acconts for the power conversion of the inverter and results in the AC power of the PV system.  In this example we use the <a href="http://energy.sandia.gov/wp/wp-content/gallery/uploads/Performance-Model-for-Grid-Connected-Photovoltaic-Inverters.pdf"><tt>Sandia Performance Model for Grid-Connected Photovoltaic Inverters</tt></a> (King et al. 2007), which is implemented in the PV_LIB function: <a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a>.</p><pre class="codeinput">ACPower = pvl_snlinverter(Inverter, mSAPMResults.Vmp*Array.Ms, mSAPMResults.Pmp*Array.Ms*Array.Mp);
+</pre><p>The following plot compares the DC and AC power outputs predicted for the system on August 2.</p><pre class="codeinput">figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),aSAPMResults.Pmp(tfilter),<span class="string">'-sr'</span>)
+hold <span class="string">all</span>
+plot(Time.hour(tfilter),ACPower(tfilter),<span class="string">'-ob'</span>)
+legend(<span class="string">'DC Pmp'</span>, <span class="string">'AC Power'</span>)
+<span class="comment">%xlabel('Hour of Day')</span>
+ylabel(<span class="string">'Power (W)'</span>)
+title(<span class="string">'Albuquerque DC and AC Power Output - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="PVL_TestScript1_06.png" alt=""> <p>Note that the inverter is undersized compared with the DC array and thus the inverter "clips" the AC power.</p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PVL_TestScript1
+% Example script to demonstrate the modeling of a PV system
+%
+% This script demonstrates how to use the PV_Lib Toolbox to model the power
+% output of a fixed-tilt photovoltaic array in Albuquerque, New Mexico, USA.
+% The script uses irradiance and weather data that is read in from a Typical 
+% Meteorological  Year 3 (TMY3) formatted file that contains one year of 
+% hourly-averaged data.
+
+%% PV_LIB Functions used in this example
+% 
+% * <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|>
+% * <pvl_snlinverterdb_help.html |pvl_snlinverterdb|>
+% * <pvl_readtmy3_help.html |pvl_readtmy3|>
+% * <pvl_maketimestruct_help.html |pvl_maketimestruct|>
+% * <pvl_makelocationstruct_help.html |pvl_makelocationstruct|>
+% * <pvl_ephemeris_help.html |pvl_ephemeris|>
+% * <pvl_absoluteairmass_help.html |pvl_absoluteairmass|> 
+% * <pvl_relativeairmass_help.html |pvl_relativeairmass|>
+% * <pvl_getaoi_help.html |pvl_getaoi|>
+% * <pvl_kingdiffuse_help.html |pvl_kingdiffuse|>
+% * <pvl_grounddiffuse_help.html |pvl_grounddiffuse|>
+% * <pvl_sapmcelltemp_help.html |pvl_sapmcelltemp|>
+% * <pvl_sapm_help.html |pvl_sapm|>
+% * <pvl_snlinverter_help.html |pvl_snlinverter|>
+%
+
+%%
+clear all; %clear memory before running script
+close all; %close all files and figures
+
+%% *Step 0: Define PV System*
+% Before modeling can even begin, the PV system must be defined so that it
+% can be properly represented by the model.  This system we use for this example 
+% is outlined below:
+%%
+% 
+% * *Location:* Albuquerque, New Mexico USA
+% * *Module:* Candadian Solar CS5P-220M
+% * *Inverter:* PV Powered PVP2500
+% * *# of Modules per String:* 9
+% * *# of Parallel strings:* 2
+% * *Array Tilt Angle:* 35.04 degrees
+% * *Array Azimuth Angle:* 180 degrees*
+% 
+%%
+% *Azumuth angle convention is decimal degrees East of North.  With North =
+% 0 deg, East = 90 deg, South = 180 deg, and West = 270 deg.
+
+%% 0.1   Define the PV module
+% Define the PV module from the Sandia PV Module Database.  
+%
+% This step uses the PV_LIB function
+% <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|> to extract a selected module
+% from the excel version of the Sandia PV Module Database.  The module
+% selected is found on row 123 in that file.
+ModuleParameters = pvl_sapmmoduledb(123,'SandiaModuleDatabase_20120925.xlsx')
+
+%% 0.2    Define the Inverter
+% Inverter database maintained by NREL System Advisor Model has been
+% converted to a structure and saved in \Required Data folder.
+% This .mat file can be generated from the latest SAM file using the function: 
+% |pvl_SAMLibraryReader_SNLInverters.m|.
+load('SandiaInverterDatabaseSAM2014.1.14.mat')
+% PV Powered PVP2500 inverter is #793 in the InverterNames cell array
+Inverter = SNLInverterDB(793)
+clear InverterNames SNLInverterDB
+%% 0.3    Define the Array configuration 
+%
+Array.Tilt = 23; % Array tilt angle (deg)
+Array.Azimuth = 180; %Array azimuth (180 deg indicates array faces South)
+Array.Ms = 9; %Number of modules in series
+Array.Mp = 2; %Number of paralell strings
+
+%% 0.4    Define Additional Array Parameters
+% Because we will be using the module temperature model from the Sandia
+% Photovoltaic Array Performance Model (SAPM), we will define the necessary
+% parameters |a| and |b| here.
+% 
+Array.a = -3.56;
+Array.b = -0.075;
+
+%% *Step 1: Read in Irradiance and Weather*
+% Read in weather data from Albuquerque TMY3 file: |723650TY.csv|.
+% This step uses the PV_LIB function <pvl_readtmy3_help.html |pvl_readtmy3|> to
+% read in data from this TMY3 formatted file.
+%
+TMYData = pvl_readtmy3('723650TY.csv');
+ 
+%% 1.1 Define Time and Irradiance Variabiles
+%
+%%
+% * Create time structure (Time) by using the PV_LIB function 
+% <pvl_maketimestruct_help.html |pvl_maketimestruct|>.  
+% * Define variables for direct normal irradiance (DNI), diffuse horizontal irradiance (DHI), and global horizontal irradiance (GHI)  
+% 
+TimeMatlab = TMYData.DateNumber;
+Time = pvl_maketimestruct(TimeMatlab, ones(size(TimeMatlab))*TMYData.SiteTimeZone); 
+DNI = TMYData.DNI;
+DHI = TMYData.DHI;
+GHI = TMYData.GHI;
+%% 
+% *Let's examine irradiance for a sample day (August 2)*
+figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),DNI(tfilter),'-*')
+hold all
+plot(Time.hour(tfilter),DHI(tfilter),'-o')
+plot(Time.hour(tfilter),GHI(tfilter),'-x')
+legend('DNI','DHI','GHI')
+xlabel('Hour of Day')
+ylabel('Irradiance (W/m^2)')
+title('Albuquerque TMY3 - Aug 2','FontSize',14)
+
+%%
+% 
+
+%% 1.2   Define the Site Location
+% Create a Location structure using the PV_LIB function 
+% <pvl_makelocationstruct_help.html |pvl_makelocationstruct|>. 
+Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,TMYData.SiteElevation) %Altitude is optional
+
+%% 1.3 Calculate Sun Position
+% Calculate sun position using PV_LIB function <pvl_ephemeris_help.html |pvl_ephemeris|>.
+% If Pressure and Temperature are specified they must be in units of Pa and
+% deg C, respectively.
+PresPa = TMYData.Pressure*100; %Convert pressure from mbar to Pa
+[SunAz, SunEl, AppSunEl, SolarTime] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb);
+
+%% 
+% *Let's examine a plot of sun position for our site on August 2*
+figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),90-AppSunEl(tfilter),'-s')
+hold all
+plot(Time.hour(tfilter),SunAz(tfilter),'-o')
+legend('Zenith angle','Azimuth Angle')
+xlabel('Hour of Day')
+ylabel('Angle (deg)')
+title('Albuquerque Sun Position - Aug 2','FontSize',14)
+%% 1.4 Calculate Air Mass
+% Air mass represents the optical path length of the sun through the
+% Earth's atmosphere.  It is primarily a function of the zenith angle but
+% also varies with surface elevation and atmospheric pressure.  It is
+% calculated using the PV_LIB finctions <pvl_absoluteairmass_help.html
+% |pvl_absoluteairmass|> and <pvl_relativeairmass_help.html
+% |pvl_relativeairmass|>.
+AMa = pvl_absoluteairmass(pvl_relativeairmass(90-AppSunEl),PresPa);
+
+%% *Step 2: Calculate Incident Radiation*
+% This step includes accounting for so
+
+%% 2.1 Calculate Solar Angle of Incidence
+% This step calculates the angle between direct beam from the sun to the
+% array surface using the PV_LIB function <pvl_getaoi_help.html |pvl_getaoi|>.
+AOI = pvl_getaoi(Array.Tilt, Array.Azimuth, 90-AppSunEl, SunAz);
+
+%% 
+% *Let's examine a plot of sun angle of incidence on the array on August 2*
+figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),AOI(tfilter),'-s')
+legend('AOI','Location','SE')
+xlabel('Hour of Day')
+ylabel('Angle (deg)')
+title('Albuquerque Angle of Incidence - Aug 2','FontSize',14)
+%% 2.2 Calculate Beam Radiation Component on Array
+% The beam component of the irradiance, |Eb| is simply:
+%
+% $DNI*cos(AOI)$
+Eb = 0*AOI; %Initiallize variable
+Eb(AOI<90) = DNI(AOI<90).*cosd(AOI(AOI<90)); %Only calculate when sun is in view of the plane of array
+
+%% 2.3 Calculate SkyDiffuse Radiation Component on Array
+% There are many models that have been developed to estimate the amount of
+% diffuse radiation that reaches a tlited plane from the sky |EdiffSky|.  The PV_LIB Toolbox
+% provides several of the more popular ones to choose from.  They are
+% listed below.
+%%
+% 
+% * <pvl_isotropicsky_help.html  |pvl_isotropicsky|>
+% * <pvl_haydavies1980_help.html |pvl_haydavies1980|>
+% * <pvl_kingdiffuse_help.html |pvl_kingdiffuse|>
+% * <pvl_reindl1990_help.html |pvl_reindl1990|>
+%
+%%
+% We will use <pvl_kingdiffuse_help.html  |pvl_kingdiffuse|> for this
+% example.
+EdiffSky = pvl_kingdiffuse(Array.Tilt,DHI, GHI, 90-AppSunEl); 
+
+%% 2.4 Calculate Ground Reflected Radiation Component on Array
+% If the array is tilted there will be a small amount of diffuse radiation 
+% reflecting off the ground surfaxce and hitting the plane of the array |EdiffGround|.  We calculate 
+% this component using the PV_LIB function <pvl_grounddiffuse_help.html  |pvl_grounddiffuse|>.
+% The ground reflectance or albedo is an input to this function.  A good
+% source of albedo values can be found in ...(add link to web).
+Albedo = 0.2;
+EdiffGround = pvl_grounddiffuse(Array.Tilt,GHI, Albedo);
+E = Eb + EdiffSky + EdiffGround; % Total incident irradiance (W/m^2)
+Ediff = EdiffSky + EdiffGround; % Total diffuse incident irradiance (W/m^2)
+%%
+% The total diffuse radiation reaching the array is calculated as the sum
+% of the sky diffuse and the ground diffuse components.  The total Plane of
+% Array (*POA*) irradiance is the sum of |Eb| + |EdiffSky| + |EdiffGround|.
+
+%%
+% The following plot shows all of these components of August 2.
+%
+figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),Eb(tfilter),'-s')
+hold all
+plot(Time.hour(tfilter),EdiffSky(tfilter),'-o')
+plot(Time.hour(tfilter),EdiffGround(tfilter),'-x')
+legend('Eb','EdiffSky','EdiffGround')
+xlabel('Hour of Day')
+ylabel('Irradiance (W/m^2')
+title('Albuquerque POA Irradiance Components - Aug 2','FontSize',14)
+%% *Step 3 Shading and Soiling*
+% Soiling reduces the amount of light reaching the array.
+% For this example we will assume that soling levels are 2%
+SF=0.98;
+
+%% *Step 4: Calculate Cell Temperature*
+% Cell temperature is calculated using the PV_LIB function: 
+% <pvl_sapmcelltemp_help.html  |pvl_sapmcelltemp|>, which is based on
+% a method developed by King et al., 2004 (Eqs. 11 & 12).
+
+E0 = 1000; %Reference irradiance (1000 W/m^2)
+celltemp = pvl_sapmcelltemp(E, E0, Array.a, Array.b, TMYData.Wspd, TMYData.DryBulb, ModuleParameters.delT);
+
+%% *Step 5: Calculate Module/Array IV Performance*
+% For this example we use the Sandia PV Array Performance Model to
+% represent the IV performance of the array at each time step.  We can
+% apply this model using the PV_LIB function: <pvl_sapm_help.html 
+% |pvl_sapm|>.  This function requires that we define the
+% "effective irradiance" |Ee| as defined by King et al., 2004 in Eq. 7.
+% |Ee| is esentially the POA irradiance corrected for spectral mismatch
+% losses (|F1|) and angle of incidence losses (|F2|).  The |F1| and |F2|
+% functions are defined as 5th and 6th degree polynomials, respectively.
+
+%%
+% The output of this step is the IV characteristics of the array at each
+% time step.  The Sandia PV Array Performance Model used here only provides
+% five points on the IV curve (Isc, Ix, Imp, Ixx, and Voc).
+%%
+% <<sapm_IV_crop.png>>
+F1 = max(0,polyval(ModuleParameters.a,AMa)); %Spectral loss function 
+F2 = max(0,polyval(ModuleParameters.b,AOI)); % Angle of incidence loss function
+Ee = F1.*((Eb.*F2+ModuleParameters.fd.*Ediff)/E0)*SF; %Effective irradiance
+Ee(isnan(Ee))=0; % Set any NaNs to zero
+mSAPMResults = pvl_sapm(ModuleParameters, Ee, celltemp); 
+aSAPMResults.Vmp = Array.Ms  *mSAPMResults.Vmp;
+aSAPMResults.Imp = Array.Mp  *mSAPMResults.Imp;
+aSAPMResults.Pmp = aSAPMResults.Vmp .* aSAPMResults.Imp;
+%%
+% The following plot shows the PV DC output predicted for the system on August 2.
+%
+figure('OuterPosition',[100 100 600 800])
+tfilter = and(Time.month == 8,Time.day == 2);
+subplot(3,1,1)
+plot(Time.hour(tfilter),aSAPMResults.Pmp(tfilter),'-sr')
+legend('Pmp')
+%xlabel('Hour of Day')
+ylabel('DC Power (W)')
+title('Albuquerque DC Array Output - Aug 2','FontSize',14)
+subplot(3,1,2)
+plot(Time.hour(tfilter),aSAPMResults.Imp(tfilter),'-ob')
+legend('Imp')
+%xlabel('Hour of Day')
+ylabel('DC Current (A)')
+%title('Albuquerque Vmp and Imp - Aug 2','FontSize',12)
+subplot(3,1,3)
+plot(Time.hour(tfilter),aSAPMResults.Vmp(tfilter),'-xg')
+legend('Vmp')
+xlabel('Hour of Day')
+ylabel('DC Volatage (V)')
+%title('Albuquerque Vmp and Imp - Aug 2','FontSize',12)
+%% *Step 6: DC and Mismatch Losses*
+% In this step any losses between the PV array and the max power point
+% tracker are included.  In the present small system example, we will 
+% assume that these losses are neglegible.  If you want to include such
+% losses (e.g., wireing losses), you would have to module each DC circuit
+% separately and adjust the current values.  
+
+%% *Step 7: DC to DC Max Power Point Tracking*
+% In this step of the process the functionality of the maximum power point
+% tracking (MPPT) is simulated.  In most cases standard arrays, it is 
+% assumed that the inverter (with MPPT capability) is able to perfectly 
+% track the max power point (MPP) and thus there is no calculation required
+% other than to calculate Pmp as was done in Step 5 above.
+
+%% *Step 8: DC to AC Conversion*
+% This step acconts for the power conversion of the inverter and results in
+% the AC power of the PV system.  In this example we use the <http://energy.sandia.gov/wp/wp-content/gallery/uploads/Performance-Model-for-Grid-Connected-Photovoltaic-Inverters.pdf 
+% |Sandia Performance Model for Grid-Connected Photovoltaic Inverters|> (King et
+% al. 2007), which is implemented in the PV_LIB function: <pvl_snlinverter_help.html |pvl_snlinverter|>.
+
+ACPower = pvl_snlinverter(Inverter, mSAPMResults.Vmp*Array.Ms, mSAPMResults.Pmp*Array.Ms*Array.Mp);
+
+%%
+% The following plot compares the DC and AC power outputs predicted for 
+% the system on August 2.
+%
+figure
+tfilter = and(Time.month == 8,Time.day == 2);
+plot(Time.hour(tfilter),aSAPMResults.Pmp(tfilter),'-sr')
+hold all
+plot(Time.hour(tfilter),ACPower(tfilter),'-ob')
+legend('DC Pmp', 'AC Power')
+%xlabel('Hour of Day')
+ylabel('Power (W)')
+title('Albuquerque DC and AC Power Output - Aug 2','FontSize',14)
+
+%%
+% Note that the inverter is undersized compared with the DC array and thus
+% the inverter "clips" the AC power. 
+
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

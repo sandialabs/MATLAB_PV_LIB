@@ -1,0 +1,205 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_adrinverter</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_adrinverter_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_adrinverter</h1><!--introduction--><p>Anton Driesse's Grid-Connected PV Inverter Model</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example 1</a></li><li><a href="#10">Example 2</a></li><li><a href="#12">References</a></li><li><a href="#14">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p>Computes AC power output using Anton Driesse's Grid-Connected PV Inverter model.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Vdc</tt></b> - a vector of modeled DC voltage</li><li><b><tt>Pdc</tt></b> - a vector of modeled DC power</li><li><b><tt>Inverter</tt></b> - A struct defining the inverter to be used, giving the     inverter performance parameters according to the Sandia     Grid-Connected Photovoltaic Inverter Model (SAND 2007-5036) [1]. A set of     inverter performance parameters are provided with PV_LIB (<tt>\Required Data\SandiaInverterDatabaseSAM2012.11.30.mat</tt>),     or may be generated from a System Advisor Model (SAM) [2] library using the SAM     library reader function <a href="pvl_SAMLibraryReader_SNLInverters_help.html"><tt>pvl_SAMLibraryReader_SNLInverters</tt></a>.     Required struct components are:</li><li><b><tt>Inverter.Pac0</tt></b> - AC-power output from inverter based on input power and voltage, (W)</li><li><b><tt>Inverter.Pdc0</tt></b> - DC-power input to inverter, typically assumed to be equal to the PV array maximum power, (W)</li><li><b><tt>Inverter.Vdc0</tt></b> - DC-voltage level at which the AC-power rating is achieved at the reference operating condition, (V)</li><li><b><tt>Inverter.Ps0</tt></b> - DC-power required to start the inversion process, or self-consumption by inverter, strongly influences inverter efficiency at low power levels, (W)</li><li><b><tt>Inverter.C0</tt></b> - Parameter defining the curvature (parabolic) of the relationship between ac-power and dc-power at the reference operating condition, default value of zero gives a linear relationship, (1/W)</li><li><b><tt>Inverter.C1</tt></b> - Empirical coefficient allowing Pdco to vary linearly with dc-voltage input, default value is zero, (1/V)</li><li><b><tt>Inverter.C2</tt></b> - empirical coefficient allowing Pso to vary linearly with dc-voltage input, default value is zero, (1/V)</li><li><b><tt>Inverter.C3</tt></b> - empirical coefficient allowing Co to vary linearly with dc-voltage input, default value is zero, (1/V)</li><li><b><tt>Inverter.Pnt</tt></b> - ac-power consumed by inverter at night (night tare) to maintain circuitry required to sense PV array voltage, (W)</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>ACPower</tt></b> - a column vector of modeled AC power output given the input     DC voltage, Vdc, and input DC power, Pdc. When ACPower would be     greater than Pmax, it is set to Pmax to represent inverter     "clipping". When ACPower would be less than -Pnt (energy consumed rather     than produced) then ACPower is set to -Pnt to represent nightly     power losses. ACPower is not adjusted for maximum power point     tracking (MPPT) voltage windows or maximum current limits of the     inverter.</li></ul></div><h2>Example 1<a name="7"></a></h2><pre class="codeinput">load <span class="string">'DriesseInverterDatabaseSAM2013.10.mat'</span>;
+<span class="comment">% PV Powered PVP2500 is entry #377</span>
+Inverter = ADRInverterDB(377)
+</pre><pre class="codeoutput">
+Inverter = 
+
+               Name: 'PV Powered: PVP2500 240V [CEC 2006]'
+       Manufacturer: 'PV Powered'
+              Model: 'PVP2500'
+             Source: 'CEC'
+                Vac: 240
+            Vintage: 2006
+             Pacmax: 2500
+               Pnom: 2520
+               Vnom: 219
+               Vmin: 142
+               Vmax: 402
+    ADRCoefficients: [0.0163 8.2000e-04 0.0315 0.0061 0.0033 0.0043 0 0 0]
+                Pnt: 3.9000
+             Vdcmax: 500
+             Idcmax: 20
+            MPPTLow: 140
+             MPPTHi: 450
+            TambLow: -20
+             TambHi: 40
+             Weight: 70
+           UniqueID: 176
+          RowNumber: 377
+
+</pre><p>Assume DC power is 1,000 W and voltage is 400 V</p><pre class="codeinput">Pdc = 1000; <span class="comment">%DC power is 1000 W</span>
+Vdc = 400; <span class="comment">% DC violtage is 450 V</span>
+ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)
+</pre><pre class="codeoutput">
+ACPower =
+
+  928.6313
+
+</pre><p>Inverter efficiency can be calculated as:</p><pre class="codeinput">Inverter_Efficiency = ACPower/Pdc
+</pre><pre class="codeoutput">
+Inverter_Efficiency =
+
+    0.9286
+
+</pre><h2>Example 2<a name="10"></a></h2><pre class="codeinput">Pdc = 0;
+Vdc = 0;
+</pre><p>When there is no DC power the inverter still draws power from the grid. This is expressed as a negative power output.</p><pre class="codeinput">ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)
+</pre><pre class="codeoutput">
+ACPower =
+
+   -3.9000
+
+</pre><h2>References<a name="12"></a></h2><div><ul><li>[1] A. Driesse, P. Jain, S. Harrison, Beyond the Curves: Modeling the Electrical Efficiency       of Photovoltaic Inverters, 33rd IEEE PVSC, San Diego, CA 2008.</li></ul></div><h2>See Also<a name="14"></a></h2><p><a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_adrinverter
+% Anton Driesse's Grid-Connected PV Inverter Model
+%
+%% Syntax
+% * |ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)| 
+%% Description
+% Computes AC power output using Anton Driesse's Grid-Connected PV Inverter model.
+%
+%% Inputs
+%%
+% * *|Vdc|* - a vector of modeled DC voltage
+% * *|Pdc|* - a vector of modeled DC power
+% * *|Inverter|* - A struct defining the inverter to be used, giving the
+%     inverter performance parameters according to the Sandia
+%     Grid-Connected Photovoltaic Inverter Model (SAND 2007-5036) [1]. A set of
+%     inverter performance parameters are provided with PV_LIB (|\Required Data\SandiaInverterDatabaseSAM2012.11.30.mat|),
+%     or may be generated from a System Advisor Model (SAM) [2] library using the SAM
+%     library reader function <pvl_SAMLibraryReader_SNLInverters_help.html |pvl_SAMLibraryReader_SNLInverters|>. 
+%     Required struct components are:
+% * *|Inverter.Pac0|* - AC-power output from inverter based on input power and voltage, (W) 
+% * *|Inverter.Pdc0|* - DC-power input to inverter, typically assumed to be equal to the PV array maximum
+% power, (W)
+% * *|Inverter.Vdc0|* - DC-voltage level at which the AC-power rating is achieved at the reference operating
+% condition, (V)
+% * *|Inverter.Ps0|* - DC-power required to start the inversion process, or self-consumption by inverter,
+% strongly influences inverter efficiency at low power levels, (W)
+% * *|Inverter.C0|* - Parameter defining the curvature (parabolic) of the relationship between ac-power and
+% dc-power at the reference operating condition, default value of zero gives a linear
+% relationship, (1/W)
+% * *|Inverter.C1|* - Empirical coefficient allowing Pdco to vary linearly with dc-voltage input, default value
+% is zero, (1/V)
+% * *|Inverter.C2|* - empirical coefficient allowing Pso to vary linearly with dc-voltage input, default value
+% is zero, (1/V)
+% * *|Inverter.C3|* - empirical coefficient allowing Co to vary linearly with dc-voltage input, default value is
+% zero, (1/V)
+% * *|Inverter.Pnt|* - ac-power consumed by inverter at night (night tare) to maintain circuitry required to
+% sense PV array voltage, (W)
+%
+%% Outputs
+%%
+% * *|ACPower|* - a column vector of modeled AC power output given the input 
+%     DC voltage, Vdc, and input DC power, Pdc. When ACPower would be 
+%     greater than Pmax, it is set to Pmax to represent inverter 
+%     "clipping". When ACPower would be less than -Pnt (energy consumed rather
+%     than produced) then ACPower is set to -Pnt to represent nightly 
+%     power losses. ACPower is not adjusted for maximum power point
+%     tracking (MPPT) voltage windows or maximum current limits of the
+%     inverter.
+
+%% Example 1
+load 'DriesseInverterDatabaseSAM2013.10.mat';
+% PV Powered PVP2500 is entry #377
+Inverter = ADRInverterDB(377)
+%%
+% Assume DC power is 1,000 W and voltage is 400 V
+%
+Pdc = 1000; %DC power is 1000 W
+Vdc = 400; % DC violtage is 450 V
+ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)
+%%
+% Inverter efficiency can be calculated as:
+Inverter_Efficiency = ACPower/Pdc
+
+%% Example 2
+Pdc = 0;
+Vdc = 0;
+%%
+% When there is no DC power the inverter still draws power from the grid.
+% This is expressed as a negative power output.
+ACPower = pvl_adrinverter(Inverter, Vdc, Pdc)
+
+%% References
+%%
+% * [1] A. Driesse, P. Jain, S. Harrison, Beyond the Curves: Modeling the Electrical Efficiency 
+%       of Photovoltaic Inverters, 33rd IEEE PVSC, San Diego, CA 2008.
+%% See Also 
+% <pvl_snlinverter_help.html |pvl_snlinverter|>
+%
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,138 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_getISDdata</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_getISDdata_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_getISDdata</h1><!--introduction--><p>Fetch one year of data from the Integrated Surface Database.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Output</a></li><li><a href="#4">Description</a></li><li><a href="#5">Example</a></li><li><a href="#6">References</a></li><li><a href="#7">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>fname = getISDdata(latitude,longitude,year,archive)</tt></p><h2>Inputs<a name="2"></a></h2><div><ul><li><b><tt>latitude</tt></b>  - latitude of location of interest.</li><li><b><tt>longitude</tt></b> - longitude of location of interest (negative for west of prime meridian).</li><li><b><tt>year</tt></b>      - desired year.</li><li><b><tt>archive</tt></b>   - string specifying path to local ISD archive.  The current               directory is used if archive is not specified.</li></ul></div><h2>Output<a name="3"></a></h2><div><ul><li><b><tt>fname</tt></b> - name of the file containing returned data.</li></ul></div><h2>Description<a name="4"></a></h2><p>This function copies two files from NOAA's ftp site <a href="'ftp://ftp.ncdc.noaa.gov/pub/data/noaa/">'ftp://ftp.ncdc.noaa.gov/pub/data/noaa/</a> to the current directory.  The file <tt>isd-history.csv</tt> is a listing of all sites in the database.  The second file contains one year of data from the station closest to the requested location.</p><p>These two files can be re-directed to an archive folder by supplying the path to the archive as <tt>archive</tt>.  If the files already exist in the location pointed to by <tt>archive</tt>, the local files are used. Use <a href="pvl_readISH_help.html"><tt>pvl_readISH</tt></a> to read the ISD data files.</p><p>Requires Matlab 2013b or later.</p><h2>Example<a name="5"></a></h2><pre class="codeinput">archive = <span class="string">'..\Example Data'</span>;
+fname = pvl_getISDdata(35.11,-106.61,2010,archive); <span class="comment">% get weather data for Albuquerque, NM</span>
+dir([archive <span class="string">'\isd-history.csv'</span>])  <span class="comment">% index of all data in ISD</span>
+dir([archive <span class="string">'\'</span> fname]) <span class="comment">% data for 2010 for Albuquerque, NM</span>
+data = pvl_readISH([archive <span class="string">'\'</span> fname]);
+data(1,1:18)
+</pre><pre class="codeoutput">
+isd-history.csv  
+
+
+723650-23050-2010  
+
+
+ans = 
+
+    len     catno       wban         date        time     source     lat       long       type      elev    station      qc      winddir    winddirq    windtype    windspeed    windspeedq    ceil 
+    ___    ________    _______    __________    ______    ______    ______    _______    _______    ____    _______    ______    _______    ________    ________    _________    __________    _____
+
+    283    '723650'    '23050'    '20100101'    '0000'    '4'       35.033    -106.62    'SY-MT'    1618    'KABQ '    'V020'    30         '1'         'N'         4.6          '1'           22000
+
+</pre><h2>References<a name="6"></a></h2><p>[1] National Climatic Data Center, Federal Climate Complex Data Documentation for Integrated Surface Data 21 May 2014, <a href="ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf">ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf</a>, accessed 5 June 2014.</p><h2>See Also<a name="7"></a></h2><p><a href="pvl_readISH_help.html"><tt>pvl_readISH</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_getISDdata
+% Fetch one year of data from the Integrated Surface Database.
+%
+%% Syntax
+% |fname = getISDdata(latitude,longitude,year,archive)|
+%
+%% Inputs
+% * *|latitude|*  - latitude of location of interest.
+% * *|longitude|* - longitude of location of interest (negative for west of prime meridian).
+% * *|year|*      - desired year.
+% * *|archive|*   - string specifying path to local ISD archive.  The current 
+%               directory is used if archive is not specified.
+%
+%% Output
+% * *|fname|* - name of the file containing returned data.
+%
+%% Description
+% This function copies two files from NOAA's ftp site <'ftp://ftp.ncdc.noaa.gov/pub/data/noaa/> to the
+% current directory.  The file |isd-history.csv| is a listing of all sites in
+% the database.  The second file contains one year of data from the station closest to the requested location.
+%
+% These two files can be re-directed to an archive folder by supplying
+% the path to the archive as |archive|.  If the files already exist
+% in the location pointed to by |archive|, the local files are used. 
+% Use <pvl_readISH_help.html |pvl_readISH|> to read the ISD data files.
+%
+% Requires Matlab 2013b or later.
+%
+%% Example
+archive = '..\Example Data';
+fname = pvl_getISDdata(35.11,-106.61,2010,archive); % get weather data for Albuquerque, NM
+dir([archive '\isd-history.csv'])  % index of all data in ISD
+dir([archive '\' fname]) % data for 2010 for Albuquerque, NM
+data = pvl_readISH([archive '\' fname]);
+data(1,1:18)
+
+%% References
+% [1] National Climatic Data Center, Federal Climate Complex Data
+% Documentation for Integrated Surface Data 21 May 2014,
+% ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf,
+% accessed 5 June 2014. 
+
+%% See Also 
+% <pvl_readISH_help.html |pvl_readISH|> 
+%%
+% Copyright 2015 Sandia National Laboratories
+##### SOURCE END #####
+--></body></html>

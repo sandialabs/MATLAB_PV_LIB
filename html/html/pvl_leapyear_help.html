@@ -1,0 +1,126 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_leapyear</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_leapyear_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_leapyear</h1><!--introduction--><p>Determine if a given year is a leap year using 400 year cycles.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example 1</a></li><li><a href="#8">Example 2</a></li><li><a href="#9">Example 3</a></li><li><a href="#10">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>LY = pvl_leapyear(Year)</tt></p><h2>Description<a name="2"></a></h2><p>Determines if a given year, <tt>Year</tt>, in the Gregorian calendar is a leap year (a year with 29 days in the second month).</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Year</tt></b> - must be numeric, but may be of any size. If <tt>Year</tt> is not an integer, the fractional part will be removed (floor function).</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>LY</tt></b> - is a boolean true 1 if the year is a leap year, and a boolean false if the year is not a leap year. <tt>LY</tt> is of the same size as <tt>Year</tt>, with <tt>LY(i)</tt> corresponding to <tt>Year(i)</tt>.</li></ul></div><h2>Example 1<a name="7"></a></h2><p>Check whether 2012 is a leap year (is a leap year because 2012 is divisible by 4)</p><pre class="codeinput">pvl_leapyear(2012)
+</pre><pre class="codeoutput">
+ans =
+
+     1
+
+</pre><h2>Example 2<a name="8"></a></h2><p>Check whether 2011 is a leap year (is not a leap year because 2011 is not divisible by 4)</p><pre class="codeinput">pvl_leapyear(2011)
+</pre><pre class="codeoutput">
+ans =
+
+     0
+
+</pre><h2>Example 3<a name="9"></a></h2><p>Check whether 1900 is a leap year (is not a leap year because 1900 is divisible by 100 but is not divisible by 400)</p><pre class="codeinput">pvl_leapyear(1900)
+</pre><pre class="codeoutput">
+ans =
+
+     0
+
+</pre><h2>See Also<a name="10"></a></h2><p><a href="pvl_date2doy_help.html"><tt>pvl_date2doy</tt></a>, <a href="pvl_doy2date_help.html"><tt>pvl_doy2date</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_leapyear 
+% Determine if a given year is a leap year using 400 year cycles.
+%
+%% Syntax
+% |LY = pvl_leapyear(Year)| 
+%
+%% Description
+% Determines if a given year, |Year|, in the Gregorian
+% calendar is a leap year (a year with 29 days in the second month).
+%
+%% Inputs
+%%
+% * *|Year|* - must be numeric, but may be of any size. If |Year| is not an
+% integer, the fractional part will be removed (floor function).
+%   
+%% Outputs
+%%
+% * *|LY|* - is a boolean true 1 if the year is a leap year, and a
+% boolean false if the year is not a leap year. |LY| is of the same size as
+% |Year|, with |LY(i)| corresponding to |Year(i)|.
+%% Example 1
+% Check whether 2012 is a leap year (is a leap year because 2012 is divisible by 4) 
+pvl_leapyear(2012)
+%% Example 2
+% Check whether 2011 is a leap year (is not a leap year because 2011 is not divisible
+% by 4)
+pvl_leapyear(2011)
+%% Example 3
+% Check whether 1900 is a leap year (is not a leap year because 1900 is divisible by 100 but is not divisible
+% by 400)
+pvl_leapyear(1900)
+%% See Also
+% <pvl_date2doy_help.html |pvl_date2doy|>,     
+% <pvl_doy2date_help.html |pvl_doy2date|>    
+%%
+% Copyright 2014 Sandia National Laboratories
+##### SOURCE END #####
+--></body></html>

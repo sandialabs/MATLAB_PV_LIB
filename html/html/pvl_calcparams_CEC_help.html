@@ -1,0 +1,248 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_calcparams_CEC</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_calcparams_CEC_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_calcparams_CEC</h1><!--introduction--><p>Calculates five parameters for an IV curve using the CEC model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Notes</a></li><li><a href="#6">Example 1</a></li><li><a href="#7">Example 2</a></li><li><a href="#8">References:</a></li><li><a href="#9">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_CEC(S, Tcell, ModuleParameters)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p>Applies the temperature and irradiance corrections to calculate the five parameters for an IV curve according to the CEC model [1]. The results of this procedure may be used to determine the IV curve at effective irradiance = S, cell temperature = Tcell.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>S</tt></b> - The effective irradiance (in W/m^2). <tt>S</tt> must be &gt;= 0.      May be a vector, but must be the same size as <tt>Tcell</tt>. Due to a division by <tt>S</tt> in the script, any      value equal to 0 will be set to 1E-10.</li><li><b><tt>Tcell</tt></b> - The average cell temperature of cells within a module in C.      <tt>Tcell</tt> must be &gt;= -273.15. May be a vector, but      must be the same size as all other input vectors.</li><li><b><tt>ModuleParameters</tt></b> - a struct with parameters for the module. A library     of module parameters from the System Advisor Model (SAM) [2] is provided with PV_LIB     (<tt>\Required Data\CECModuleDatabaseSAM2014.1.14.mat</tt>),     which may be read by the SAM library reader     function <a href="pvl_SAMLibraryReader_CECModules_help.html"><tt>pvl_SAMLibraryReader_CECModules</tt></a>.     The <tt>ModuleParameters</tt> struct must contain (at least) the     following fields:</li></ul></div><div><ul><li><b><tt>ModuleParameters.a_ref</tt></b> - modified diode ideality factor at          reference conditions (units of V), a_ref is calculated as          a_ref = n Ns Vth, where n is the usual diode ideality factor (n),             Ns is the number of cells in series, and Vth is the thermal             voltage at STC cell temperature 298.15K.</li><li><b><tt>ModuleParameters.IL_ref</tt></b> - Light-generated current (or photocurrent)          in amperes at reference conditions.</li><li><b><tt>ModuleParameters.I0_ref</tt></b> - diode reverse saturation current in amperes,          at reference conditions.</li><li><b><tt>ModuleParameters.Rsh_ref</tt></b> - shunt resistance at reference conditions (ohms)</li><li><b><tt>ModuleParameters.Rs_ref</tt></b> - series resistance at reference conditions (ohms)</li><li><b><tt>ModuleParameters.alpha_sc</tt></b> - temperature coefficient for          short-circuit current at reference conditions (A/C)</li><li><b><tt>ModuleParameters.adjust</tt></b> - an adjustment factor (percent) applied to the          reference value for the temperature coefficient for short circuit          current</li></ul></div><h2>Outputs<a name="4"></a></h2><div><ul><li><b><tt>IL</tt></b> - Light-generated current in amperes</li><li><b><tt>I0</tt></b> - Diode saturation curent in amperes</li><li><b><tt>Rs</tt></b> - Series resistance in ohms</li><li><b><tt>Rsh</tt></b> - Shunt resistance in ohms</li><li><b><tt>nNsVth</tt></b> - nNsVth is the product of the usual diode ideality factor (n), the number of      series-connected cells in the module (Ns), and the thermal voltage      of a cell in the module (Vth) at a cell temperature of Tcell.  Note that in [1] nNsVth = a.</li></ul></div><h2>Notes<a name="5"></a></h2><p>In the case of the CEC model and the parameters in the System Advisor Model library, created as described in [3], EgRef and dEgdT for all modules are 1.121 and -0.0002677, respectively.</p><h2>Example 1<a name="6"></a></h2><p>IV curves at a range of irradiance values</p><pre class="codeinput">Ee = [200 400 600 800 1000 1100]; <span class="comment">% effective irradiance Levels (W/m^2) for parameter sets</span>
+Tcell = 45; <span class="comment">%deg C</span>
+
+load(<span class="string">'CECModuleDatabaseSAM2014.1.14.mat'</span>)
+<span class="comment">% Yingli Energy (China) YL295P-35b  # 9764</span>
+Module = CECModuleDB(9764);
+
+[IL, I0, Rs, Rsh, a] = pvl_calcparams_CEC(Ee, Tcell, Module);
+NumPoints = 1000;
+[IVResult] = pvl_singlediode(IL, I0, Rs, Rsh, a, NumPoints);
+
+figure
+<span class="keyword">for</span> i=1:6
+plot(IVResult.V(i,:),IVResult.I(i,:))
+hold <span class="string">on</span>
+scatter(IVResult.Vmp(i),IVResult.Imp(i),<span class="string">'filled'</span>)
+text(2,IVResult.Isc(i)+0.3,[num2str(Ee(i)) <span class="string">' W/m^2'</span>])
+<span class="keyword">end</span>
+xlabel(<span class="string">'Voltage (V)'</span>)
+ylabel(<span class="string">'Current (A)'</span>)
+title(<span class="string">'Example IV Curve from CEC Single Diode Model'</span>,<span class="string">'FontSize'</span>,14)
+ylim([0 11])
+</pre><img vspace="5" hspace="5" src="pvl_calcparams_CEC_help_01.png" alt=""> <h2>Example 2<a name="7"></a></h2><p>IV curves at a range of cell temperature values and at AM = 3</p><pre class="codeinput">S = 1000; <span class="comment">%broadband irradiance Levels for parameter sets</span>
+Tcell = [30 40 50 60 70 80]; <span class="comment">%deg C</span>
+AMa = 3; <span class="comment">% Absolute (pressure corrected) airmass</span>
+
+<span class="comment">% Representative coefficients for estimating M/Mref for Poly-crystalline Si</span>
+<span class="comment">% From Eq. 9.23 in [1].</span>
+M = polyval([-0.000126 0.002816 -0.024459 0.086257 0.918093], AMa);
+
+Ee = S.*M;
+
+[IL, I0, Rs, Rsh, a] = pvl_calcparams_CEC(Ee, Tcell, Module);
+NumPoints = 1000;
+[IVResult] = pvl_singlediode(IL, I0, Rs, Rsh, a, NumPoints);
+
+figure
+<span class="keyword">for</span> i=1:6
+plot(IVResult.V(i,:),IVResult.I(i,:))
+hold <span class="string">on</span>
+scatter(IVResult.Vmp(i),IVResult.Imp(i),<span class="string">'filled'</span>)
+
+<span class="keyword">end</span>
+xlabel(<span class="string">'Voltage (V)'</span>)
+ylabel(<span class="string">'Current (A)'</span>)
+title(<span class="string">'IV Curves (Cell Temp from 30-80 deg C)'</span>,<span class="string">'FontSize'</span>,14)
+ylim([0 11])
+</pre><img vspace="5" hspace="5" src="pvl_calcparams_CEC_help_02.png" alt=""> <h2>References:<a name="8"></a></h2><p>[1] P. Gilman, SAM Photovoltaic Model Technical Reference, National       Renewable Energy Laboratory (NREL) Technical Report NREL/TP-6A20-64102,       May 2015.</p><p>[2] A. Dobos, "An Improved Coefficient Calculator for the California     Energy Commission 6 Parameter Photovoltaic Module Model", Journal of     Solar Energy Engineering, vol 134, 2012.</p><h2>See also<a name="9"></a></h2><p><a href="pvl_singlediode_help.html"><tt>pvl_singlediode</tt></a>, <a href="pvl_SAMLibraryReader_CECModules_help.html"><tt>pvl_SAMLibraryReader_CECModules</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_calcparams_CEC 
+% Calculates five parameters for an IV curve using the CEC model.
+%
+%% Syntax
+% * |[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_CEC(S, Tcell, ModuleParameters)|
+%   
+%% Description
+% Applies the temperature and irradiance corrections to calculate the
+% five parameters for an IV curve according to the CEC model [1].
+% The results of this procedure may be used to determine the IV curve
+% at effective irradiance = S, cell temperature = Tcell.
+%
+%% Inputs
+%
+% * *|S|* - The effective irradiance (in W/m^2). |S| must be >= 0.
+%      May be a vector, but must be the same size as |Tcell|. Due to a division by |S| in the script, any 
+%      value equal to 0 will be set to 1E-10.
+% * *|Tcell|* - The average cell temperature of cells within a module in C.
+%      |Tcell| must be >= -273.15. May be a vector, but 
+%      must be the same size as all other input vectors.
+% * *|ModuleParameters|* - a struct with parameters for the module. A library 
+%     of module parameters from the System Advisor Model (SAM) [2] is provided with PV_LIB
+%     (|\Required Data\CECModuleDatabaseSAM2014.1.14.mat|),
+%     which may be read by the SAM library reader
+%     function <pvl_SAMLibraryReader_CECModules_help.html |pvl_SAMLibraryReader_CECModules|>.
+%     The |ModuleParameters| struct must contain (at least) the 
+%     following fields:
+%
+% * *|ModuleParameters.a_ref|* - modified diode ideality factor at
+%          reference conditions (units of V), a_ref is calculated as 
+%          a_ref = n Ns Vth, where n is the usual diode ideality factor (n),
+%             Ns is the number of cells in series, and Vth is the thermal
+%             voltage at STC cell temperature 298.15K.
+% * *|ModuleParameters.IL_ref|* - Light-generated current (or photocurrent) 
+%          in amperes at reference conditions. 
+% * *|ModuleParameters.I0_ref|* - diode reverse saturation current in amperes, 
+%          at reference conditions.
+% * *|ModuleParameters.Rsh_ref|* - shunt resistance at reference conditions (ohms)
+% * *|ModuleParameters.Rs_ref|* - series resistance at reference conditions (ohms)
+% * *|ModuleParameters.alpha_sc|* - temperature coefficient for
+%          short-circuit current at reference conditions (A/C)
+% * *|ModuleParameters.adjust|* - an adjustment factor (percent) applied to the
+%          reference value for the temperature coefficient for short circuit
+%          current 
+%  
+%% Outputs   
+% * *|IL|* - Light-generated current in amperes
+% * *|I0|* - Diode saturation curent in amperes
+% * *|Rs|* - Series resistance in ohms
+% * *|Rsh|* - Shunt resistance in ohms
+% * *|nNsVth|* - nNsVth is the product of the usual diode ideality factor (n), the number of 
+%      series-connected cells in the module (Ns), and the thermal voltage 
+%      of a cell in the module (Vth) at a cell temperature of Tcell.  Note that in [1] nNsVth = a. 
+%
+%% Notes
+% In the case of the CEC model and the parameters in the System Advisor 
+% Model library, created as described in [3], EgRef and dEgdT for all 
+% modules are 1.121 and -0.0002677, respectively.
+%
+%% Example 1
+% IV curves at a range of irradiance values
+Ee = [200 400 600 800 1000 1100]; % effective irradiance Levels (W/m^2) for parameter sets
+Tcell = 45; %deg C 
+
+load('CECModuleDatabaseSAM2014.1.14.mat')
+% Yingli Energy (China) YL295P-35b  # 9764
+Module = CECModuleDB(9764);
+
+[IL, I0, Rs, Rsh, a] = pvl_calcparams_CEC(Ee, Tcell, Module);
+NumPoints = 1000;
+[IVResult] = pvl_singlediode(IL, I0, Rs, Rsh, a, NumPoints);
+
+figure
+for i=1:6
+plot(IVResult.V(i,:),IVResult.I(i,:))
+hold on
+scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
+text(2,IVResult.Isc(i)+0.3,[num2str(Ee(i)) ' W/m^2'])
+end
+xlabel('Voltage (V)')
+ylabel('Current (A)')
+title('Example IV Curve from CEC Single Diode Model','FontSize',14)
+ylim([0 11])
+%% Example 2
+% IV curves at a range of cell temperature values and at AM = 3
+S = 1000; %broadband irradiance Levels for parameter sets
+Tcell = [30 40 50 60 70 80]; %deg C 
+AMa = 3; % Absolute (pressure corrected) airmass
+
+% Representative coefficients for estimating M/Mref for Poly-crystalline Si 
+% From Eq. 9.23 in [1].
+M = polyval([-0.000126 0.002816 -0.024459 0.086257 0.918093], AMa);
+
+Ee = S.*M;
+
+[IL, I0, Rs, Rsh, a] = pvl_calcparams_CEC(Ee, Tcell, Module);
+NumPoints = 1000;
+[IVResult] = pvl_singlediode(IL, I0, Rs, Rsh, a, NumPoints);
+
+figure
+for i=1:6
+plot(IVResult.V(i,:),IVResult.I(i,:))
+hold on
+scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
+
+end
+xlabel('Voltage (V)')
+ylabel('Current (A)')
+title('IV Curves (Cell Temp from 30-80 deg C)','FontSize',14)
+ylim([0 11])
+%% References:
+%
+% [1] P. Gilman, SAM Photovoltaic Model Technical Reference, National
+%       Renewable Energy Laboratory (NREL) Technical Report NREL/TP-6A20-64102,
+%       May 2015.
+%
+% [2] A. Dobos, "An Improved Coefficient Calculator for the California
+%     Energy Commission 6 Parameter Photovoltaic Module Model", Journal of
+%     Solar Energy Engineering, vol 134, 2012.
+%
+%
+%% See also 
+% <pvl_singlediode_help.html |pvl_singlediode|>, <pvl_SAMLibraryReader_CECModules_help.html |pvl_SAMLibraryReader_CECModules|>
+%%
+% Copyright 2015 Sandia National Laboratories
+
+
+
+
+##### SOURCE END #####
+--></body></html>

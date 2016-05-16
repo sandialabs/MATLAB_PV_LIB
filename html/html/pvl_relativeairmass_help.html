@@ -1,0 +1,190 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_relativeairmass</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_relativeairmass_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_relativeairmass</h1><!--introduction--><p>Gives the relative (not pressure-corrected) airmass.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Available Air Mass Models</a></li><li><a href="#6">Outputs</a></li><li><a href="#8">Example 1</a></li><li><a href="#9">Example 2</a></li><li><a href="#10">References</a></li><li><a href="#11">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>AM = pvl_relativeairmass(z)</tt></p><p><tt>AM = pvl_relativeairmass(z, model)</tt></p><h2>Description<a name="2"></a></h2><p>Gives the airmass at sea-level when given a sun zenith angle <tt>z</tt> (in degrees) using a user-specified model.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>z</tt></b> - Zenith angle of the sun.  Note that some models use the apparent (refraction corrected)     zenith angle, and some models use the true (not refraction-corrected)     zenith angle. See model descriptions below for which type of zenith     angle is required.</li><li><b><tt>model</tt></b> - String variable indicating the airmass model to be used.  Available models     are listed below.  If <tt>model</tt> is not included or is not valid,     the default model is 'kastenyoung1989'.</li></ul></div><h2>Available Air Mass Models<a name="5"></a></h2><div><ul><li><tt>'simple'</tt> - secant of apparent zenith angle.</li><li><tt>'kasten1966'</tt> - See reference [1] - requires apparent sun zenith.</li><li><tt>'youngirvine1967'</tt> - See reference [2] - requires true sun zenith.</li><li><tt>'kastenyoung1989'</tt> - See reference [3] - Default model; requires apparent sun zenith.</li><li><tt>'gueymard1993'</tt> - See reference [4] - requires apparent sun zenith.</li><li><tt>'young1994'</tt> - See reference [5] - requires true sun zenith.</li><li><tt>'pickering2002'</tt> - See reference [6] - requires apparent sun zenith.</li></ul></div><h2>Outputs<a name="6"></a></h2><div><ul><li><b><tt>AM</tt></b> - Relative airmass at sea level.  Contains <tt>NaN</tt> values for all zenith     angles greater than 90 degrees.</li></ul></div><h2>Example 1<a name="8"></a></h2><p>Use default model near AM 1.5</p><pre class="codeinput">AM = pvl_relativeairmass(45)
+</pre><pre class="codeoutput">
+AM =
+
+    1.4126
+
+</pre><h2>Example 2<a name="9"></a></h2><p>Compare models at low sun angles</p><pre class="codeinput">AM = zeros(100,7);
+z = zeros(100,1);
+z = z+ (80:0.1:89.9)';
+models = {<span class="string">'simple'</span> <span class="string">'kasten1966'</span> <span class="string">'youngirvine1967'</span> <span class="string">'kastenyoung1989'</span> <span class="string">'gueymard1993'</span> <span class="keyword">...</span>
+    <span class="string">'young1994'</span> <span class="string">'pickering2002'</span>};
+<span class="keyword">for</span> i=1:7
+    AM(:,i) = pvl_relativeairmass(z,models{i});
+<span class="keyword">end</span>
+figure
+plot(z,AM(:,1))
+hold <span class="string">all</span>
+<span class="keyword">for</span> i=2:7
+    plot(z,AM(:,i))
+<span class="keyword">end</span>
+ylim([0 40])
+legend(models,<span class="string">'Location'</span>,<span class="string">'NW'</span>)
+xlabel(<span class="string">'Solar Zenith Angle (deg)'</span>)
+ylabel(<span class="string">'Relative Air Mass'</span>)
+title(<span class="string">'Relative Air Mass Model Comparisons'</span>,<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="pvl_relativeairmass_help_01.png" alt=""> <h2>References<a name="10"></a></h2><p>[1] Kasten, F., 1965. A New Table and Approximation Formula for the Relative Optical Air Mass, Theo. and Appl. Climatology vol. 14(2), pp. 206-223.</p><p>[2] A. T. Young and W. M. Irvine, 1967. Multicolor Photoelectric Photometry of the Brighter Planets, The Astronomical Journal, vol. 72, pp. 945-950.</p><p>[3] Kasten, F., Young, A., 1989. Revised optical air mass tables and approximation formula, Applied Optics vol. 28(22), pp. 4735&#8211;4738.</p><p>[4] Gueymard, C., 1993. Critical analysis and performance assessment of clear sky solar irradiance models using theoretical and measured data, Solar Energy, vol. 51, pp. 121-138.</p><p>[5] Young, A. T., 1994. AIR-MASS AND REFRACTION, Applied Optics, vol. 33, pp. 1108-1110.</p><p>[6] Pickering, K. A., 2002. The Ancient Star Catalog. DIO, vol. 12.</p><h2>See Also<a name="11"></a></h2><p><a href="pvl_absoluteairmass_help.html"><tt>pvl_absoluteairmass</tt></a>, <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_relativeairmass    
+% Gives the relative (not pressure-corrected) airmass.
+%
+%% Syntax
+%
+% |AM = pvl_relativeairmass(z)| 
+%
+% |AM = pvl_relativeairmass(z, model)| 
+%
+%% Description
+% Gives the airmass at sea-level when given a sun zenith angle |z| (in degrees)
+% using a user-specified model.
+%
+%% Inputs
+%%
+% * *|z|* - Zenith angle of the sun.  Note that some models use the apparent (refraction corrected)
+%     zenith angle, and some models use the true (not refraction-corrected)
+%     zenith angle. See model descriptions below for which type of zenith
+%     angle is required.
+% * *|model|* - String variable indicating the airmass model to be used.  Available models 
+%     are listed below.  If |model| is not included or is not valid, 
+%     the default model is 'kastenyoung1989'.  
+%% Available Air Mass Models
+%
+% * |'simple'| - secant of apparent zenith angle.
+% * |'kasten1966'| - See reference [1] - requires apparent sun zenith.
+% * |'youngirvine1967'| - See reference [2] - requires true sun zenith.
+% * |'kastenyoung1989'| - See reference [3] - Default model; requires
+% apparent sun zenith.
+% * |'gueymard1993'| - See reference [4] - requires apparent sun zenith.
+% * |'young1994'| - See reference [5] - requires true sun zenith.
+% * |'pickering2002'| - See reference [6] - requires apparent sun zenith.
+%
+%% Outputs
+%%
+% * *|AM|* - Relative airmass at sea level.  Contains |NaN| values for all zenith 
+%     angles greater than 90 degrees.  
+%
+%
+%% Example 1
+% Use default model near AM 1.5
+%
+AM = pvl_relativeairmass(45)
+%% Example 2
+% Compare models at low sun angles
+AM = zeros(100,7);
+z = zeros(100,1);
+z = z+ (80:0.1:89.9)';
+models = {'simple' 'kasten1966' 'youngirvine1967' 'kastenyoung1989' 'gueymard1993' ...
+    'young1994' 'pickering2002'};
+for i=1:7
+    AM(:,i) = pvl_relativeairmass(z,models{i});
+end
+figure
+plot(z,AM(:,1))
+hold all
+for i=2:7
+    plot(z,AM(:,i))
+end
+ylim([0 40])
+legend(models,'Location','NW')
+xlabel('Solar Zenith Angle (deg)')
+ylabel('Relative Air Mass')
+title('Relative Air Mass Model Comparisons','FontSize',14)
+
+
+%% References
+%
+% [1] Kasten, F., 1965. A New Table and Approximation Formula for the
+% Relative Optical Air Mass, Theo. and Appl. Climatology vol. 14(2), pp. 206-223.
+%
+% [2] A. T. Young and W. M. Irvine, 1967. Multicolor Photoelectric Photometry
+% of the Brighter Planets, The Astronomical Journal, vol. 72, pp. 945-950.
+%
+% [3] Kasten, F., Young, A., 1989. Revised optical air mass tables and
+% approximation formula, Applied Optics vol. 28(22), pp. 4735–4738.
+%
+% [4] Gueymard, C., 1993. Critical analysis and performance assessment of 
+% clear sky solar irradiance models using theoretical and measured data,
+% Solar Energy, vol. 51, pp. 121-138.
+%
+% [5] Young, A. T., 1994. AIR-MASS AND REFRACTION, Applied Optics, vol. 33, 
+% pp. 1108-1110.
+%
+% [6] Pickering, K. A., 2002. The Ancient Star Catalog. DIO, vol. 12.
+%
+%% See Also
+% <pvl_absoluteairmass_help.html |pvl_absoluteairmass|>, 
+% <pvl_ephemeris_help.html |pvl_ephemeris|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

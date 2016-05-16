@@ -1,0 +1,194 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_sapm</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_sapm_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_sapm</h1><!--introduction--><p>Sandia Array Performance Mode.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Example</a></li><li><a href="#7">References</a></li><li><a href="#9">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>Result = pvl_sapm(Module, Ee, celltemp)</tt></p><h2>Description<a name="2"></a></h2><p>The Sandia Array Performance Model (SAPM) [1] generates 5 points on a PV module's I-V curve: short circuit, open circuit, maximum power, and points halfway between 0 and Vmp and Vmp and Voc.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><tt>Module</tt> - a structure defining the SAPM performance parameters.</li><li><tt>Ee</tt> - The effective irradiance incident upon the module (suns).</li><li><tt>celltemp</tt> - The cell temperature (degrees C).</li></ul></div><p>The model coefficients that are required in the <tt>Module</tt> struct are:</p><div><ul><li><b><tt>Module.c</tt></b> - 1x8 vector with the C coefficients, i.e.,     Module.c(1) = C0, Module.c(2) = C1, etc.</li><li><b><tt>Module.Isc0</tt></b> - Short circuit current at reference condition (amps).</li><li><b><tt>Module.Imp0</tt></b> - Maximum power current at reference condition (amps).</li><li><b><tt>Module.Voc0</tt></b> - Open circuit voltage at references conditions (V).</li><li><b><tt>Module.Vmp0</tt></b> - Maximum power voltage at references conditions (V).</li><li><b><tt>Module.Ix0</tt></b> = Current, in amperes, of the point at 0.5*Voc at     reference conditions.</li><li><b><tt>Module.Ixx0</tt></b> = Current, in amperes, of the point at 0.5*(Voc0+Vmp0) at     reference conditions.</li><li><b><tt>Module.AlphaIsc</tt></b> - Short circuit current temperature coefficient at     reference condition (1/C).</li><li><b><tt>Module.AlphaImp</tt></b> - Maximum power current temperature coefficient at     reference condition (1/C).</li><li><b><tt>Module.BetaVoc</tt></b> - Open circuit voltage temperature coefficient at     reference condition (V/C).</li><li><b><tt>Module.mBetaVoc</tt></b> - Coefficient providing the irradiance dependence for     the BetaVoc temperature coefficient at reference irradiance (V/C).</li><li><b><tt>Module.BetaVmp</tt></b> - Maximum power voltage temperature coefficient at     reference condition.</li><li><b><tt>Module.mBetaVmp</tt></b> - Coefficient providing the irradiance dependence for     the BetaVmp temperature coefficient at reference irradiance (V/C).</li><li><b><tt>Module.n</tt></b> - Empirically determined "diode factor" (dimensionless).</li><li><b><tt>Module.Ns</tt></b> - Number of cells in series in a module's cell string(s).</li></ul></div><h2>Outputs<a name="4"></a></h2><div><ul><li><b><tt>Result</tt></b> - A structure with vectors of the same size as <tt>Ee</tt>:</li><li><b><tt>Result.Isc</tt></b> - Short circuit DC current (A).</li><li><b><tt>Result.Imp</tt></b> - Max power DC current (A).</li><li><b><tt>Result.Ix</tt></b> - DC current at a point halfway between O and Vmp (A).</li><li><b><tt>Result.Ixx</tt></b> - DC current at a point halfway between Vmp and Voc (A).</li><li><b><tt>Result.Voc</tt></b> - Open circuit DC voltage(V).</li><li><b><tt>Result.Vmp</tt></b> - Max power DC voltage (V).</li><li><b><tt>Result.Pmp</tt></b> - Max DC power (W).</li></ul></div><h2>Example<a name="5"></a></h2><p>This example shows the use of the Sandia PV Array Performance Model with a Canadian Solar 220 W module at ~1,000 W/m^2 and a cell temperature of 70 deg C.</p><pre class="codeinput">Module = pvl_sapmmoduledb(123,<span class="string">'SandiaModuleDatabase_20120925.xlsx'</span>,1)
+</pre><pre class="codeoutput">
+Module = 
+
+        name: 'Canadian Solar CS5P-220M'
+     vintage: 2009
+    material: 'c-Si'
+        area: 1.7010
+    AlphaIsc: 3.9700e-04
+    AlphaImp: 1.8100e-04
+        Isc0: 5.0911
+        Imp0: 4.5463
+        Voc0: 59.2608
+        Vmp0: 48.3156
+     BetaVoc: -0.2170
+     BetaVmp: -0.2355
+    mBetaVoc: 0
+    mBetaVmp: 0
+          Ns: 96
+          Np: 1
+        delT: 3
+          fd: 1
+           n: 1.4032
+         Ix0: 4.9760
+        Ixx0: 3.1880
+      a_wind: -3.4064
+      b_wind: -0.0842
+           c: [1.0128 -0.0128 0.2793 -7.2446 0.9964 0.0036 1.1554 -0.1554]
+           a: [-6.9304e-05 0.0017 -0.0158 0.0681 0.9284]
+           b: [-1.3590e-09 2.1120e-07 -1.2460e-05 3.1030e-04 -0.0024 1]
+
+</pre><pre class="codeinput">Ee = 1; <span class="comment">%suns</span>
+celltemp = 70; <span class="comment">% deg C</span>
+Result = pvl_sapm(Module, Ee, celltemp)
+</pre><pre class="codeoutput">
+Result = 
+
+    Isc: 5.1821
+    Imp: 4.5833
+    Voc: 49.4976
+    Vmp: 37.7186
+     Ix: 5.0649
+    Ixx: 3.2450
+    Pmp: 172.8766
+
+</pre><h2>References<a name="7"></a></h2><p>[1] King, D. et al, 2004, Sandia Photovoltaic Array Performance Model, SAND2004-3535, Sandia National Laboratories, Albuquerque, NM. Available at <a href="http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND-2004_PV-Performance-Array-Model.pdf"><tt>SAPM</tt></a></p><h2>See Also<a name="9"></a></h2><p><a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a>, <a href="pvl_sapmcelltemp_help.html"><tt>pvl_sapmcelltemp</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_sapm 
+% Sandia Array Performance Mode.
+%
+%% Syntax
+% |Result = pvl_sapm(Module, Ee, celltemp)|
+%
+%% Description
+% The Sandia Array Performance Model (SAPM) [1] generates 5 points on a PV
+% module's I-V curve: short circuit, open circuit, maximum power, and points
+% halfway between 0 and Vmp and Vmp and Voc. 
+%
+%% Inputs
+%
+% * |Module| - a structure defining the SAPM performance parameters.
+% * |Ee| - The effective irradiance incident upon the module (suns).
+% * |celltemp| - The cell temperature (degrees C).
+%
+% The model coefficients that are required in the |Module| struct are:
+%
+% * *|Module.c|* - 1x8 vector with the C coefficients, i.e., 
+%     Module.c(1) = C0, Module.c(2) = C1, etc.
+% * *|Module.Isc0|* - Short circuit current at reference condition (amps).
+% * *|Module.Imp0|* - Maximum power current at reference condition (amps).
+% * *|Module.Voc0|* - Open circuit voltage at references conditions (V).
+% * *|Module.Vmp0|* - Maximum power voltage at references conditions (V).
+% * *|Module.Ix0|* = Current, in amperes, of the point at 0.5*Voc at
+%     reference conditions. 
+% * *|Module.Ixx0|* = Current, in amperes, of the point at 0.5*(Voc0+Vmp0) at
+%     reference conditions. 
+% * *|Module.AlphaIsc|* - Short circuit current temperature coefficient at
+%     reference condition (1/C).
+% * *|Module.AlphaImp|* - Maximum power current temperature coefficient at
+%     reference condition (1/C).
+% * *|Module.BetaVoc|* - Open circuit voltage temperature coefficient at
+%     reference condition (V/C).
+% * *|Module.mBetaVoc|* - Coefficient providing the irradiance dependence for
+%     the BetaVoc temperature coefficient at reference irradiance (V/C).
+% * *|Module.BetaVmp|* - Maximum power voltage temperature coefficient at
+%     reference condition.
+% * *|Module.mBetaVmp|* - Coefficient providing the irradiance dependence for
+%     the BetaVmp temperature coefficient at reference irradiance (V/C).
+% * *|Module.n|* - Empirically determined "diode factor" (dimensionless).
+% * *|Module.Ns|* - Number of cells in series in a module's cell string(s).
+%
+%% Outputs
+%
+% * *|Result|* - A structure with vectors of the same size as |Ee|: 
+% * *|Result.Isc|* - Short circuit DC current (A).
+% * *|Result.Imp|* - Max power DC current (A).
+% * *|Result.Ix|* - DC current at a point halfway between O and Vmp (A). 
+% * *|Result.Ixx|* - DC current at a point halfway between Vmp and Voc (A).
+% * *|Result.Voc|* - Open circuit DC voltage(V).
+% * *|Result.Vmp|* - Max power DC voltage (V).
+% * *|Result.Pmp|* - Max DC power (W).
+% 
+%% Example
+% This example shows the use of the Sandia PV Array Performance Model with
+% a Canadian Solar 220 W module at ~1,000 W/m^2 and a cell temperature of
+% 70 deg C.
+Module = pvl_sapmmoduledb(123,'SandiaModuleDatabase_20120925.xlsx',1)
+%%
+Ee = 1; %suns
+celltemp = 70; % deg C
+Result = pvl_sapm(Module, Ee, celltemp)
+%% References
+%%
+% [1] King, D. et al, 2004, Sandia Photovoltaic Array Performance Model, SAND2004-3535,
+% Sandia National Laboratories, Albuquerque, NM. Available at
+% <http://energy.sandia.gov/wp/wp-content/gallery/uploads/SAND-2004_PV-Performance-Array-Model.pdf |SAPM|>
+%
+%% See Also 
+% <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|>, 
+% <pvl_sapmcelltemp_help.html |pvl_sapmcelltemp|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,149 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_clearsky_haurwitz</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_clearsky_haurwitz_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_clearsky_haurwitz</h1><!--introduction--><p>Determine clear sky GHI from Haurwitz model</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example</a></li><li><a href="#8">References</a></li><li><a href="#9">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[ClearSkyGHI]= pvl_clearsky_haurwitz(ApparentZenith)</tt></p><h2>Description<a name="2"></a></h2><p>Implements the Haurwitz clear sky model for global horizontal irradiance (GHI) as presented in [1, 2]. A report on clear sky models found the Haurwitz model to have the best performance of models which require only zenith angle [3].</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>ApparentZenith</tt></b> - The apparent (refraction corrected) sun zenith angle       in degrees.</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>ClearSkyGHI</tt></b> - the modeled global horizonal irradiance in W/m^2.</li></ul></div><p>Initial implementation of this algorithm by Matthew Reno (Sandia and Georgia Tech).</p><h2>Example<a name="7"></a></h2><pre class="codeinput">Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+<span class="comment">% Create 1-min time series for Jan 1, 2012</span>
+DN = datenum(2012, 6,1):1/(24*60):datenum(2012, 6, 1, 23, 59, 59);
+Time = pvl_maketimestruct(DN, -7);
+[SunAz, SunEl, ApparentSunEl, SolarTime]=pvl_ephemeris(Time, Location);
+ApparentZenith = 90-ApparentSunEl;
+ClearSkyGHI = pvl_clearsky_haurwitz(ApparentZenith);
+dHr = Time.hour+Time.minute./60+Time.second./3600; <span class="comment">% Calculate decimal hours for plotting</span>
+figure
+plot(dHr,ClearSkyGHI)
+title(<span class="string">'Clear Sky Irradiance on June 1, 2012 in Albuquerque, NM'</span>,<span class="string">'FontSize'</span>,14)
+xlabel(<span class="string">'Hour of the Day (hr)'</span>)
+ylabel(<span class="string">'GHI (W/m^2)'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_clearsky_haurwitz_help_01.png" alt=""> <h2>References<a name="8"></a></h2><div><ul><li>[1] B. Haurwitz, "Insolation in Relation to Cloudiness and Cloud     Density," Journal of Meteorology, vol. 2, pp. 154-166, 1945.</li></ul></div><div><ul><li>[2] B. Haurwitz, "Insolation in Relation to Cloud Type," Journal of     Meteorology, vol. 3, pp. 123-124, 1946.</li></ul></div><div><ul><li>[3] M. Reno, C. Hansen, and J. Stein, "Global Horizontal Irradiance Clear     Sky Models: Implementation and Analysis", Sandia National     Laboratories, SAND2012-2389, 2012.</li></ul></div><h2>See also<a name="9"></a></h2><p><a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a> , <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a> , <a href="pvl_spa_help.html"><tt>pvl_spa</tt></a> , <a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a> , <a href="pvl_clearsky_ineichen_help.html"><tt>pvl_clearsky_ineichen</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_clearsky_haurwitz 
+% Determine clear sky GHI from Haurwitz model
+%
+%% Syntax
+% |[ClearSkyGHI]= pvl_clearsky_haurwitz(ApparentZenith)|
+%   
+%% Description
+% Implements the Haurwitz clear sky model for global horizontal
+% irradiance (GHI) as presented in [1, 2]. A report on clear
+% sky models found the Haurwitz model to have the best performance of
+% models which require only zenith angle [3].
+%
+%% Inputs
+%%
+% * *|ApparentZenith|* - The apparent (refraction corrected) sun zenith angle
+%       in degrees.
+%
+%% Outputs
+%%
+% * *|ClearSkyGHI|* - the modeled global horizonal irradiance in W/m^2.
+%
+% Initial implementation of this algorithm by Matthew Reno (Sandia and Georgia Tech).
+%
+%% Example
+%
+Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+% Create 1-min time series for Jan 1, 2012
+DN = datenum(2012, 6,1):1/(24*60):datenum(2012, 6, 1, 23, 59, 59); 
+Time = pvl_maketimestruct(DN, -7);
+[SunAz, SunEl, ApparentSunEl, SolarTime]=pvl_ephemeris(Time, Location);
+ApparentZenith = 90-ApparentSunEl;
+ClearSkyGHI = pvl_clearsky_haurwitz(ApparentZenith);
+dHr = Time.hour+Time.minute./60+Time.second./3600; % Calculate decimal hours for plotting
+figure
+plot(dHr,ClearSkyGHI)
+title('Clear Sky Irradiance on June 1, 2012 in Albuquerque, NM','FontSize',14)
+xlabel('Hour of the Day (hr)')
+ylabel('GHI (W/m^2)')
+%% References
+%
+% * [1] B. Haurwitz, "Insolation in Relation to Cloudiness and Cloud 
+%     Density," Journal of Meteorology, vol. 2, pp. 154-166, 1945.
+%
+% * [2] B. Haurwitz, "Insolation in Relation to Cloud Type," Journal of 
+%     Meteorology, vol. 3, pp. 123-124, 1946.
+%
+% * [3] M. Reno, C. Hansen, and J. Stein, "Global Horizontal Irradiance Clear
+%     Sky Models: Implementation and Analysis", Sandia National
+%     Laboratories, SAND2012-2389, 2012.
+%
+%% See also 
+% <pvl_maketimestruct_help.html |pvl_maketimestruct|> ,  
+% <pvl_ephemeris_help.html |pvl_ephemeris|> ,
+% <pvl_spa_help.html |pvl_spa|> ,
+% <pvl_makelocationstruct_help.html |pvl_makelocationstruct|> ,
+% <pvl_clearsky_ineichen_help.html |pvl_clearsky_ineichen|> 
+
+%%
+% Copyright 2014 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

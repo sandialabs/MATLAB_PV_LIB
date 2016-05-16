@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_FSspeccorr</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_FSspeccorr_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_FSspeccorr</h1><!--introduction--><p>Spectral mismatch modifier based on precipitable water and  absolute (pressure corrected) airmass.</p><p>Function <tt>pvl_FSspeccorr</tt> was developed by Mitchell Lee and Alex Panchula, at First Solar, 2015.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Output</a></li><li><a href="#5">Example</a></li><li><a href="#6">References</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>M = pvl_FSspeccorr(Pwat, AMa, pvModType)</tt></li><li><tt>M = pvl_FSspeccorr(Pwat, AMa, custCoeff)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p>Estimates a spectral mismatch modifier M representing the effect on module short circuit current of variation in the spectral irradiance. M is estimated from absolute (pressure currected) air mass, AMa, and precipitable water, Pwat, using the following function:</p><p><img src="pvl_FSspeccorr_help_eq02090370473812611693.png" alt="$$M = c_1 + c_2 \times AMa  + c_3 \times Pwat  + c_4 \times AMa^{0.5} + c_5 \times Pwat^{0.5} + c_6 \times {\frac{AMa}{Pwat}}$$"></p><p>Default coefficients are determined for several cell types with known quantum efficiency curves, by using the Simple Model of the Atmospheric Radiative Transfer of Sunshine (SMARTS) [1]. Using SMARTS, spectrums are simulated with all combinations of AMa and Pwat where:</p><div><ul><li><img src="pvl_FSspeccorr_help_eq11278647505979866591.png" alt="$0.5 cm \le Pwat \le 5 cm$"></li><li><img src="pvl_FSspeccorr_help_eq10053635261503091674.png" alt="$0.8 \le AMa \le 4.75$">, i.e., pressure of 800 mbar and <img src="pvl_FSspeccorr_help_eq09245358938302939534.png" alt="$1.01 \le AM \le 6$"></li><li>Spectral range is limited to that of CMP11 (280 nm to 2800 nm)</li><li>Spectrum simulated on a plane normal to the sun</li><li>All other parameters fixed at G173 standard</li></ul></div><p>From these simulated spectra, M is calculated using the known quantum efficiency curves. Multiple linear regression is then applied to fit Eq. 1 to determine the coefficients for each module.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Pwat</tt></b> - atmospheric precipitable water (cm). Can be       entered as a vector.</li><li><b><tt>AMa</tt></b> - absolute (pressure corrected) airmass, as a vector of the same       length as Pwat</li><li><b><tt>pvModType</tt></b> - a string specifying a cell type. Can be lower or upper case       letters.  Admits values of 'cdte', 'monosi'='xsi', 'multisi'='polysi'.       If provided, this input       selects coefficients for the following default modules:           'cdte' - coefficients for First Solar Series 4-2 CdTe modules.           'monosi','xsi' - coefficients for First Solar TetraSun modules.           'multisi','polysi' - coefficients for multi-crystalline silicon               modules. The module used to calculate the spectral               correction coefficients corresponds to the Mult-crystalline               silicon Manufacturer 2 Model C from [2].</li><li><b><tt>custCoeff</tt></b> - allows for entry of user defined spectral correction       coefficients. Coefficients must be entered as a numeric row or       column vector of length 6. Derivation of coefficients requires use       of SMARTS and PV module quantum efficiency curve. Useful for modeling       PV module types which are not included as defaults, or to fine tune       the spectral correction to a particular mono-Si, multi-Si, or CdTe       PV module. Note that the parameters for modules with very       similar QE should be similar, in most cases limiting the need for       module specific coefficients.</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>M</tt></b> - spectral mismatch factor (unitless) which is can be multiplied       with broadband irradiance reaching a module's cells to estimate       effective irradiance, i.e., the irradiance that is converted       to electrical current.</li></ul></div><h2>Example<a name="5"></a></h2><pre class="codeinput">Pwat = pvl_calcPwat(25,70) <span class="comment">% compute precipitable water at STC temperature of 25C and 70% RH</span>
+AMa = 1.2:0.1:5;  <span class="comment">% a range for absolute air mass</span>
+MxSi = pvl_FSspeccorr(Pwat, AMa, <span class="string">'xSi'</span>);
+MCdTe = pvl_FSspeccorr(Pwat, AMa, <span class="string">'CdTe'</span>);
+
+figure
+plot(AMa,MxSi,<span class="string">'b.'</span>)
+hold <span class="string">all</span>
+plot(AMa,MCdTe,<span class="string">'r.'</span>)
+xlabel(<span class="string">'Air mass'</span>)
+ylabel(<span class="string">'Spectral mismatch modifier'</span>)
+legend(<span class="string">'x-Si'</span>,<span class="string">'CdTe'</span>,<span class="string">'Location'</span>,<span class="string">'South'</span>)
+</pre><pre class="codeoutput">
+Pwat =
+
+    3.5090
+
+</pre><img vspace="5" hspace="5" src="pvl_FSspeccorr_help_01.png" alt=""> <h2>References<a name="6"></a></h2><div><ul><li>[1]   Gueymard, Christian. SMARTS2: a simple model of the atmospheric           radiative transfer of sunshine: algorithms and performance           assessment. Cocoa, FL: Florida Solar Energy Center, 1995.</li></ul></div><div><ul><li>[2]   Marion, William F., et al. User's Manual for Data for Validating           Models for PV Module Performance. National Renewable Energy Laboratory, 2014.           <a href="http://www.nrel.gov/docs/fy14osti/61610.pdf">http://www.nrel.gov/docs/fy14osti/61610.pdf</a></li></ul></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_FSspeccorr
+% Spectral mismatch modifier based on precipitable water and 
+%  absolute (pressure corrected) airmass.
+%
+% Function |pvl_FSspeccorr| was developed by Mitchell Lee and Alex Panchula,
+% at First Solar, 2015.
+
+%% Syntax
+% * |M = pvl_FSspeccorr(Pwat, AMa, pvModType)|
+% * |M = pvl_FSspeccorr(Pwat, AMa, custCoeff)|
+%
+%% Description
+% Estimates a spectral mismatch modifier M representing the effect on 
+% module short circuit current of variation in the spectral irradiance.  
+% M is estimated from absolute (pressure currected) air mass, AMa, and
+% precipitable water, Pwat, using the following function:
+%
+% $$M = c_1 + c_2 \times AMa  + c_3 \times Pwat  + c_4 \times AMa^{0.5} + c_5 \times Pwat^{0.5} + c_6 \times {\frac{AMa}{Pwat}}$$
+%
+% Default coefficients are determined for several cell types with 
+% known quantum efficiency curves, by using the Simple Model of the 
+% Atmospheric Radiative Transfer of Sunshine (SMARTS) [1]. 
+% Using SMARTS, spectrums are simulated with all combinations of AMa 
+% and Pwat where:
+%
+% * $0.5 cm \le Pwat \le 5 cm$
+% * $0.8 \le AMa \le 4.75$, i.e., pressure of 800 mbar and $1.01 \le AM \le 6$
+% * Spectral range is limited to that of CMP11 (280 nm to 2800 nm)
+% * Spectrum simulated on a plane normal to the sun
+% * All other parameters fixed at G173 standard
+%
+% From these simulated spectra, M is calculated using the known quantum 
+% efficiency curves. Multiple linear regression is then applied to fit 
+% Eq. 1 to determine the coefficients for each module.
+%
+%
+%% Inputs
+% * *|Pwat|* - atmospheric precipitable water (cm). Can be
+%       entered as a vector.
+% * *|AMa|* - absolute (pressure corrected) airmass, as a vector of the same 
+%       length as Pwat
+% * *|pvModType|* - a string specifying a cell type. Can be lower or upper case 
+%       letters.  Admits values of 'cdte', 'monosi'='xsi', 'multisi'='polysi'.
+%       If provided, this input
+%       selects coefficients for the following default modules:
+%           'cdte' - coefficients for First Solar Series 4-2 CdTe modules. 
+%           'monosi','xsi' - coefficients for First Solar TetraSun modules.
+%           'multisi','polysi' - coefficients for multi-crystalline silicon 
+%               modules. The module used to calculate the spectral
+%               correction coefficients corresponds to the Mult-crystalline 
+%               silicon Manufacturer 2 Model C from [2].
+% * *|custCoeff|* - allows for entry of user defined spectral correction
+%       coefficients. Coefficients must be entered as a numeric row or 
+%       column vector of length 6. Derivation of coefficients requires use 
+%       of SMARTS and PV module quantum efficiency curve. Useful for modeling 
+%       PV module types which are not included as defaults, or to fine tune
+%       the spectral correction to a particular mono-Si, multi-Si, or CdTe 
+%       PV module. Note that the parameters for modules with very
+%       similar QE should be similar, in most cases limiting the need for
+%       module specific coefficients.
+%
+%
+%% Output
+% * *|M|* - spectral mismatch factor (unitless) which is can be multiplied
+%       with broadband irradiance reaching a module's cells to estimate
+%       effective irradiance, i.e., the irradiance that is converted
+%       to electrical current.
+%
+%% Example
+Pwat = pvl_calcPwat(25,70) % compute precipitable water at STC temperature of 25C and 70% RH
+AMa = 1.2:0.1:5;  % a range for absolute air mass
+MxSi = pvl_FSspeccorr(Pwat, AMa, 'xSi');
+MCdTe = pvl_FSspeccorr(Pwat, AMa, 'CdTe');
+
+figure
+plot(AMa,MxSi,'b.')
+hold all
+plot(AMa,MCdTe,'r.')
+xlabel('Air mass')
+ylabel('Spectral mismatch modifier')
+legend('x-Si','CdTe','Location','South')
+
+%% References
+% * [1]   Gueymard, Christian. SMARTS2: a simple model of the atmospheric 
+%           radiative transfer of sunshine: algorithms and performance 
+%           assessment. Cocoa, FL: Florida Solar Energy Center, 1995.
+%
+% * [2]   Marion, William F., et al. User's Manual for Data for Validating 
+%           Models for PV Module Performance. National Renewable Energy Laboratory, 2014.
+%           http://www.nrel.gov/docs/fy14osti/61610.pdf
+
+
+
+##### SOURCE END #####
+--></body></html>

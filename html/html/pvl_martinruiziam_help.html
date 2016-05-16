@@ -1,0 +1,147 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_martinruiziam</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_martinruiziam_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_martinruiziam</h1><!--introduction--><p>Determine the incidence angle modifier using the Martin and Ruiz model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description:</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Output</a></li><li><a href="#6">Example</a></li><li><a href="#7">References</a></li><li><a href="#8">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>IAM = pvl_martinruiziam(ar, theta)</tt></li></ul></div><h2>Description:<a name="2"></a></h2><p><tt>pvl_martinruiziam</tt> calculates the incidence angle modifier (IAM) as described in [1] and clarified in [2].  The incidence angle modifier quantifies the fraction of direct irradiance incidence on a module's surface that is not reflected away. The incidence angle modifier is computed as</p><p><img src="pvl_martinruiziam_help_eq16289834245460238081.png" alt="$$IAM = {\frac{1 - \exp(-\cos(\theta /a_r))} {1 - \exp(-1/a_r)}} $$">,</p><p>Thus <img src="pvl_martinruiziam_help_eq16601654868252388967.png" alt="$IAM = 1$"> at <img src="pvl_martinruiziam_help_eq17216354815098163965.png" alt="$\theta = 0$">, and <img src="pvl_martinruiziam_help_eq16042386296365760709.png" alt="$IAM = 0$"> at <img src="pvl_martinruiziam_help_eq10487326348908273642.png" alt="$\theta = 90$">.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>ar</tt></b> - The angular losses coefficient described in equation 3 of [1].     <tt>ar</tt> is an empirical dimensionless parameter with values     generally on the order of 0.08 to 0.25 for flat-plate PV modules.     <tt>ar</tt> must be a numeric scalar or vector with all values &gt; 0. If <tt>ar</tt>     is a vector, it must be the same size as all other input vectors.</li><li><b><tt>theta</tt></b> - The angle of incidence between the module normal vector and the     sun vector in degrees. <tt>theta</tt> must be a numeric scalar or vector.     For any values of <tt>theta</tt> where <tt>abs(theta)&gt;90</tt>, <tt>IAM</tt> is set to 0. For any     values of <tt>theta</tt> where -90 &lt; <tt>theta</tt> &lt; 0, <tt>theta</tt> is set to <tt>abs(theta)</tt> and     evaluated. A warning will be generated if <tt>any(theta&lt;0 or theta&gt;90)</tt>.</li></ul></div><h2>Output<a name="5"></a></h2><div><ul><li><b><tt>IAM</tt></b> - The incident angle modifier.  <tt>IAM</tt> is a     column vector with the same number of elements as the largest input     vector.</li></ul></div><h2>Example<a name="6"></a></h2><p>This example plots the IAM for glass over a range of incident angles.</p><pre class="codeinput">ar = 0.15;       <span class="comment">% empirical losses coefficient of 0.15</span>
+theta = 0:90;    <span class="comment">%incident angle in degrees</span>
+IAM = pvl_martinruiziam(ar, theta);
+figure
+plot(theta,IAM)
+xlabel(<span class="string">'Incident Angle (deg)'</span>)
+ylabel(<span class="string">'IAM'</span>)
+title(<span class="string">'Martin and Ruiz IAM Model Example'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_martinruiziam_help_01.png" alt=""> <h2>References<a name="7"></a></h2><p>[1] N. Martin and J. M. Ruiz, 2001. Calculation of the PV modules angular     losses under field conditions by means of an analytical model, Solar     Energy Materials &amp; Solar Cells, vol. 70, pp. 25-38.</p><p>[2] N. Martin and J. M. Ruiz, 2013. Corrigendum to 'Calculation of the PV     modules angular losses under field conditions by means of an     analytical model', Solar Energy Materials &amp; Solar Cells, vol. 110,     pp. 154.</p><h2>See also<a name="8"></a></h2><p><a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a> , <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a> , <a href="pvl_spa_help.html"><tt>pvl_spa</tt></a> , <a href="pvl_ashraeiam_help.html"><tt>pvl_ashraeiam</tt></a> , <a href="pvl_physicaliam_help.html"><tt>pvl_physicaliam</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_martinruiziam 
+% Determine the incidence angle modifier using the Martin and Ruiz model.
+%
+%% Syntax
+% * |IAM = pvl_martinruiziam(ar, theta)|
+%
+%% Description:
+% |pvl_martinruiziam| calculates the incidence angle modifier (IAM) 
+% as described in [1] and clarified in [2].  The incidence angle
+% modifier quantifies the fraction of direct irradiance incidence on a
+% module's surface that is not reflected away.
+% The incidence angle modifier is computed as 
+%
+% $$IAM = {\frac{1 - \exp(-\cos(\theta /a_r))} {1 - \exp(-1/a_r)}} $$,
+%
+% Thus $IAM = 1$ at $\theta = 0$, and $IAM = 0$ at $\theta = 90$.
+%
+%
+%% Inputs
+%%
+% * *|ar|* - The angular losses coefficient described in equation 3 of [1].
+%     |ar| is an empirical dimensionless parameter with values 
+%     generally on the order of 0.08 to 0.25 for flat-plate PV modules.
+%     |ar| must be a numeric scalar or vector with all values > 0. If |ar|
+%     is a vector, it must be the same size as all other input vectors.
+% * *|theta|* - The angle of incidence between the module normal vector and the
+%     sun vector in degrees. |theta| must be a numeric scalar or vector.
+%     For any values of |theta| where |abs(theta)>90|, |IAM| is set to 0. For any
+%     values of |theta| where -90 < |theta| < 0, |theta| is set to |abs(theta)| and
+%     evaluated. A warning will be generated if |any(theta<0 or theta>90)|.
+% 
+%% Output
+% * *|IAM|* - The incident angle modifier.  |IAM| is a
+%     column vector with the same number of elements as the largest input
+%     vector.
+%
+%% Example
+% This example plots the IAM for glass over a range of incident angles.
+ar = 0.15;       % empirical losses coefficient of 0.15
+theta = 0:90;    %incident angle in degrees
+IAM = pvl_martinruiziam(ar, theta);
+figure
+plot(theta,IAM)
+xlabel('Incident Angle (deg)')
+ylabel('IAM')
+title('Martin and Ruiz IAM Model Example')
+%% References
+%
+% [1] N. Martin and J. M. Ruiz, 2001. Calculation of the PV modules angular
+%     losses under field conditions by means of an analytical model, Solar
+%     Energy Materials & Solar Cells, vol. 70, pp. 25-38.
+%
+% [2] N. Martin and J. M. Ruiz, 2013. Corrigendum to 'Calculation of the PV
+%     modules angular losses under field conditions by means of an
+%     analytical model', Solar Energy Materials & Solar Cells, vol. 110,
+%     pp. 154.
+%
+%% See also 
+% <pvl_getaoi_help.html |pvl_getaoi|> ,           
+% <pvl_ephemeris_help.html |pvl_ephemeris|> ,
+% <pvl_spa_help.html |pvl_spa|> ,
+% <pvl_ashraeiam_help.html |pvl_ashraeiam|> ,
+% <pvl_physicaliam_help.html |pvl_physicaliam|> 
+
+%%
+% Copyright 2014 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

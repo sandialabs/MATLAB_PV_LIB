@@ -1,0 +1,235 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_spa</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_spa_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_spa</h1><!--introduction--><p>Calculates the position of the sun given time, location, and optionally pressure and temperature.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description</a></li><li><a href="#4">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#6">Example</a></li><li><a href="#8">References</a></li><li><a href="#9">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location)</tt></p><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure)</tt></p><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure,   Temperature)</tt></p><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure,   Temperature, delta_t)</tt></p><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, 'temperature',   Temperature)</tt></p><p><tt>[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, 'delta_t',   delta_t)</tt></p><h2>Description<a name="3"></a></h2><p><tt>pvl_spa</tt> implements a vectorized version of NREL's <a href="http://rredc.nrel.gov/solar/codesandalgorithms/spa/">Solar Position Algorithm</a> [1].  The SPA algorithm calculates the solar zenith and azimuth angles in for any time period between the year -2000 to 6000, with uncertainties of +/- 0.0003 degrees based on the date, time, and location on Earth. This implementation is different and distinct from NREL's copyrighted spa.c (C code).</p><div><ul><li><tt>[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location)</tt> -      Uses the <tt>Time</tt> and <tt>Location</tt> structs to give sun positions with      the pressure assumed to be 1 atm (101325 Pa) and the temperature      assumed to be 12 C.</li><li><tt>[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, Pressure)</tt> -      Uses the <tt>Time</tt> and <tt>Location</tt> structs with <tt>Pressure</tt> to      determine sun positions. The temperature is assumed to be 12C.      <tt>Pressure</tt> must be given in Pascals (1 atm = 101325 Pa). If site pressure      is unknown but site altitude is known, pressure can be estimated using <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a>.</li><li><tt>[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, Pressure, Temperature)</tt> - Uses the <tt>Time</tt> and <tt>Location</tt> structs with the <tt>Pressure</tt> and      <tt>Temperature</tt> to determine sun positions. <tt>Pressure</tt> must be given in      Pascals, and <tt>Temperature</tt> must be given in C.</li><li><tt>[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, 'temperature', Temperature)</tt> - 'temperature', 'pressure', and 'delta_t' may also be passed      in any order using parameter-value pairs.</li></ul></div><h2>Inputs<a name="4"></a></h2><p><b><tt>Time</tt></b> is a struct with the following elements, note that all elements     can be column vectors, but they must all be the same length.</p><div><ul><li><b><tt>Time.year</tt></b> = The year in the gregorian calendar.</li><li><b><tt>Time.month</tt></b> = the month of the year (January = 1 to December = 12).</li><li><b><tt>Time.day</tt></b> = the day of the month.</li><li><b><tt>Time.hour</tt></b> = the hour of the day.</li><li><b><tt>Time.minute</tt></b> = the minute of the hour.</li><li><b><tt>Time.second</tt></b> = the second of the minute.</li><li><b><tt>Time.UTCOffset</tt></b> = the UTC offset code, using the convention     that a positive UTC offset is for time zones east of the prime meridian     (e.g. EST = -5).</li></ul></div><p><b><tt>Location</tt></b> is a struct with the following three elements:</p><div><ul><li><b><tt>Location.latitude</tt></b> = vector or scalar latitude in decimal degrees (positive is     northern hemisphere).</li><li><b><tt>Location.longitude</tt></b> = vector or scalar longitude in decimal degrees (positive is     east of prime meridian).</li><li><b><tt>Location.altitude</tt></b> = an optional component of the <tt>Location</tt> struct, not     used in the SPA code directly, but it may be used to calculate     standard site pressure (see <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a>).</li></ul></div><p><b><tt>Pressure</tt></b> - site pressure in Pascals. This value is optional, but if it      is omitted, the default value 101325 Pa (sea level standard      pressure) is used.</p><p><b><tt>Temperature</tt></b> - site temperature in C. This input is optional, and if     omitted, a value of 12C is used.</p><p><b><tt>delta_t</tt></b> - The current difference, in seconds, between international atomic time      (TAI) and UT1. This value is obtained by observation (see [2]). If      omitted, the default value is 66.3 + 0.6175*(<tt>year</tt> - 2012). This      default prediction can be changed as necessary.</p><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>SunAz</tt></b> = Azimuth of the sun in decimal degrees from North. 0 = North to 270 = West.</li><li><b><tt>SunEl</tt></b> = Actual elevation (not accounting for refraction)of the sun     in decimal degrees, 0 = on horizon. The complement of the true zenith     Angle.</li><li><b><tt>ApparentSunEl</tt></b> = Apparent sun elevation accounting for atmospheric     refraction. This is the complement of the apparent zenith angle.</li></ul></div><h2>Example<a name="6"></a></h2><p>Plot apparent sun elevation angle for Albuquerque, NM for Jan 1, 2012 and compare to values calculated using <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a> This example uses the function <a href="pvl_maketimestruc_help.html"><tt>pvl_maketimestruct</tt></a></p><pre class="codeinput">Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+<span class="comment">% Create 1-min time series for Jan 1, 2012</span>
+DN = datenum(2012, 1,1):1/(24*60):datenum(2012, 1, 1, 23, 59, 59);
+Time = pvl_maketimestruct(DN, -7);
+[SunAz, SunEl, ApparentSunEl, SolarTime]=pvl_ephemeris(Time, Location);
+[SunAz1, SunEl1, ApparentSunEl1]=pvl_spa(Time, Location);
+dHr = Time.hour+Time.minute./60+Time.second./3600; <span class="comment">% Calculate decimal hours for plotting</span>
+figure
+plot(dHr,ApparentSunEl)
+hold <span class="string">all</span>
+plot(dHr,ApparentSunEl1)
+legend(<span class="string">'ephemeris'</span>,<span class="string">'spa'</span>)
+title(<span class="string">'Solar Elevation Angle on Jan 1, 2012 in Albuquerque, NM'</span>,<span class="string">'FontSize'</span>,14)
+xlabel(<span class="string">'Hour of the Day (hr)'</span>)
+ylabel(<span class="string">'Solar Elevation Angle (deg)'</span>)
+dif = ApparentSunEl1-ApparentSunEl;
+</pre><img vspace="5" hspace="5" src="pvl_spa_help_01.png" alt=""> <pre class="codeinput">figure
+hist(dif,100)
+title({<span class="string">'Differences Between pvl\_ephemeris and pvl\_spa'</span>;<span class="string">'Albuquerque, NM Jan 1, 2012)'</span>},<span class="string">'FontSize'</span>,14)
+xlabel(<span class="string">'Sun Elevation Differences (degrees)'</span>)
+ylabel(<span class="string">'frequency'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_spa_help_02.png" alt=""> <h2>References<a name="8"></a></h2><p>[1] Reda, I. and Andreas, A. Solar Position Algorithm for Solar       Radiaiton Applications. NREL Report No. TP-560-34302. Revised       January 2008. <a href="http://www.nrel.gov/docs/fy08osti/34302.pdf">Web Link</a></p><p>[2] DeltaT projections and current values from US Naval Observatory,       <a href="http://asa.usno.navy.mil/SecK/DeltaT.html">Web link</a></p><h2>See also<a name="9"></a></h2><p><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>, <a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a>, <a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a>, <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_spa
+% Calculates the position of the sun given time, location, and optionally
+% pressure and temperature.
+%
+%% Syntax
+%%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location)|
+%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure)|
+%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure,
+%   Temperature)|
+%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, Pressure,
+%   Temperature, delta_t)|
+%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, 'temperature',
+%   Temperature)|
+%
+% |[SunAz, SunEl, ApparentSunEl]=pvl_spa(Time, Location, 'delta_t',
+%   delta_t)|
+%
+%% Description  
+% |pvl_spa| implements a vectorized version of NREL's <http://rredc.nrel.gov/solar/codesandalgorithms/spa/ 
+% Solar Position Algorithm> [1].  The SPA algorithm calculates the solar zenith and azimuth 
+% angles in for any time period between the year -2000 to 6000, with uncertainties of +/- 0.0003 
+% degrees based on the date, time, and location on Earth. This implementation
+% is different and distinct from NREL's copyrighted spa.c (C code).
+%
+% * |[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location)| - 
+%      Uses the |Time| and |Location| structs to give sun positions with
+%      the pressure assumed to be 1 atm (101325 Pa) and the temperature
+%      assumed to be 12 C.
+% * |[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, Pressure)| - 
+%      Uses the |Time| and |Location| structs with |Pressure| to
+%      determine sun positions. The temperature is assumed to be 12C.
+%      |Pressure| must be given in Pascals (1 atm = 101325 Pa). If site pressure
+%      is unknown but site altitude is known, pressure can be estimated using <pvl_alt2pres_help.html |pvl_alt2pres|>.
+% * |[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, Pressure,
+% Temperature)| - Uses the |Time| and |Location| structs with the |Pressure| and
+%      |Temperature| to determine sun positions. |Pressure| must be given in
+%      Pascals, and |Temperature| must be given in C.
+% * |[SunAz, SunEl, ApparentSunEl] = pvl_spa(Time, Location, 'temperature',
+% Temperature)| - 'temperature', 'pressure', and 'delta_t' may also be passed 
+%      in any order using parameter-value pairs.
+%
+%% Inputs
+% *|Time|* is a struct with the following elements, note that all elements
+%     can be column vectors, but they must all be the same length.
+%
+% * *|Time.year|* = The year in the gregorian calendar.
+% * *|Time.month|* = the month of the year (January = 1 to December = 12).
+% * *|Time.day|* = the day of the month.
+% * *|Time.hour|* = the hour of the day.
+% * *|Time.minute|* = the minute of the hour.
+% * *|Time.second|* = the second of the minute.
+% * *|Time.UTCOffset|* = the UTC offset code, using the convention
+%     that a positive UTC offset is for time zones east of the prime meridian
+%     (e.g. EST = -5).
+%
+% *|Location|* is a struct with the following three elements:
+%
+% * *|Location.latitude|* = vector or scalar latitude in decimal degrees (positive is
+%     northern hemisphere).
+% * *|Location.longitude|* = vector or scalar longitude in decimal degrees (positive is 
+%     east of prime meridian).
+% * *|Location.altitude|* = an optional component of the |Location| struct, not
+%     used in the SPA code directly, but it may be used to calculate
+%     standard site pressure (see <pvl_alt2pres_help.html |pvl_alt2pres|>).
+%
+% *|Pressure|* - site pressure in Pascals. This value is optional, but if it
+%      is omitted, the default value 101325 Pa (sea level standard
+%      pressure) is used.
+%
+% *|Temperature|* - site temperature in C. This input is optional, and if
+%     omitted, a value of 12C is used.
+%
+% *|delta_t|* - The current difference, in seconds, between international atomic time
+%      (TAI) and UT1. This value is obtained by observation (see [2]). If
+%      omitted, the default value is 66.3 + 0.6175*(|year| - 2012). This
+%      default prediction can be changed as necessary.
+% 
+%% Outputs
+% * *|SunAz|* = Azimuth of the sun in decimal degrees from North. 0 = North
+% to 270 = West.
+% * *|SunEl|* = Actual elevation (not accounting for refraction)of the sun 
+%     in decimal degrees, 0 = on horizon. The complement of the true zenith
+%     Angle.
+% * *|ApparentSunEl|* = Apparent sun elevation accounting for atmospheric 
+%     refraction. This is the complement of the apparent zenith angle.
+%
+%% Example
+% Plot apparent sun elevation angle for Albuquerque, NM for Jan 1, 2012 and
+% compare to values calculated using <pvl_ephemeris_help.html
+% |pvl_ephemeris|>
+% This example uses the function <pvl_maketimestruc_help.html
+% |pvl_maketimestruct|>
+Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+% Create 1-min time series for Jan 1, 2012
+DN = datenum(2012, 1,1):1/(24*60):datenum(2012, 1, 1, 23, 59, 59); 
+Time = pvl_maketimestruct(DN, -7);
+[SunAz, SunEl, ApparentSunEl, SolarTime]=pvl_ephemeris(Time, Location);
+[SunAz1, SunEl1, ApparentSunEl1]=pvl_spa(Time, Location);
+dHr = Time.hour+Time.minute./60+Time.second./3600; % Calculate decimal hours for plotting
+figure
+plot(dHr,ApparentSunEl)
+hold all
+plot(dHr,ApparentSunEl1)
+legend('ephemeris','spa')
+title('Solar Elevation Angle on Jan 1, 2012 in Albuquerque, NM','FontSize',14)
+xlabel('Hour of the Day (hr)')
+ylabel('Solar Elevation Angle (deg)')
+dif = ApparentSunEl1-ApparentSunEl;
+%%
+figure
+hist(dif,100)
+title({'Differences Between pvl\_ephemeris and pvl\_spa';'Albuquerque, NM Jan 1, 2012)'},'FontSize',14)
+xlabel('Sun Elevation Differences (degrees)')
+ylabel('frequency')
+
+%% References
+% [1] Reda, I. and Andreas, A. Solar Position Algorithm for Solar
+%       Radiaiton Applications. NREL Report No. TP-560-34302. Revised
+%       January 2008. <http://www.nrel.gov/docs/fy08osti/34302.pdf Web Link>
+%
+% [2] DeltaT projections and current values from US Naval Observatory,
+%       <http://asa.usno.navy.mil/SecK/DeltaT.html Web link>
+%
+%% See also 
+% <pvl_ephemeris_help.html |pvl_ephemeris|>, 
+% <pvl_maketimestruct_help.html |pvl_maketimestruct|>,  
+% <pvl_makelocationstruct_help.html |pvl_makelocationstruct|>,  
+% <pvl_alt2pres_help.html |pvl_alt2pres|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+
+##### SOURCE END #####
+--></body></html>

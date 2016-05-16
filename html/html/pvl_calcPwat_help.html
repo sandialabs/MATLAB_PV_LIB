@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_calcPwat</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-02-10"><meta name="DC.source" content="pvl_calcPwat_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_calcPwat</h1><!--introduction--><p>Calculates precipitable water (cm) from ambient air temperature (C) and relatively humidity (%).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Output</a></li><li><a href="#5">Example</a></li><li><a href="#6">Reference:</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>Pwat = pvl_calcPwat(T,RH)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p>Calculates precipitable water (cm) from ambient air temperature (C) and relatively humidity (%) using an empirical model [1]. The model was developed by expanding Eq. 1 in [2]:</p><p><img src="pvl_calcPwat_help_eq18218070160175862411.png" alt="$$w = 0.1 H_v \rho_v$$"></p><p>using Eq. 2 in [2]</p><p><img src="pvl_calcPwat_help_eq03123250291799830806.png" alt="$$\rho_v = 216.7 {\frac{RH}{T}} e_s$$"></p><p><img src="pvl_calcPwat_help_eq16906600670339454682.png" alt="$H_v$"> is the apparant water vapor scale height (km). The expression for <img src="pvl_calcPwat_help_eq16906600670339454682.png" alt="$H_v$"> is Eq. 4 in [2]:</p><p><img src="pvl_calcPwat_help_eq03834184376835926535.png" alt="$$H_v = 0.4976 + 1.5265{\frac{T}{273.15}} + \exp(13.6897 {\frac{T}{273.15}} - 14.9188{\frac{T}{273.15}}^3)$$"></p><p><img src="pvl_calcPwat_help_eq03607407011259142736.png" alt="$\rho_v$"> is the surface water vapor density (g/m^3).  In the expression <img src="pvl_calcPwat_help_eq03607407011259142736.png" alt="$\rho_v$">, <img src="pvl_calcPwat_help_eq16789226451238204607.png" alt="$e_s$"> is the saturation water vapor pressure (millibar).  The expression for <img src="pvl_calcPwat_help_eq16789226451238204607.png" alt="$e_s$"> is Eq. 1 in [3]</p><p><img src="pvl_calcPwat_help_eq08049774457699667696.png" alt="$$e_s = \exp(22.330 - 49.140{\frac{100}{T}} - 10.922{\frac{100}{T}}^2 - 0.39015{\frac{T}{100}}$$"></p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>T</tt></b> - ambient air temperature at the surface (C)</li><li><b><tt>RH</tt></b> - relative humidity at the surface (%)</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>Pwat</tt></b> - precipitable water (cm)</li></ul></div><h2>Example<a name="5"></a></h2><pre class="codeinput"> [Pwat] = pvl_calcPwat(25,70) <span class="comment">%Pressure at STC temperature and RH of 70%</span>
+</pre><pre class="codeoutput">
+Pwat =
+
+    3.5090
+
+</pre><h2>Reference:<a name="6"></a></h2><p>[1]   W. M. Keogh and A. W. Blakers, Accurate Measurement, Using Natural           Sunlight, of Silicon Solar Cells, Prog. in Photovoltaics: Res.           and Appl. 2004, vol 12, pp. 1-19 (doi: 10.1002/pip.517).</p><pre class="codeinput"><span class="comment">% [2]   C. Gueymard, Analysis of Monthly Average Atmospheric Precipitable</span>
+<span class="comment">%           Water and Turbidity in Canada and Northern United States,</span>
+<span class="comment">%           Solar Energy vol 53(1), pp. 57-71, 1994.</span>
+<span class="comment">%           (doi:10.1016/S0038-092X(94)90606-8).</span>
+
+<span class="comment">% [3]   C. Gueymard, Assessment of the Accuracy and Computing Speed of</span>
+<span class="comment">%           simplified saturation vapor equations using a new reference</span>
+<span class="comment">%           dataset, J. of Applied Meteorology 1993, vol. 32(7), pp.</span>
+<span class="comment">%           1294-1300 (doi:</span>
+<span class="comment">%           10.1175/1520-0450(1993)032&lt;1294:AOTAAC&gt;2.0.CO;2).</span>
+</pre><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_calcPwat
+% Calculates precipitable water (cm) from ambient air temperature (C) and
+% relatively humidity (%).
+%
+%% Syntax
+% *  |Pwat = pvl_calcPwat(T,RH)|
+%
+%% Description
+% Calculates precipitable water (cm) from ambient air temperature (C) and
+% relatively humidity (%) using an empirical model [1]. The model was
+% developed by expanding Eq. 1 in [2]:
+%
+% $$w = 0.1 H_v \rho_v$$ 
+%
+% using Eq. 2 in [2]
+%
+% $$\rho_v = 216.7 {\frac{RH}{T}} e_s$$ 
+%
+% $H_v$ is the apparant water vapor scale height (km). The expression for 
+% $H_v$ is Eq. 4 in [2]:
+%
+% $$H_v = 0.4976 + 1.5265{\frac{T}{273.15}} + \exp(13.6897 {\frac{T}{273.15}} - 14.9188{\frac{T}{273.15}}^3)$$
+%
+% $\rho_v$ is the surface water vapor density (g/m^3).  In the expression 
+% $\rho_v$, $e_s$ is the saturation water vapor pressure (millibar).  The
+% expression for $e_s$ is Eq. 1 in [3]
+%
+% $$e_s = \exp(22.330 - 49.140{\frac{100}{T}} - 10.922{\frac{100}{T}}^2 - 0.39015{\frac{T}{100}}$$
+%
+%% Inputs
+% * *|T|* - ambient air temperature at the surface (C)
+% * *|RH|* - relative humidity at the surface (%)
+%
+%% Output
+% * *|Pwat|* - precipitable water (cm)
+%
+%% Example
+ [Pwat] = pvl_calcPwat(25,70) %Pressure at STC temperature and RH of 70%
+ 
+%% Reference:
+% [1]   W. M. Keogh and A. W. Blakers, Accurate Measurement, Using Natural 
+%           Sunlight, of Silicon Solar Cells, Prog. in Photovoltaics: Res. 
+%           and Appl. 2004, vol 12, pp. 1-19 (doi: 10.1002/pip.517).
+
+% [2]   C. Gueymard, Analysis of Monthly Average Atmospheric Precipitable
+%           Water and Turbidity in Canada and Northern United States,
+%           Solar Energy vol 53(1), pp. 57-71, 1994.
+%           (doi:10.1016/S0038-092X(94)90606-8).
+
+% [3]   C. Gueymard, Assessment of the Accuracy and Computing Speed of
+%           simplified saturation vapor equations using a new reference
+%           dataset, J. of Applied Meteorology 1993, vol. 32(7), pp.
+%           1294-1300 (doi:
+%           10.1175/1520-0450(1993)032<1294:AOTAAC>2.0.CO;2).
+%%
+% Copyright 2015 Sandia National Laboratories
+##### SOURCE END #####
+--></body></html>

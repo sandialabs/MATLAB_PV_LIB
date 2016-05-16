@@ -1,0 +1,155 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_ashraeiam</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_ashraeiam_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_ashraeiam</h1><!--introduction--><p>Determine the incidence angle modifier using the ASHRAE transmission model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description:</a></li><li><a href="#5">Inputs:</a></li><li><a href="#6">Outputs:</a></li><li><a href="#8">Example</a></li><li><a href="#10">References:</a></li><li><a href="#11">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>IAM = pvl_ashraeiam(b, theta)</tt></li></ul></div><h2>Description:<a name="3"></a></h2><p>Calculates the incidence angle modifier as developed in [1], and adopted by ASHRAE (American Society of Heating, Refrigeration, and Air Conditioning Engineers) [2]. The model is used by modeling applications such as PVSyst [3].</p><p>Note: For incident angles near 90 degrees, the ASHRAE model has a discontinuity which has been addressed in this function.</p><h2>Inputs:<a name="5"></a></h2><div><ul><li><b><tt>b</tt></b> - A parameter to adjust the modifier as a function of angle of     incidence. Typical values are on the order of 0.05 [3].</li><li><b><tt>theta</tt></b> - The angle of incidence between the module normal vector and the     sun-beam vector in degrees. Theta must be a numeric scalar or vector.     For any values of theta where abs(theta)&gt;90, IAM is set to 0. For any     values of theta where -90 &lt; theta &lt; 0, theta is set to abs(theta) and     evaluated. A warning will be generated if any(theta&lt;0 or theta&gt;90).     For values of theta near 90 degrees, the ASHRAE model may be above 1     or less than 0 due to the discontinuity of secant(theta). IAM values     outside of [0,1] are set to 0 and a warning is generated.</li></ul></div><h2>Outputs:<a name="6"></a></h2><div><ul><li><b><tt>IAM</tt></b> - The incident angle modifier calculated as 1-b*(sec(theta)-1) as     described in [2,3]. IAM is a column vector with the same number of     elements as the largest input vector.</li></ul></div><h2>Example<a name="8"></a></h2><p>This example plots the IAM over a range of incident angles.</p><pre class="codeinput">b=0.05; <span class="comment">%Typical value.</span>
+theta = 0:89.9;    <span class="comment">%angles =&gt;90 generate a warning</span>
+IAM = pvl_ashraeiam(b, theta);
+figure
+plot(theta,IAM)
+xlabel(<span class="string">'Incident Angle (deg)'</span>)
+ylabel(<span class="string">'IAM'</span>)
+title(<span class="string">'ASHRAE IAM Model Example'</span>)
+</pre><pre class="codeoutput">Warning: It seems that we have encountered a discontinuity in pvl_ashraeiam. Any
+incident angle modifiers calculated to be less than 0 or greather than 1 have
+been set to 0. 
+</pre><img vspace="5" hspace="5" src="pvl_ashraeiam_help_01.png" alt=""> <p>Note that the function can result in IAM values &lt;0 and/or &gt;1.  When this occurs the out of range results are set to equal zero and a warning is reported.</p><h2>References:<a name="10"></a></h2><div><ul><li>[1] Souka A.F., Safwat H.H., Determindation of the optimum orientations     for the double exposure flat-plate collector and its reflections,     Solar Energy vol .10, pp 170-174. 1966.</li></ul></div><div><ul><li>[2] ASHRAE Standard 93-2010, Methods for Testing to Detemrine the Thermal Performance of Solar Collectors.</li></ul></div><div><ul><li>[3] PVsyst Contextual Help.     <a href="http://files.pvsyst.com/help/index.html?iam_loss.htm">http://files.pvsyst.com/help/index.html?iam_loss.htm</a> retrieved on     September 10, 2012.</li></ul></div><h2>See also<a name="11"></a></h2><p><a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a> , <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a> , <a href="pvl_spa_help.html"><tt>pvl_spa</tt></a> , <a href="pvl_physicaliam_help.html"><tt>pvl_physicaliam</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_ashraeiam
+% Determine the incidence angle modifier using the ASHRAE transmission model.
+%
+%% Syntax
+%%
+% *  |IAM = pvl_ashraeiam(b, theta)|
+%
+%% Description:
+%%
+% Calculates the incidence angle modifier as developed in
+% [1], and adopted by ASHRAE (American Society of Heating, Refrigeration,
+% and Air Conditioning Engineers) [2]. The model is used by modeling
+% applications such as PVSyst [3].
+%
+% Note: For incident angles near 90 degrees, the ASHRAE model has a
+% discontinuity which has been addressed in this function.
+%
+%% Inputs:
+% * *|b|* - A parameter to adjust the modifier as a function of angle of
+%     incidence. Typical values are on the order of 0.05 [3].
+% * *|theta|* - The angle of incidence between the module normal vector and the
+%     sun-beam vector in degrees. Theta must be a numeric scalar or vector.
+%     For any values of theta where abs(theta)>90, IAM is set to 0. For any
+%     values of theta where -90 < theta < 0, theta is set to abs(theta) and
+%     evaluated. A warning will be generated if any(theta<0 or theta>90).
+%     For values of theta near 90 degrees, the ASHRAE model may be above 1
+%     or less than 0 due to the discontinuity of secant(theta). IAM values
+%     outside of [0,1] are set to 0 and a warning is generated.
+% 
+%% Outputs:
+%%
+% * *|IAM|* - The incident angle modifier calculated as 1-b*(sec(theta)-1) as
+%     described in [2,3]. IAM is a column vector with the same number of 
+%     elements as the largest input vector.
+%
+%% Example
+% This example plots the IAM over a range of incident angles.
+b=0.05; %Typical value.
+theta = 0:89.9;    %angles =>90 generate a warning
+IAM = pvl_ashraeiam(b, theta);
+figure
+plot(theta,IAM)
+xlabel('Incident Angle (deg)')
+ylabel('IAM')
+title('ASHRAE IAM Model Example')
+%%
+% Note that the function can result in IAM values <0 and/or >1.  When this
+% occurs the out of range results are set to equal zero and a warning is reported.
+
+%% References:
+%
+% * [1] Souka A.F., Safwat H.H., Determindation of the optimum orientations
+%     for the double exposure flat-plate collector and its reflections,
+%     Solar Energy vol .10, pp 170-174. 1966.
+%
+% * [2] ASHRAE Standard 93-2010, Methods for Testing to Detemrine the
+% Thermal Performance of Solar Collectors.
+%
+% * [3] PVsyst Contextual Help. 
+%     http://files.pvsyst.com/help/index.html?iam_loss.htm retrieved on
+%     September 10, 2012.
+%
+%% See also 
+% <pvl_getaoi_help.html |pvl_getaoi|> ,        
+% <pvl_ephemeris_help.html |pvl_ephemeris|> ,
+% <pvl_spa_help.html |pvl_spa|> ,
+% <pvl_physicaliam_help.html |pvl_physicaliam|>  
+
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

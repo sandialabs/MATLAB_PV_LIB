@@ -1,0 +1,152 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_maketimestruct</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_maketimestruct_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_maketimestruct</h1><!--introduction--><p>Generate a time struct from MATLAB datenum and UTC offset code.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#6">Example 1</a></li><li><a href="#7">Example 2</a></li><li><a href="#8">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>Time = pvl_maketimestruct(datenum, UTC)</tt></p><h2>Description<a name="2"></a></h2><p>Generates a time structure given a MATLAB datenum and UTC offset code. The time structure is used in some PV_LIB functions such as <a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>. The time struct pairs a set of times with a UTC Offset code, such that any time can be converted to UTC.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>datenum</tt></b> - a vector of MATLAB serial date numbers.</li><li><b><tt>UTC</tt></b> = either a scalar corresponding to ALL of the input date numbers, OR it must be a vector of the same size as <tt>datenum</tt> with each value of <tt>UTC</tt> corresponding to a value of <tt>datenum</tt>. Values of <tt>UTC</tt> must be greater than or equal to -12 (Yankee Time), and must be less than or equal to 13.75 (Chatham Island Daylight Time). Through the use of a vector of UTC codes one can account for daylight saving time by adjusting the UTC offsets associated with values in daylight saving. Note that the UTC offset convention is positive values for locations east of the prime meridian (e.g. Eastern Standard Time is UTC -5).</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>Time</tt></b> is a structure with the following elements, note that all elements of the structure are column vectors, including UTCOffset.</li><li><b><tt>Time.year</tt></b> = The year in the gregorian calendar.</li><li><b><tt>Time.month</tt></b> = the month of the year (January = 1 to December = 12).</li><li><b><tt>Time.day</tt></b> = the day of the month.</li><li><b><tt>Time.hour</tt></b> = the hour of the day.</li><li><b><tt>Time.minute</tt></b> = the minute of the hour.</li><li><b><tt>Time.second</tt></b> = the second of the minute.</li><li><b><tt>Time.UTCOffset</tt></b> = the UTC offset code. Using the convention that a  positive UTC offset is for time zones east of the prime meridian  (e.g. EST = -5).</li></ul></div><h2>Example 1<a name="6"></a></h2><p>Create Time structure for a single date and time in Albuquerque, NM</p><pre class="codeinput">Datenum = datenum(<span class="string">'24-Oct-2003 12:45:07'</span>);
+T = pvl_maketimestruct(Datenum,-7)
+</pre><pre class="codeoutput">
+T = 
+
+    UTCOffset: -7
+         year: 2003
+        month: 10
+          day: 24
+         hour: 12
+       minute: 45
+       second: 7
+
+</pre><h2>Example 2<a name="7"></a></h2><p>Create Time structure for a single date and time in Greenwich, UK</p><pre class="codeinput">Datenum = datenum(<span class="string">'29-Feb-2012 19:15:00'</span>);
+T = pvl_maketimestruct(Datenum,0)
+</pre><pre class="codeoutput">
+T = 
+
+    UTCOffset: 0
+         year: 2012
+        month: 2
+          day: 29
+         hour: 19
+       minute: 15
+       second: 0
+
+</pre><h2>See Also<a name="8"></a></h2><p><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>, <a href="pvl_exceltime2matlab.html"><tt>pvl_exceltime2matlab</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_maketimestruct 
+% Generate a time struct from MATLAB datenum and UTC offset code.
+%
+%% Syntax
+% |Time = pvl_maketimestruct(datenum, UTC)|
+%
+%% Description
+% Generates a time structure given a MATLAB datenum and UTC offset code.
+% The time structure is used in some PV_LIB functions such as <pvl_ephemeris_help.html |pvl_ephemeris|>. The
+% time struct pairs a set of times with a UTC Offset code, such that any
+% time can be converted to UTC.
+% 
+%% Inputs
+%%
+% * *|datenum|* - a vector of MATLAB serial date numbers. 
+% * *|UTC|* = either a scalar corresponding to ALL of the input
+% date numbers, OR it must be a vector of the same size as |datenum| with
+% each value of |UTC| corresponding to a value of |datenum|. Values of
+% |UTC| must be greater than or equal to -12 (Yankee Time), and must be 
+% less than or equal to 13.75 (Chatham Island Daylight Time). Through the
+% use of a vector of UTC codes one can account for daylight saving time
+% by adjusting the UTC offsets associated with values in daylight saving.
+% Note that the UTC offset convention is positive values for
+% locations east of the prime meridian (e.g. Eastern Standard Time is  
+% UTC -5).
+%
+%% Outputs
+% * *|Time|* is a structure with the following elements, note that
+% all elements of the structure are column vectors, including UTCOffset.
+% * *|Time.year|* = The year in the gregorian calendar.
+% * *|Time.month|* = the month of the year (January = 1 to December = 12).
+% * *|Time.day|* = the day of the month.
+% * *|Time.hour|* = the hour of the day.
+% * *|Time.minute|* = the minute of the hour.
+% * *|Time.second|* = the second of the minute.
+% * *|Time.UTCOffset|* = the UTC offset code. Using the convention that a
+%  positive UTC offset is for time zones east of the prime meridian
+%  (e.g. EST = -5).
+%
+%% Example 1
+% Create Time structure for a single date and time in Albuquerque, NM
+Datenum = datenum('24-Oct-2003 12:45:07');
+T = pvl_maketimestruct(Datenum,-7)
+%% Example 2
+% Create Time structure for a single date and time in Greenwich, UK
+Datenum = datenum('29-Feb-2012 19:15:00');
+T = pvl_maketimestruct(Datenum,0)
+%% See Also 
+% <pvl_ephemeris_help.html |pvl_ephemeris|>,  
+% <pvl_exceltime2matlab.html |pvl_exceltime2matlab|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

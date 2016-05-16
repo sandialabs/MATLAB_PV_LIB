@@ -1,0 +1,131 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_huld</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_huld_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_huld</h1><!--introduction--><p>Huld PV module model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Example</a></li><li><a href="#7">References</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>DCPower = pvl_huld(Module, G, Tm)</tt></p><h2>Description<a name="2"></a></h2><p>Determine the DC power output of PV module from in-plane effective irradiance and module temperature using the following polynomial:</p><p><img src="pvl_huld_help_eq06379263398282420755.png" alt="$$P_{DC} = Ee \times (P_{MP0} + k_1 \log(Ee) + k_2 \log^2(Ee)&#xA;   + k_3 (T_m - T_0) + k_4 (T_m - T_0) \log(Ee)&#xA;   + k_5 (T_m - T_0) \log^2(Ee) + k_6 (T_m - T_0)^2 )$$"></p><p>The Huld model assumes a reference temperature <img src="pvl_huld_help_eq09699377331652163485.png" alt="$T_0$"> = 25C.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Module</tt></b> - A struct defining the parameters for the module.</li></ul></div><p><tt>Module</tt> contains the following fields:</p><div><ul><li><b><tt>Module.k</tt></b> - A 1x6 vector with the coefficients <img src="pvl_huld_help_eq12782267039782113450.png" alt="$k_1$"> through <img src="pvl_huld_help_eq13781057718183717807.png" alt="$k_6$">.</li><li><b><tt>Module.Pmp0</tt></b> - Power at STC reference condition (W).</li><li><b><tt>Ee</tt></b> - The effective irradiance incident upon the module (suns).</li><li><b><tt>Tm</tt></b> - The module temperature (degrees C).</li></ul></div><h2>Outputs<a name="4"></a></h2><div><ul><li><b><tt>DCPower</tt></b> - A vector containing the Pmp for each input Ee and Tm.</li></ul></div><h2>Example<a name="5"></a></h2><p>This example shows the use of the Huld model with the generic cSi module parameters listed in [1], Table 7.  The coefficients given in [1] are for normalized efficiency, thus <img src="pvl_huld_help_eq02420472544591133746.png" alt="$P_{mp0}$"> is set to 1.</p><pre class="codeinput">Module.k = [-0.01724 -0.04047 -0.0047 1.49E-4 1.47E-4 5.0E-6];
+Module.Pmp0 = 1;  <span class="comment">%</span>
+</pre><pre class="codeinput">Ee = 1; <span class="comment">%suns</span>
+Tm = 55; <span class="comment">% deg C</span>
+Result = pvl_huld(Module, Ee, Tm)
+</pre><pre class="codeoutput">
+Result =
+
+    0.8635
+
+</pre><h2>References<a name="7"></a></h2><p>[1] T. Huld,   G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, 2011.   A power-rating model for crystalline silicon PV modules, Solar   Energy Materials and Solar Cells 95, pp 3359-3369.</p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_huld 
+% Huld PV module model.
+%
+%% Syntax
+% |DCPower = pvl_huld(Module, G, Tm)|
+%
+%% Description
+% Determine the DC power output of PV module from in-plane effective
+% irradiance and module temperature using the following polynomial:
+%
+% $$P_{DC} = Ee \times (P_{MP0} + k_1 \log(Ee) + k_2 \log^2(Ee) 
+%    + k_3 (T_m - T_0) + k_4 (T_m - T_0) \log(Ee) 
+%    + k_5 (T_m - T_0) \log^2(Ee) + k_6 (T_m - T_0)^2 )$$
+%
+% The Huld model assumes a reference temperature $T_0$ = 25C.
+%
+%% Inputs
+%
+% * *|Module|* - A struct defining the parameters for the module.
+%
+% |Module| contains the following fields:
+%
+% * *|Module.k|* - A 1x6 vector with the coefficients $k_1$ through $k_6$.
+% * *|Module.Pmp0|* - Power at STC reference condition (W).
+% * *|Ee|* - The effective irradiance incident upon the module (suns).
+% * *|Tm|* - The module temperature (degrees C).
+%
+%% Outputs
+% * *|DCPower|* - A vector containing the Pmp for each input Ee and Tm.
+%% Example
+% This example shows the use of the Huld model with the generic cSi module
+% parameters listed in [1], Table 7.  The coefficients given in [1] are
+% for normalized efficiency, thus $P_{mp0}$ is set to 1.
+Module.k = [-0.01724 -0.04047 -0.0047 1.49E-4 1.47E-4 5.0E-6];
+Module.Pmp0 = 1;  % 
+%%
+Ee = 1; %suns
+Tm = 55; % deg C
+Result = pvl_huld(Module, Ee, Tm)
+%% References
+% [1] T. Huld,
+%   G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, 2011. 
+%   A power-rating model for crystalline silicon PV modules, Solar
+%   Energy Materials and Solar Cells 95, pp 3359-3369.
+%
+%%
+% Copyright 2015 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

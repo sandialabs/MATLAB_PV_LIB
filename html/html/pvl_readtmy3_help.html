@@ -1,0 +1,322 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_readtmy3</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_readtmy3_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_readtmy3</h1><!--introduction--><p>Read a Typical Meteological Year 3 (TMY3) file to a MATLAB struct.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description</a></li><li><a href="#4">Inputs</a></li><li><a href="#6">Output</a></li><li><a href="#8">Example</a></li><li><a href="#9">References</a></li><li><a href="#11">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>TMYData = pvl_readtmy3()</tt></p><p><tt>TMYData = pvl_readtmy3(FileName)</tt></p><h2>Description<a name="3"></a></h2><p>Read a TMY3 file and make a struct of the data. Note that values contained in the struct are unchanged from the TMY3 file (i.e. units are retained). In the case of any discrepencies between this documentation and the TMY3 User's Manual [1], the TMY3 User's Manual takes precedence.</p><h2>Inputs<a name="4"></a></h2><div><ul><li><b><tt>FileName</tt></b> - an optional argument which allows the user to select which     TMY3 format file should be read. A file path may also be necessary if     the desired TMY3 file is not in the MATLAB working path.  If <tt>FileName</tt>     is not provided, the user will be prompted to browse to     an appropriate TMY3 file.</li></ul></div><h2>Output<a name="6"></a></h2><div><ul><li><b><tt>TMYData</tt></b> - a struct with the following components. For more detailed     descriptions of each component, please consult     the TMY3 User's Manual [1], especially tables 1-1 through 1-6.     Unless otherwise stated, each field is a column vector of type double (float).</li></ul></div><div><ul><li><b><tt>TMYData.SiteID</tt></b> - Site identifier code (USAF number), scalar double.</li><li><b><tt>TMYData.StationName</tt></b> - Station name, 1x1 cell string.</li><li><b><tt>TMYData.StationState</tt></b> - Station state 2 letter designator, 1x1 cell string.</li><li><b><tt>TMYData.SiteTimeZone</tt></b> - Hours from Greenwich, scalar double.</li><li><b><tt>TMYData.SiteLatitude</tt></b> - Latitude in decimal degrees, scalar double.</li><li><b><tt>TMYData.SiteLongitude</tt></b> - Longitude in decimal degrees, scalar double.</li><li><b><tt>TMYData.SiteElevation</tt></b> - Site elevation in meters, scalar double.</li><li><b><tt>TMYData.DateString</tt></b> - Date string in mm/dd/yy format, 8760x1 cell string.</li><li><b><tt>TMYData.TimeString</tt></b> - Time string in HH:MM format, local standard time, 8760x1 cell string.</li><li><b><tt>TMYData.DateNumber</tt></b> - Combination of date/time in MATLAB serial date (datenum) format, 8760x1 double.</li><li><b><tt>TMYData.ETR</tt></b> - Extraterrestrial horizontal radiation recv'd during 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.ETRN</tt></b> - Extraterrestrial normal radiation recv'd during 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.GHI</tt></b> - Direct and diffuse horizontal radiation recv'd during 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.GHISource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.GHIUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.DNI</tt></b> - Amount of direct normal radiation (modeled) recv'd during 60 mintues prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.DNISource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.DNIUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.DHI</tt></b> - Amount of diffuse horizontal radiation recv'd during 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.DHISource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.DHIUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.GHillum</tt></b> - Average total horizontal illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.GHillumSource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.GHillumUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.DNillum</tt></b> - Average direct normal illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.DNillumSource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.DNillumUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.DHillum</tt></b> - Average horizontal diffuse illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.</li><li><b><tt>TMYData.DHillumSource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.DHillumUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [2].</li><li><b><tt>TMYData.Zenithlum</tt></b> - Average luminance at the sky's zenith during the 60 minutes prior to timestamp, cd/m^2</li><li><b><tt>TMYData.ZenithlumSource</tt></b> - See [1], Table 1-4.</li><li><b><tt>TMYData.ZenithlumUncertainty</tt></b> - Uncertainty based on random and bias error estimates - see [1] section 2.10.</li><li><b><tt>TMYData.TotCld</tt></b> - Amount of sky dome covered by clouds or obscuring phenonema at time stamp, tenths of sky.</li><li><b><tt>TMYData.TotCldSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.TotCldUnertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.OpqCld</tt></b> - Amount of sky dome covered by clouds or obscuring phenonema that prevent observing the</li><li>*|  sky at time stamp, tenths of sky.</li><li><b><tt>TMYData.OpqCldSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.OpqCldUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.DryBulb</tt></b> - Dry bulb temperature at the time indicated, deg C.</li><li><b><tt>TMYData.DryBulbSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.DryBulbUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.DewPoint</tt></b> - Dew-point temperature at the time indicated, deg C.</li><li><b><tt>TMYData.DewPointSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.DewPointUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.RHum</tt></b> - Relative humidity at the time indicated, percent.</li><li><b><tt>TMYData.RHumSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.RHumUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Pressure</tt></b> - Station pressure at the time indicated, 1 mbar.</li><li><b><tt>TMYData.PressureSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.PressureUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Wdir</tt></b> - Wind direction at time indicated, degrees from north (360 = north; 0 = undefined,calm).</li><li><b><tt>TMYData.WdirSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.WdirUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Wspd</tt></b> - Wind speed at the time indicated, meter/second.</li><li><b><tt>TMYData.WspdSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.WspdUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Hvis</tt></b> - Distance to discernable remote objects at time indicated (7777=unlimited), meters.</li><li><b><tt>TMYData.HvisSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.HvisUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.CeilHgt</tt></b> - Height of cloud base above local terrain (7777=unlimited), meters.</li><li><b><tt>TMYData.CeilHgtSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.CeilHgtUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Pwat</tt></b> - Total precipitable water contained in a column of unit cross section from    earth to top of atmosphere, cm.</li><li><b><tt>TMYData.PwatSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.PwatUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.AOD</tt></b> - The broadband aerosol optical depth per unit of air mass due to extinction by    aerosol component of atmosphere, unitless.</li><li><b><tt>TMYData.AODSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.AODUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Alb</tt></b> - The ratio of reflected solar irradiance to global horizontal irradiance, unitless.</li><li><b><tt>TMYData.AlbSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.AlbUncertainty</tt></b> - See [1], Table 1-6.</li><li><b><tt>TMYData.Lprecipdepth</tt></b> - The amount of liquid precipitation observed at indicated time for the period indicated.    in the liquid precipitation quantity field, millimeters.</li><li><b><tt>TMYData.Lprecipquantity</tt></b> - The period of accumulation for the liquid precipitation depth field, hours.</li><li><b><tt>TMYData.LprecipSource</tt></b> - See [1], Table 1-5, 8760x1 cell array of strings.</li><li><b><tt>TMYData.LprecipUncertainty</tt></b> - See [1], Table 1-6.</li></ul></div><h2>Example<a name="8"></a></h2><pre class="codeinput">pvl_readtmy3(<span class="string">'723650TY.csv'</span>)
+</pre><pre class="codeoutput">
+ans = 
+
+                  SiteID: 723650
+             StationName: {'ALBUQUERQUE INTL ARPT [ISIS]'}
+            StationState: {'NM'}
+            SiteTimeZone: -7
+            SiteLatitude: 35.0400
+           SiteLongitude: -106.6200
+           SiteElevation: 1619
+              DateString: {8760x1 cell}
+              TimeString: {8760x1 cell}
+                     ETR: [8760x1 double]
+                    ETRN: [8760x1 double]
+                     GHI: [8760x1 double]
+               GHISource: [8760x1 double]
+          GHIUncertainty: [8760x1 double]
+                     DNI: [8760x1 double]
+               DNISource: [8760x1 double]
+          DNIUncertainty: [8760x1 double]
+                     DHI: [8760x1 double]
+               DHISource: [8760x1 double]
+          DHIUncertainty: [8760x1 double]
+                 GHillum: [8760x1 double]
+           GHillumSource: [8760x1 double]
+      GHillumUncertainty: [8760x1 double]
+                 DNillum: [8760x1 double]
+           DNillumSource: [8760x1 double]
+      DNillumUncertainty: [8760x1 double]
+                 DHillum: [8760x1 double]
+           DHillumSource: [8760x1 double]
+      DHillumUncertainty: [8760x1 double]
+               Zenithlum: [8760x1 double]
+         ZenithlumSource: [8760x1 double]
+    ZenithlumUncertainty: [8760x1 double]
+                  TotCld: [8760x1 double]
+            TotCldSource: {8760x1 cell}
+        TotCldUnertainty: [8760x1 double]
+                  OpqCld: [8760x1 double]
+            OpqCldSource: {8760x1 cell}
+       OpqCldUncertainty: [8760x1 double]
+                 DryBulb: [8760x1 double]
+           DryBulbSource: {8760x1 cell}
+      DryBulbUncertainty: [8760x1 double]
+                DewPoint: [8760x1 double]
+          DewPointSource: {8760x1 cell}
+     DewPointUncertainty: [8760x1 double]
+                    RHum: [8760x1 double]
+              RHumSource: {8760x1 cell}
+         RHumUncertainty: [8760x1 double]
+                Pressure: [8760x1 double]
+          PressureSource: {8760x1 cell}
+     PressureUncertainty: [8760x1 double]
+                    Wdir: [8760x1 double]
+              WdirSource: {8760x1 cell}
+         WdirUncertainty: [8760x1 double]
+                    Wspd: [8760x1 double]
+              WspdSource: {8760x1 cell}
+         WspdUncertainty: [8760x1 double]
+                    Hvis: [8760x1 double]
+              HvisSource: {8760x1 cell}
+         HvisUncertainty: [8760x1 double]
+                 CeilHgt: [8760x1 double]
+           CeilHgtSource: {8760x1 cell}
+      CeilHgtUncertainty: [8760x1 double]
+                    Pwat: [8760x1 double]
+              PwatSource: {8760x1 cell}
+         PwatUncertainty: [8760x1 double]
+                     AOD: [8760x1 double]
+               AODSource: {8760x1 cell}
+          AODUncertainty: [8760x1 double]
+                     Alb: [8760x1 double]
+               AlbSource: {8760x1 cell}
+          AlbUncertainty: [8760x1 double]
+            Lprecipdepth: [8760x1 double]
+         Lprecipquantity: [8760x1 double]
+           LprecipSource: {8760x1 cell}
+      LprecipUncertainty: [8760x1 double]
+              DateNumber: [8760x1 double]
+
+</pre><h2>References<a name="9"></a></h2><p>[1] Wilcox, S and Marion, W., 2008. Users Manual for TMY3 Data Sets, NREL/TP-581-43156, National Renewable Energy Laboratory.  Available at <a href="http://www.nrel.gov/docs/fy08osti/43156.pdf">http://www.nrel.gov/docs/fy08osti/43156.pdf</a>.</p><h2>See Also<a name="11"></a></h2><p><a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a> , <a href="pvl_maketimestruct_help.html.html"><tt>pvl_maketimestruct</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_readtmy3
+% Read a Typical Meteological Year 3 (TMY3) file to a MATLAB struct.
+%
+%% Syntax
+%%
+% |TMYData = pvl_readtmy3()|
+%
+% |TMYData = pvl_readtmy3(FileName)|
+%
+%% Description
+% Read a TMY3 file and make a struct of the data. Note that values
+% contained in the struct are unchanged from the TMY3 file (i.e. units 
+% are retained). In the case of any discrepencies between this
+% documentation and the TMY3 User's Manual [1], the TMY3 User's Manual
+% takes precedence.
+%
+%
+%% Inputs
+%%
+% * *|FileName|* - an optional argument which allows the user to select which
+%     TMY3 format file should be read. A file path may also be necessary if
+%     the desired TMY3 file is not in the MATLAB working path.  If |FileName|
+%     is not provided, the user will be prompted to browse to
+%     an appropriate TMY3 file.
+%
+%% Output
+%
+% *  *|TMYData|* - a struct with the following components. For more detailed 
+%     descriptions of each component, please consult
+%     the TMY3 User's Manual [1], especially tables 1-1 through 1-6.  
+%     Unless otherwise stated, each field is a column vector of type double (float).
+%%
+% * *|TMYData.SiteID|* - Site identifier code (USAF number), scalar double.
+% * *|TMYData.StationName|* - Station name, 1x1 cell string.
+% * *|TMYData.StationState|* - Station state 2 letter designator, 1x1 cell
+% string.
+% * *|TMYData.SiteTimeZone|* - Hours from Greenwich, scalar double.
+% * *|TMYData.SiteLatitude|* - Latitude in decimal degrees, scalar double.
+% * *|TMYData.SiteLongitude|* - Longitude in decimal degrees, scalar
+% double.
+% * *|TMYData.SiteElevation|* - Site elevation in meters, scalar double.
+% * *|TMYData.DateString|* - Date string in mm/dd/yy format, 8760x1 cell
+% string.
+% * *|TMYData.TimeString|* - Time string in HH:MM format, local standard
+% time, 8760x1 cell string.
+% * *|TMYData.DateNumber|* - Combination of date/time in MATLAB serial date
+% (datenum) format, 8760x1 double.
+% * *|TMYData.ETR|* - Extraterrestrial horizontal radiation recv'd during
+% 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.ETRN|* - Extraterrestrial normal radiation recv'd during 60
+% minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.GHI|* - Direct and diffuse horizontal radiation recv'd during
+% 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.GHISource|* - See [1], Table 1-4.
+% * *|TMYData.GHIUncertainty|* - Uncertainty based on random and bias error
+% estimates - see [2].
+% * *|TMYData.DNI|* - Amount of direct normal radiation (modeled) recv'd
+% during 60 mintues prior to timestamp, Wh/m^2.
+% * *|TMYData.DNISource|* - See [1], Table 1-4.
+% * *|TMYData.DNIUncertainty|* - Uncertainty based on random and bias error
+% estimates - see [2].
+% * *|TMYData.DHI|* - Amount of diffuse horizontal radiation recv'd during
+% 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.DHISource|* - See [1], Table 1-4.
+% * *|TMYData.DHIUncertainty|* - Uncertainty based on random and bias error
+% estimates - see [2].
+% * *|TMYData.GHillum|* - Average total horizontal illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.GHillumSource|* - See [1], Table 1-4.
+% * *|TMYData.GHillumUncertainty|* - Uncertainty based on random and bias
+% error estimates - see [2].
+% * *|TMYData.DNillum|* - Average direct normal illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.DNillumSource|* - See [1], Table 1-4.
+% * *|TMYData.DNillumUncertainty|* - Uncertainty based on random and bias
+% error estimates - see [2].
+% * *|TMYData.DHillum|* - Average horizontal diffuse illuminance recv'd during the 60 minutes prior to timestamp, Wh/m^2.
+% * *|TMYData.DHillumSource|* - See [1], Table 1-4.
+% * *|TMYData.DHillumUncertainty|* - Uncertainty based on random and bias
+% error estimates - see [2].
+% * *|TMYData.Zenithlum|* - Average luminance at the sky's zenith during the 60 minutes prior to timestamp, cd/m^2
+% * *|TMYData.ZenithlumSource|* - See [1], Table 1-4.
+% * *|TMYData.ZenithlumUncertainty|* - Uncertainty based on random and bias
+% error estimates - see [1] section 2.10.
+% * *|TMYData.TotCld|* - Amount of sky dome covered by clouds or obscuring
+% phenonema at time stamp, tenths of sky.
+% * *|TMYData.TotCldSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.TotCldUnertainty|* - See [1], Table 1-6.
+% * *|TMYData.OpqCld|* - Amount of sky dome covered by clouds or obscuring phenonema that prevent observing the 
+% * *|  sky at time stamp, tenths of sky.
+% * *|TMYData.OpqCldSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.OpqCldUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.DryBulb|* - Dry bulb temperature at the time indicated, deg
+% C.
+% * *|TMYData.DryBulbSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.DryBulbUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.DewPoint|* - Dew-point temperature at the time indicated, deg
+% C.
+% * *|TMYData.DewPointSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.DewPointUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.RHum|* - Relative humidity at the time indicated, percent.
+% * *|TMYData.RHumSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.RHumUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Pressure|* - Station pressure at the time indicated, 1 mbar.
+% * *|TMYData.PressureSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.PressureUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Wdir|* - Wind direction at time indicated, degrees from north
+% (360 = north; 0 = undefined,calm).
+% * *|TMYData.WdirSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.WdirUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Wspd|* - Wind speed at the time indicated, meter/second.
+% * *|TMYData.WspdSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.WspdUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Hvis|* - Distance to discernable remote objects at time
+% indicated (7777=unlimited), meters.
+% * *|TMYData.HvisSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.HvisUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.CeilHgt|* - Height of cloud base above local terrain
+% (7777=unlimited), meters.
+% * *|TMYData.CeilHgtSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.CeilHgtUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Pwat|* - Total precipitable water contained in a column of unit cross section from 
+%    earth to top of atmosphere, cm.
+% * *|TMYData.PwatSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.PwatUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.AOD|* - The broadband aerosol optical depth per unit of air mass due to extinction by
+%    aerosol component of atmosphere, unitless.
+% * *|TMYData.AODSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.AODUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Alb|* - The ratio of reflected solar irradiance to global
+% horizontal irradiance, unitless.
+% * *|TMYData.AlbSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.AlbUncertainty|* - See [1], Table 1-6.
+% * *|TMYData.Lprecipdepth|* - The amount of liquid precipitation observed
+% at indicated time for the period indicated.
+%    in the liquid precipitation quantity field, millimeters.
+% * *|TMYData.Lprecipquantity|* - The period of accumulation for the liquid
+% precipitation depth field, hours.
+% * *|TMYData.LprecipSource|* - See [1], Table 1-5, 8760x1 cell array of
+% strings.
+% * *|TMYData.LprecipUncertainty|* - See [1], Table 1-6.
+%
+%% Example
+%
+pvl_readtmy3('723650TY.csv')
+%% References
+%%
+% [1] Wilcox, S and Marion, W., 2008. Users Manual for TMY3 Data Sets, 
+% NREL/TP-581-43156, National Renewable Energy Laboratory.  Available at
+% <http://www.nrel.gov/docs/fy08osti/43156.pdf>.
+%
+%% See Also
+% <pvl_makelocationstruct_help.html |pvl_makelocationstruct|> ,
+% <pvl_maketimestruct_help.html.html |pvl_maketimestruct|> 
+%%
+% Copyright 2014 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

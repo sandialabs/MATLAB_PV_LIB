@@ -1,0 +1,362 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_desoto_parameter_estimation</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_desoto_parameter_estimation_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_desoto_parameter_estimation</h1><!--introduction--><p>Estimates parameters for the De Soto module performance model</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Optional inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#6">Example</a></li><li><a href="#7">Sources</a></li><li><a href="#8">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>Model = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxiter, eps1, graphic, n)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p><tt>pvl_desoto_parameter_estimation</tt> estimates parameters for the De Soto module performance model [1]. The estimation proceeds sequentially: the diode factor is estimated from Voc vs. irradiance, then is used to obtain four parameters (i.e., IL, Io, Rsh and Rs) for each IV curve. From the parameter values for each IV curve, model parameters (i.e., IL0, Io0, Eg0, Rsh0, and Rs) are estimated by regression. Estimation methods are documented in [2].</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>IVCurves</tt></b> - a structure array containing IV curve data in the following fields</li><li><b><tt>IVCurves(i).I</tt></b> - vector of current (A) (same length as V)</li><li><b><tt>IVCurves(i).V</tt></b> - vector of voltage (V) (same length as I)</li><li><b><tt>IVCurves(i).Ee</tt></b> - effective irradiance (W/m^2), i.e., POA broadband       irradiance adjusted by solar spectrum modifier</li><li><b><tt>IVCurves(i).Tc</tt></b> - cell temperature (C)</li><li><b><tt>IVCurves(i).Isc</tt></b> - short-circut current of IV curve (A)</li><li><b><tt>IVCurves(i).Voc</tt></b> - open-curcut voltage of IV curve (V)</li><li><b><tt>IVCurves(i).Imp</tt></b> - current at max power point of IV curve (A)</li><li><b><tt>IVCurves(i).Vmp</tt></b> - voltage at max power point of IV curve (V)</li></ul></div><div><ul><li><b><tt>Specs</tt></b> - a structure containing module-level values</li><li><b><tt>Specs.Ns</tt></b> - number of cells in series</li><li><b><tt>Specs.aIsc</tt></b> - temperature coefficient of Isc (A/C)</li><li><b><tt>Specs.bVoc</tt></b> - temperature coefficient of Voc (A/C)</li></ul></div><div><ul><li><b><tt>Const</tt></b> - a structure containing physical and other constants</li><li><b><tt>Const.E0</tt></b> - effective irradiance at STC, normally 1000 W/m2</li><li><b><tt>Const.T0</tt></b> - cell temperature at STC, normally 25 C</li><li><b><tt>Const.k</tt></b> - 1.38066E-23 J/K (Boltzmann's constant)</li><li><b><tt>Const.q</tt></b> - 1.60218E-19 Coulomb (elementary charge)</li></ul></div><h2>Optional inputs<a name="4"></a></h2><div><ul><li><b><tt>maxiter</tt></b> - an integer setting the maximum number of iterations for the     parameter updating part of the algorithm. Default value is 5</li></ul></div><div><ul><li><b><tt>eps1</tt></b> - the desired tolerance for convergence for the IV curve fitting.     The iterative parameter updating stops when absolute values of the     relative change in mean, max and standard deviation of Imp, Vmp and Pmp     between iterations are all less than eps1, or when the number of     iterations exceeds maxiter.  Default value of eps1 is 1e-3 (0.0001%).</li></ul></div><div><ul><li><b><tt>graphic</tt></b> - a boolean, if true then plots are produced during the     parameter estimation process. Default is false</li></ul></div><div><ul><li><b><tt>n</tt></b> - a user-supplied value for the diode factor, imposed in place of     the value estimated from Voc vs. effective irradiance.</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>Model</tt></b> - a structure containing the model parameters</li><li><b><tt>Model.n0</tt></b> - diode factor</li><li><b><tt>Model.IL_ref</tt></b> - light current (A) at STC</li><li><b><tt>Model.Io_ref</tt></b> - dark current (A) at STC</li><li><b><tt>Model.Eg_ref</tt></b> - effective band gap (eV) at STC</li><li><b><tt>Model.Rsh_ref</tt></b> - shunt resistance (ohms) at STC</li><li><b><tt>Model.Rs_ref</tt></b> - series resistance (ohms) at STC</li><li><b><tt>Model.a_ref</tt></b> - modified diode (ideality) factor at STC, calculated as       a_ref = n0*Ns*k/q*(T0+273.15)</li><li><b><tt>Model.Iph</tt></b> - vector of values of light current Iph estimated for each IV       curve</li><li><b><tt>Model.Io</tt></b> - vector of values of dark current Io estimated for each IV       curve</li><li><b><tt>Model.Rsh</tt></b> - vector of values of shunt resistance Rsh estimated for each IV       curve</li><li><b><tt>Model.Rs</tt></b> - vector of values of series resistance Rs estimated for each IV       curve</li><li><b><tt>Model.u</tt></b> - filter indicating IV curves with parameter values deemed       reasonable by the private function filter_params</li></ul></div><h2>Example<a name="6"></a></h2><pre class="codeinput"><span class="comment">% load IV curve data for a 36 cell Mitsubishi cSi module</span>
+load <span class="string">'Desoto_demo.mat'</span>
+
+<span class="comment">% Build structure for constants</span>
+Const.E0 = 1000; <span class="comment">% W/m2</span>
+Const.T0 = 25; <span class="comment">% C</span>
+Const.k = 1.38066E-23; <span class="comment">% J/K</span>
+Const.q = 1.60218E-19; <span class="comment">% c</span>
+
+<span class="comment">% set control variables for parameter estimation</span>
+maxiter = 20;
+eps1 = NaN; <span class="comment">% use default</span>
+graphic = false;
+n = NaN;  <span class="comment">% algorithm will estimate n from data</span>
+
+<span class="comment">% Estimate PVsyst model parameters. Structure Model contains the model</span>
+<span class="comment">% parameters along with array u (true for IV curves where valid parameter</span>
+<span class="comment">% sets were determined) and vectors Iph, Io, Rsh, Rs which contain</span>
+<span class="comment">% parameter values for each IV curve.</span>
+[Model] = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxiter, eps1, graphic, n);
+
+<span class="comment">% Calculate 5 parameters for each IV curve using fitted model</span>
+dEgdT = -0.0002677;  <span class="comment">% use default temperature coefficient for band gap Eg from [1]</span>
+[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_desoto([IVCurves.Ee],[IVCurves.Tc],Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+
+<span class="comment">% Compute IV curves corresponding to each set of 5 parameters</span>
+Modeled = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth);
+
+<span class="comment">% Compute IV curve at STC</span>
+[IL0, Io0, Rs0, Rsh0, nNsVth0] = pvl_calcparams_desoto(1000,25,Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+<span class="comment">% Compute IV curve points using 5 parameters. Structure STCModeled includes</span>
+<span class="comment">% fields Imp, Vmp, Isc, Voc, Pmp which will be modeled values at STC</span>
+STCModeled = pvl_singlediode(IL0, Io0, Rs0, Rsh0, nNsVth0);
+
+FF0 = (STCModeled.Imp*STCModeled.Vmp)/(STCModeled.Isc*STCModeled.Voc);  <span class="comment">% Fill factor at STC</span>
+
+<span class="comment">% Calculate temperature coefficients for Vmp, Imp and Voc from simulated IV</span>
+<span class="comment">% curves at Ee = 1000. Create vector of cell temperatures for simulation to determine temperature</span>
+<span class="comment">% coefficients</span>
+vTc = [15 25 35 45 55 65]';
+<span class="comment">% Compute sets of parameter values for simulation to determine temperature</span>
+<span class="comment">% coefficients</span>
+[ILtc, Iotc, Rstc, Rshtc, nNsVthtc] = pvl_calcparams_desoto(1000,vTc,Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+<span class="comment">% Compute IV curves for simulation to determine temperature</span>
+<span class="comment">% coefficients</span>
+Modeledtc = pvl_singlediode(ILtc, Iotc, Rstc, Rshtc, nNsVthtc);
+
+<span class="comment">% extract IV curve points and estimate temperature coefficients by</span>
+<span class="comment">% regression</span>
+col1 = ones(size(vTc));
+[beta_Vmp]=[vTc-25 col1]\[Modeledtc.Vmp];
+betaVmp = beta_Vmp(1);      <span class="comment">% temperature coefficient (V/C) for voltage at maximum power</span>
+[alpha_Imp]=[vTc-25 col1]\[Modeledtc.Imp];
+alphaImp = alpha_Imp(1);    <span class="comment">% temperature coefficient (W/C) for current at maximum power</span>
+
+gammaPmp = alphaImp*STCModeled.Vmp+betaVmp*STCModeled.Imp;  <span class="comment">% temperature coefficient for maximum power</span>
+
+<span class="comment">% Compare calculated and measured IV curve points</span>
+
+Data.Isc = [IVCurves.Isc];
+Data.Imp = [IVCurves.Imp];
+Data.Voc = [IVCurves.Voc];
+Data.Vmp = [IVCurves.Vmp];
+Data.E = [IVCurves.Ee];
+Data.Isc = Data.Isc(:);
+Data.Imp = Data.Imp(:);
+Data.Voc = Data.Voc(:);
+Data.Vmp = Data.Vmp(:);
+Data.E = Data.E(:);
+
+<span class="comment">% Plot comparison</span>
+figure(<span class="string">'Position'</span>,[50 50 50+9*96 50+6*96])
+
+Meas = [Data.Isc, Data.Imp, Data.Imp.*Data.Vmp, Data.Voc, Data.Vmp];
+Mod = [Modeled.Isc, Modeled.Imp, Modeled.Pmp, Modeled.Voc, Modeled.Vmp];
+Title = {<span class="string">'Isc'</span>, <span class="string">'Imp'</span>, <span class="string">'Pmp'</span>, <span class="string">'Voc'</span>, <span class="string">'Vmp'</span>};
+
+
+<span class="keyword">for</span> i = [1:5]
+    subplot(2,3,i)
+    scatter(Meas(:,i), Mod(:,i), 5, <span class="string">'k'</span>, <span class="string">'filled'</span>)
+    hold <span class="string">on</span>
+    title(Title(i),<span class="string">'fontsize'</span>,12,<span class="string">'fontweight'</span>,<span class="string">'b'</span>)
+    xlabel(<span class="string">'Measured'</span>,<span class="string">'fontsize'</span>,12)
+    ylabel(<span class="string">'Modeled'</span>,<span class="string">'fontsize'</span>,12)
+    axis <span class="string">square</span>
+    datamin = min([Meas(:,i);Mod(:,i)]);
+    datamax = max([Meas(:,i);Mod(:,i)]);
+    datamin = max(datamin - (datamax-datamin)/10,0);
+    datamax = datamax + (datamax-datamin)/10;
+    plot([datamin, datamax], [datamin, datamax],<span class="string">'r'</span>, <span class="string">'LineWidth'</span>,2)
+    axis([datamin datamax datamin  datamax])
+    box <span class="string">on</span>
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="pvl_desoto_parameter_estimation_help_01.png" alt=""> <h2>Sources<a name="7"></a></h2><p>[1] W. De Soto et al., "Improvement and validation of a model for     photovoltaic array performance", Solar Energy, vol 80, pp. 78-88,     2006.</p><p>[2] C. Hansen, Parameter Estimation for Single Diode Models of     Photovoltaic Modules, Sandia National Laboratories Report     SAND2015-2065.</p><p>[3] C. Hansen, Estimation of Parameters for Single Diode Models using     Measured IV Curves, Proc. of the 39th IEEE PVSC, June 2013.</p><h2>See also<a name="8"></a></h2><p><a href="pvl_calcparams_desoto_help.html"><tt>pvl_calcparams_desoto</tt></a>, <a href="pvl_singlediode_help.html"><tt>pvl_singlediode</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_desoto_parameter_estimation
+% Estimates parameters for the De Soto module performance model
+%
+%% Syntax
+% * |Model = pvl_desoto_parameter_estimation(IVCurves, Specs, Const,
+% maxiter, eps1, graphic, n)|
+%
+%% Description
+% |pvl_desoto_parameter_estimation| estimates parameters for the De Soto module
+% performance model [1]. The estimation proceeds sequentially: the diode 
+% factor is estimated from Voc vs. irradiance, then is used to obtain 
+% four parameters (i.e., IL, Io, Rsh and Rs) for each IV curve. From the
+% parameter values for each IV curve, model parameters (i.e., IL0, Io0,
+% Eg0, Rsh0, and Rs) are estimated by regression. Estimation methods are
+% documented in [2].
+%
+%% Inputs
+% * *|IVCurves|* - a structure array containing IV curve data in the following fields
+% * *|IVCurves(i).I|* - vector of current (A) (same length as V)
+% * *|IVCurves(i).V|* - vector of voltage (V) (same length as I)
+% * *|IVCurves(i).Ee|* - effective irradiance (W/m^2), i.e., POA broadband
+%       irradiance adjusted by solar spectrum modifier
+% * *|IVCurves(i).Tc|* - cell temperature (C)
+% * *|IVCurves(i).Isc|* - short-circut current of IV curve (A)
+% * *|IVCurves(i).Voc|* - open-curcut voltage of IV curve (V)
+% * *|IVCurves(i).Imp|* - current at max power point of IV curve (A)
+% * *|IVCurves(i).Vmp|* - voltage at max power point of IV curve (V)
+%
+% * *|Specs|* - a structure containing module-level values
+% * *|Specs.Ns|* - number of cells in series
+% * *|Specs.aIsc|* - temperature coefficient of Isc (A/C)
+% * *|Specs.bVoc|* - temperature coefficient of Voc (A/C)
+%
+% * *|Const|* - a structure containing physical and other constants
+% * *|Const.E0|* - effective irradiance at STC, normally 1000 W/m2
+% * *|Const.T0|* - cell temperature at STC, normally 25 C
+% * *|Const.k|* - 1.38066E-23 J/K (Boltzmann's constant)
+% * *|Const.q|* - 1.60218E-19 Coulomb (elementary charge)
+%
+%% Optional inputs
+% * *|maxiter|* - an integer setting the maximum number of iterations for the 
+%     parameter updating part of the algorithm. Default value is 5
+%
+% * *|eps1|* - the desired tolerance for convergence for the IV curve fitting.
+%     The iterative parameter updating stops when absolute values of the
+%     relative change in mean, max and standard deviation of Imp, Vmp and Pmp
+%     between iterations are all less than eps1, or when the number of 
+%     iterations exceeds maxiter.  Default value of eps1 is 1e-3 (0.0001%). 
+%
+% * *|graphic|* - a boolean, if true then plots are produced during the 
+%     parameter estimation process. Default is false
+%
+% * *|n|* - a user-supplied value for the diode factor, imposed in place of 
+%     the value estimated from Voc vs. effective irradiance.
+%
+%% Outputs
+% * *|Model|* - a structure containing the model parameters
+% * *|Model.n0|* - diode factor
+% * *|Model.IL_ref|* - light current (A) at STC
+% * *|Model.Io_ref|* - dark current (A) at STC
+% * *|Model.Eg_ref|* - effective band gap (eV) at STC
+% * *|Model.Rsh_ref|* - shunt resistance (ohms) at STC
+% * *|Model.Rs_ref|* - series resistance (ohms) at STC
+% * *|Model.a_ref|* - modified diode (ideality) factor at STC, calculated as
+%       a_ref = n0*Ns*k/q*(T0+273.15)
+% * *|Model.Iph|* - vector of values of light current Iph estimated for each IV
+%       curve
+% * *|Model.Io|* - vector of values of dark current Io estimated for each IV
+%       curve
+% * *|Model.Rsh|* - vector of values of shunt resistance Rsh estimated for each IV
+%       curve
+% * *|Model.Rs|* - vector of values of series resistance Rs estimated for each IV
+%       curve
+% * *|Model.u|* - filter indicating IV curves with parameter values deemed 
+%       reasonable by the private function filter_params
+%
+%% Example
+
+% load IV curve data for a 36 cell Mitsubishi cSi module
+load 'Desoto_demo.mat'
+
+% Build structure for constants
+Const.E0 = 1000; % W/m2
+Const.T0 = 25; % C
+Const.k = 1.38066E-23; % J/K
+Const.q = 1.60218E-19; % c
+
+% set control variables for parameter estimation
+maxiter = 20;
+eps1 = NaN; % use default
+graphic = false;
+n = NaN;  % algorithm will estimate n from data
+
+% Estimate PVsyst model parameters. Structure Model contains the model
+% parameters along with array u (true for IV curves where valid parameter 
+% sets were determined) and vectors Iph, Io, Rsh, Rs which contain 
+% parameter values for each IV curve.
+[Model] = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxiter, eps1, graphic, n);
+
+% Calculate 5 parameters for each IV curve using fitted model
+dEgdT = -0.0002677;  % use default temperature coefficient for band gap Eg from [1]
+[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_desoto([IVCurves.Ee],[IVCurves.Tc],Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+
+% Compute IV curves corresponding to each set of 5 parameters
+Modeled = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth);
+
+% Compute IV curve at STC
+[IL0, Io0, Rs0, Rsh0, nNsVth0] = pvl_calcparams_desoto(1000,25,Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+% Compute IV curve points using 5 parameters. Structure STCModeled includes
+% fields Imp, Vmp, Isc, Voc, Pmp which will be modeled values at STC
+STCModeled = pvl_singlediode(IL0, Io0, Rs0, Rsh0, nNsVth0);
+
+FF0 = (STCModeled.Imp*STCModeled.Vmp)/(STCModeled.Isc*STCModeled.Voc);  % Fill factor at STC
+
+% Calculate temperature coefficients for Vmp, Imp and Voc from simulated IV
+% curves at Ee = 1000. Create vector of cell temperatures for simulation to determine temperature
+% coefficients
+vTc = [15 25 35 45 55 65]';
+% Compute sets of parameter values for simulation to determine temperature
+% coefficients
+[ILtc, Iotc, Rstc, Rshtc, nNsVthtc] = pvl_calcparams_desoto(1000,vTc,Specs.aIsc,Model,Model.Eg_ref, dEgdT);
+% Compute IV curves for simulation to determine temperature
+% coefficients
+Modeledtc = pvl_singlediode(ILtc, Iotc, Rstc, Rshtc, nNsVthtc);
+
+% extract IV curve points and estimate temperature coefficients by
+% regression
+col1 = ones(size(vTc));
+[beta_Vmp]=[vTc-25 col1]\[Modeledtc.Vmp];
+betaVmp = beta_Vmp(1);      % temperature coefficient (V/C) for voltage at maximum power
+[alpha_Imp]=[vTc-25 col1]\[Modeledtc.Imp];
+alphaImp = alpha_Imp(1);    % temperature coefficient (W/C) for current at maximum power
+
+gammaPmp = alphaImp*STCModeled.Vmp+betaVmp*STCModeled.Imp;  % temperature coefficient for maximum power
+
+% Compare calculated and measured IV curve points
+
+Data.Isc = [IVCurves.Isc];
+Data.Imp = [IVCurves.Imp];
+Data.Voc = [IVCurves.Voc];
+Data.Vmp = [IVCurves.Vmp];
+Data.E = [IVCurves.Ee];
+Data.Isc = Data.Isc(:);
+Data.Imp = Data.Imp(:);
+Data.Voc = Data.Voc(:);
+Data.Vmp = Data.Vmp(:);
+Data.E = Data.E(:);
+
+% Plot comparison
+figure('Position',[50 50 50+9*96 50+6*96])
+
+Meas = [Data.Isc, Data.Imp, Data.Imp.*Data.Vmp, Data.Voc, Data.Vmp];
+Mod = [Modeled.Isc, Modeled.Imp, Modeled.Pmp, Modeled.Voc, Modeled.Vmp];
+Title = {'Isc', 'Imp', 'Pmp', 'Voc', 'Vmp'};
+
+
+for i = [1:5]
+    subplot(2,3,i)
+    scatter(Meas(:,i), Mod(:,i), 5, 'k', 'filled')
+    hold on
+    title(Title(i),'fontsize',12,'fontweight','b')
+    xlabel('Measured','fontsize',12)
+    ylabel('Modeled','fontsize',12)
+    axis square
+    datamin = min([Meas(:,i);Mod(:,i)]);
+    datamax = max([Meas(:,i);Mod(:,i)]);
+    datamin = max(datamin - (datamax-datamin)/10,0);
+    datamax = datamax + (datamax-datamin)/10;
+    plot([datamin, datamax], [datamin, datamax],'r', 'LineWidth',2)
+    axis([datamin datamax datamin  datamax])
+    box on
+
+end
+
+%% Sources
+% [1] W. De Soto et al., "Improvement and validation of a model for
+%     photovoltaic array performance", Solar Energy, vol 80, pp. 78-88,
+%     2006.
+%
+% [2] C. Hansen, Parameter Estimation for Single Diode Models of 
+%     Photovoltaic Modules, Sandia National Laboratories Report
+%     SAND2015-2065.
+%
+% [3] C. Hansen, Estimation of Parameters for Single Diode Models using
+%     Measured IV Curves, Proc. of the 39th IEEE PVSC, June 2013.
+
+%% See also 
+% <pvl_calcparams_desoto_help.html |pvl_calcparams_desoto|>,  
+% <pvl_singlediode_help.html |pvl_singlediode|>  
+%%
+% Copyright 2015 Sandia National Laboratories
+
+
+
+
+##### SOURCE END #####
+--></body></html>

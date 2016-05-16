@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_SAMLibraryReader_CECModules</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvl_SAMLibraryReader_CECModules_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_SAMLibraryReader_CECModules</h1><!--introduction--><p>Open a System Advisor Model (SAM) CEC Module library</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Input</a></li><li><a href="#4">Output</a></li><li><a href="#5">Notes</a></li><li><a href="#6">Sources</a></li><li><a href="#7">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><div><ul><li><tt>[CECModuleDB, ModuleNames] = pvl_SAMLibraryReader_CECModules()</tt></li><li><tt>[CECModuleDB, ModuleNames] = pvl_SAMLibraryReader_CECModules(LibraryFile)</tt></li></ul></div><h2>Description<a name="2"></a></h2><p><tt>pvl_SAMLibraryReader_CECModules</tt> reads a System Advisor Model (SAM) [1] library of CEC Modules.</p><h2>Input<a name="3"></a></h2><div><ul><li><b><tt>LibraryFile</tt></b> - An optional input string to select which SAM library to     read. If omitted, a user dialog box will prompt the user to browse and     select a module library. Note that if <tt>LibraryFile</tt> is input to the     function, the standard MATLAB precedence order applies.</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>CECModuleDB</tt></b> - The parameters in the SAM module library. CECModuleDB is   a column vector of length <tt>NumberOfLibraryEntries</tt> where each element.   is a struct with the following fields. These fields may be described in   more detail in the SAM documentation.</li><li><b><tt>CECModuleDB.name</tt></b> - Name of the module entry in the library.</li><li><b><tt>CECModuleDB.t_noct</tt></b> - Nominal Operating Cell Temperature (NOCT) in degrees C of           the module.</li><li><b><tt>CECModuleDB.a_c</tt></b> - Module area in m^2.</li><li><b><tt>CECModuleDB.Ns</tt></b> - Number of series cells within the module.</li><li><b><tt>CECModuleDB.i_sc_ref</tt></b> - Short circuit current under reference conditions.</li><li><b><tt>CECModuleDB.v_oc_ref</tt></b> - Open circuit voltage under reference conditions.</li><li><b><tt>CECModuleDB.i_mp_ref</tt></b> - Maximum power current under reference condtions.</li><li><b><tt>CECModuleDB.v_mp_ref</tt></b> - Maximum power voltage under reference conditions.</li><li><b><tt>CECModuleDB.alpha_sc</tt></b> - Short circuit current temperature coefficient in A/C.</li><li><b><tt>CECModuleDB.beta_oc</tt></b> - Open circuit voltage tempereature coefficient in V/C.</li><li><b><tt>CECModuleDB.a_ref</tt></b> - modified diode ideality factor parameter at          reference conditions (units of eV), a_ref can be calculated from the          usual diode ideality factor (n), number of cells in series (Ns),          and cell temperature (Tcell) per equation (2) in [2].</li><li><b><tt>CECModuleDB.IL_ref</tt></b> - Light-generated current (or photocurrent)          in amperes at reference conditions. This value is referred to          as Iph in some literature.</li><li><b><tt>CECModuleDB.I0_ref</tt></b> - diode reverse saturation current in amperes,          under reference conditions.</li><li><b><tt>CECModuleDB.Rs_ref</tt></b> - series resistance under reference conditions (ohms)</li><li><b><tt>CECModuleDB.Rsh_ref</tt></b> - shunt resistance under reference conditions (ohms)</li><li><b><tt>adjust</tt></b> - Adjustment percentage to allow measured power temperature         coefficient to match reported power temperature coefficient [3].</li><li><b><tt>CECModuleDB.gamma_r</tt></b> - Power temperature coefficient in %/C.</li><li><b><tt>CECModuleDB.source</tt></b> - String describing the type of cells used in the module.</li><li><b><tt>CECModuleDB.LibraryType</tt></b> - Library type as listed in the header information of          the SAM library file.</li><li><b><tt>CECModuleDB.LibraryName</tt></b> - Library name as listed in the header information of          the SAM library file.</li></ul></div><div><ul><li><b><tt>ModuleNames</tt></b> - A cell array of size [NumberOfLibraryEntries, 1] with the       names of the modules in the SAM library.</li></ul></div><h2>Notes<a name="5"></a></h2><p>If this function detects that the selected input library is not of type "CECModule", it will display a warning to the command window and continue to try and read the library.</p><p>The PV_LIB team would also like to thank the SAM team for maintaining the CEC module parameter library and allowing for interaction with the library files.</p><h2>Sources<a name="6"></a></h2><p>[1] System Advisor Model web page. https://sam.nrel.gov.</p><p>[2] W. De Soto et al., "Improvement and validation of a model for     photovoltaic array performance", Solar Energy, vol 80, pp. 78-88,     2006.</p><p>[3] A. Dobos, "An Improved Coefficient Calculator for the California     Energy Commission 6 Parameter Photovoltaic Module Model", Journal of     Solar Energy Engineering, vol 134, 2012.</p><h2>See also<a name="7"></a></h2><p><a href="pvl_singlediode_help.html"><tt>pvl_singlediode</tt></a>, <a href="pvl_calcparams_CEC_help.html"><tt>pvl_calcparams</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_SAMLibraryReader_CECModules
+% Open a System Advisor Model (SAM) CEC Module library
+%
+%% Syntax
+% * |[CECModuleDB, ModuleNames] = pvl_SAMLibraryReader_CECModules()|
+% * |[CECModuleDB, ModuleNames] = pvl_SAMLibraryReader_CECModules(LibraryFile)|
+%
+%% Description
+% |pvl_SAMLibraryReader_CECModules| reads a System Advisor Model (SAM) [1]
+% library of CEC Modules.
+%
+%
+%% Input
+% * *|LibraryFile|* - An optional input string to select which SAM library to
+%     read. If omitted, a user dialog box will prompt the user to browse and
+%     select a module library. Note that if |LibraryFile| is input to the
+%     function, the standard MATLAB precedence order applies.
+%
+%% Output
+% * *|CECModuleDB|* - The parameters in the SAM module library. CECModuleDB is
+%   a column vector of length |NumberOfLibraryEntries| where each element.
+%   is a struct with the following fields. These fields may be described in
+%   more detail in the SAM documentation.
+% * *|CECModuleDB.name|* - Name of the module entry in the library.
+% * *|CECModuleDB.t_noct|* - Nominal Operating Cell Temperature (NOCT) in degrees C of
+%           the module.
+% * *|CECModuleDB.a_c|* - Module area in m^2.
+% * *|CECModuleDB.Ns|* - Number of series cells within the module.
+% * *|CECModuleDB.i_sc_ref|* - Short circuit current under reference
+% conditions.
+% * *|CECModuleDB.v_oc_ref|* - Open circuit voltage under reference
+% conditions.
+% * *|CECModuleDB.i_mp_ref|* - Maximum power current under reference
+% condtions.
+% * *|CECModuleDB.v_mp_ref|* - Maximum power voltage under reference
+% conditions.
+% * *|CECModuleDB.alpha_sc|* - Short circuit current temperature
+% coefficient in A/C.
+% * *|CECModuleDB.beta_oc|* - Open circuit voltage tempereature coefficient
+% in V/C.
+% * *|CECModuleDB.a_ref|* - modified diode ideality factor parameter at
+%          reference conditions (units of eV), a_ref can be calculated from the
+%          usual diode ideality factor (n), number of cells in series (Ns),
+%          and cell temperature (Tcell) per equation (2) in [2].
+% * *|CECModuleDB.IL_ref|* - Light-generated current (or photocurrent) 
+%          in amperes at reference conditions. This value is referred to 
+%          as Iph in some literature.
+% * *|CECModuleDB.I0_ref|* - diode reverse saturation current in amperes, 
+%          under reference conditions.
+% * *|CECModuleDB.Rs_ref|* - series resistance under reference conditions (ohms)
+% * *|CECModuleDB.Rsh_ref|* - shunt resistance under reference conditions (ohms)
+% * *|adjust|* - Adjustment percentage to allow measured power temperature
+%         coefficient to match reported power temperature coefficient [3].
+% * *|CECModuleDB.gamma_r|* - Power temperature coefficient in %/C.
+% * *|CECModuleDB.source|* - String describing the type of cells used in the module.
+% * *|CECModuleDB.LibraryType|* - Library type as listed in the header information of
+%          the SAM library file.
+% * *|CECModuleDB.LibraryName|* - Library name as listed in the header information of
+%          the SAM library file.
+%
+% * *|ModuleNames|* - A cell array of size [NumberOfLibraryEntries, 1] with the
+%       names of the modules in the SAM library. 
+%
+%
+%% Notes
+% If this function detects that the selected input library is not of
+% type "CECModule", it will display a warning to the command window and
+% continue to try and read the library.
+%
+% The PV_LIB team would also like to thank the SAM team for maintaining
+% the CEC module parameter library and allowing for interaction with the
+% library files.
+%
+%% Sources
+%
+% [1] System Advisor Model web page. https://sam.nrel.gov.
+%
+% [2] W. De Soto et al., "Improvement and validation of a model for
+%     photovoltaic array performance", Solar Energy, vol 80, pp. 78-88,
+%     2006.
+%
+% [3] A. Dobos, "An Improved Coefficient Calculator for the California
+%     Energy Commission 6 Parameter Photovoltaic Module Model", Journal of
+%     Solar Energy Engineering, vol 134, 2012.
+%
+%% See also
+% <pvl_singlediode_help.html |pvl_singlediode|>, <pvl_calcparams_CEC_help.html |pvl_calcparams|>
+%
+%%
+% Copyright 2015 Sandia National Laboratories
+##### SOURCE END #####
+--></body></html>
