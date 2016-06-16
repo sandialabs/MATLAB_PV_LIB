@@ -79,6 +79,48 @@ function [M] = pvl_FSspeccorr(Pwat,AMa,varargin)
 
 
 
+% Correct for AMa and Pwat having transposed dimensions 
+if isrow(AMa)
+    AMa = AMa';
+end
+
+if isrow(Pwat)
+    Pwat = Pwat';
+end
+
+% --- Screen Input Data ---
+
+% *** Pwat ***
+% Replace Pwat Values below 0.1 cm with 0.1 cm to prevent model from
+% diverging
+if min(Pwat) < 0.1
+    Pwat(Pwat < 0.1) = 0.1;
+    warning(['Exceptionally low Pwat values replaced with 0.1 cm to prevent',...
+        ' model divergence']);
+end
+
+% Warn user about Pwat data that is exceptionally high
+if max(Pwat) > 8
+    warning(['Exceptionally high Pwat values. Check input data:', ...
+        ' model may diverge in this range']);
+end
+
+% *** AMa ***
+% Replace Extremely High AM with AM 10 to prevent model divergence
+% AM > 10 will only occur very close to sunset
+if max(AMa) > 10 
+  AMa(AMa > 10) = 10;
+end
+
+% Warn user about AMa data that is exceptionally low
+if min(AMa) < 0.58
+   warning(['Exceptionally low air mass: ',...
+       'model not intended for extra-terrestrial use'])
+   % pvl_absoluteairmass(1,pvl_alt2pres(4340)) = 0.58
+   % Elevation of Mina Pirquita, Argentian = 4340 m. Highest elevation city
+   % with population over 50,000.
+end
+
 % If user input is a character array, use appropriate default coefficients.
 if ischar(varargin{1})
     modType = lower(varargin{1});
@@ -102,15 +144,6 @@ if ischar(varargin{1})
 % User input coefficients    
 else
     coeff = varargin{1};
-end
-
-% Correct for AMa and Pwat having transposed dimensions 
-if isrow(AMa)
-    AMa = AMa';
-end
-
-if isrow(Pwat)
-    Pwat = Pwat';
 end
 
 % Evaluate Spectral Shift
