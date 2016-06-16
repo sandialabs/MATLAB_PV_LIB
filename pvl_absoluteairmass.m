@@ -32,8 +32,8 @@ function AMa = pvl_absoluteairmass(AMrelative,pressure)
 % See also PVL_RELATIVEAIRMASS
 
 p=inputParser;
-p.addRequired('AMrelative', @(x) all(isnumeric(x) | isnan(x)));
-p.addRequired('pressure', @(x) all(isnumeric(x) & x>=0));
+p.addRequired('AMrelative', @(x) isnumeric(x));
+p.addRequired('pressure', @(x) isnumeric(x) & all(x>=0 | isnan(x)));
 p.parse(AMrelative,pressure);
 
 AMa = AMrelative.*pressure/101325;

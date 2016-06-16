@@ -44,8 +44,8 @@ function SkyDiffuse = pvl_isotropicsky(SurfTilt, DHI)
 %
 
 p = inputParser;
-p.addRequired('SurfTilt', @(x) all(isnumeric(x) & x<=180 & x>=0 & isvector(x)));
-p.addRequired('DHI', @(x) all(isnumeric(x) & isvector(x) & x>=0));
+p.addRequired('SurfTilt', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
+p.addRequired('DHI', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
 p.parse(SurfTilt, DHI);
 
 SkyDiffuse = DHI *(1+ cosd(SurfTilt)) * 0.5;

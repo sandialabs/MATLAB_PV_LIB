@@ -94,12 +94,12 @@ function [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, varargin)
 % nNsVth is n*Ns*Vth
 
 p = inputParser;
-p.addRequired('IL',@(x) all(x>=0) & isnumeric(x) & isvector(x) );
-p.addRequired('I0', @(x) all(x>=0) & isnumeric(x) & isvector(x));
-p.addRequired('Rs', @(x) all(x>=0) & isnumeric(x) & isvector(x));
-p.addRequired('Rsh', @(x) all(x>=0) & isnumeric(x) & isvector(x));
-p.addRequired('nNsVth',@(x) all(x>=0) & isnumeric(x) & isvector(x) );
-p.addOptional('NumPoints', 0, @(x) isfinite(x) & isscalar(x));
+p.addRequired('IL',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('I0', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('Rs', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('Rsh', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('nNsVth',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addOptional('NumPoints', 0, @(x) isfinite(x) && isscalar(x));
 p.parse(IL, I0, Rs, Rsh, nNsVth, varargin{:});
 
 % Make all inputs into column vectors

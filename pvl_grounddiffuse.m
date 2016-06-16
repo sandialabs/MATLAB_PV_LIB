@@ -38,9 +38,9 @@ function GR = pvl_grounddiffuse(SurfTilt,GHI,Albedo)
 
 
 p = inputParser;
-p.addRequired('GHI',@(x) all(isnumeric(x) & isvector(x) & x>=0));
-p.addRequired('Albedo', @(x) all(isnumeric(x) & isvector(x) & x>=0 & x<=1));
-p.addRequired('SurfTilt', @(x) all(isvector(x) & isnumeric(x)));
+p.addRequired('GHI',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('Albedo', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=1) | isnan(x)));
+p.addRequired('SurfTilt', @(x) isnumeric(x) && isvector(x));
 p.parse(GHI,Albedo,SurfTilt);
 
 GHI = GHI(:);
