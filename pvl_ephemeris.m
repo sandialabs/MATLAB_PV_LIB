@@ -1,3 +1,4 @@
+
 function [SunAz, SunEl, ApparentSunEl, SolarTime]= pvl_ephemeris(Time, Location, varargin)
 % PVL_EPHEMERIS Calculates the position of the sun given time, location, and optionally pressure and temperature
 %

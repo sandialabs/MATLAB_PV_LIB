@@ -131,7 +131,7 @@ if ischar(varargin{1})
             % For modeling the performance of earlier CdTe module series,
             % use the coefficients that are commented out
             % [0.79418,-0.049883,-0.013402,0.16766,0.083377,-0.0044007];
-             coeff = [0.86273,	-0.038948, -0.012506, 0.098871, 0.084658 -0.0042948];
+             coeff = [0.86273, -0.038948, -0.012506, 0.098871, 0.084658, -0.0042948];
         case {'monosi','xsi'}
             % Coefficients for First Solar TetraSun Modules
              coeff = [0.85914, -0.020880, -0.0058853, 0.12029, 0.026814, -0.0017810];
