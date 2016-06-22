@@ -322,7 +322,7 @@ if ~badgamma
     T0K = Const.T0 + 273.15; % convert T0 to K
     X = Const.q/Const.k*(1/T0K - 1./TcK(u))./gamma(u);
     Y = log(Io(u))-3*log(TcK(u)/T0K);
-    beta = robustfit(X,Y);
+    beta = pvl_robustfit(X,Y,true);
     Io0 = exp(beta(1));
     eG = beta(2);
 
@@ -353,7 +353,7 @@ if ~badgamma
         plot(Tc(u),(pIo-Io(u))./Io(u)*100,'x')
         xlabel('Cell temp. (C)')
         ylabel('Percent Deviation in I_O')
-        refline(0,0)
+%        line(mx, [0 0]);
 
         figure('Position',[1 1 600 300])
         plot(Tc(u),Y  + 3*(Tc(u)/Const.T0),'k.')
@@ -379,14 +379,15 @@ if ~badgamma
     % Estimate Iph0
     X = (Tc(u)-Const.T0);
     Y = Iph(u).*(Const.E0./Ee(u));
-    Iph0 = nanmean(Y-Specs.aIsc*X);
+    nans = isnan(Y-Specs.aIsc*X);  % average over non-NaN values of Y and X
+    Iph0 = mean(Y(~nans)-Specs.aIsc*X(~nans));
 
     if graphic
         % predict Iph
         pIph = (Ee(u)/Const.E0).*(Iph0+Specs.aIsc*(Tc(u)-Const.T0));
         figure
         subplot(311)
-        plot(Ee(u), Y,'r+')
+        plot(Ee(u), pIph,'r+')
         hold all
         line([0 max(Ee(u))],[Iph0 Iph0])
         xlabel('Irradiance (W/m^2)')
@@ -406,7 +407,7 @@ if ~badgamma
         plot(Ee(u),(pIph-Iph(u))./Iph(u)*100,'x')
         xlabel('Irradiance (W/m^2)')
         ylabel('Percent Deviation from I_{ L}')
-        refline(0,0)
+        line(xlim, [0 0]);
         
         figure
         plot(Tc(u),Iph(u),'b+');
@@ -428,14 +429,15 @@ if ~badgamma
     % Estimate Rsh0, Rsh_ref and Rshexp
 
     % Initial guesses.  Rsh0 is value at Ee=0.
+    nans = isnan(Rsh);
     if any(Ee<400)
-        gRsh0 = nanmean(Rsh(Ee<400));
+        gRsh0 = mean(Rsh(~nans&Ee<400));
     else
         gRsh0 = max(Rsh);
     end
     % Rsh_ref is value at Ee=1000
     if any(Ee>400)
-        gRshref = nanmean(Rsh(Ee>400));
+        gRshref = mean(Rsh(~nans&Ee>400));
     else
         gRshref = min(Rsh);
     end
@@ -445,10 +447,16 @@ if ~badgamma
     % Here we use a nonlinear least squares technique.  lsqnonlin minimizes the
     % sum of squares of the objective function (here, tf).
     x0 = [gRsh0 gRshref];
-    tf = @(x) log10(estRsh(x,Rshexp,Ee(u),Const.E0)) - log10(Rsh(u));
-    options = optimset('Display','off');  % Notify only on non-convergence
-    beta = lsqnonlin(tf,x0,[1 1],[1e7 1e6],options);
-
+    tmp = which('lsqnonlin');
+    if ~isempty(tmp)
+        tf = @(x) log10(estRsh(x,Rshexp,Ee(u),Const.E0)) - log10(Rsh(u));
+        options = optimset('Display','off');  % Notify only on non-convergence
+        beta = lsqnonlin(tf,x0,[1 1],[1e7 1e6],options);
+    else
+        tf = @(x) sum((log10(estRsh(x,Rshexp,Ee(u),Const.E0)) - log10(Rsh(u))).^2);
+        beta = fminsearch(tf,x0);
+    end
+        
     % Extract PVsyst parameter values
     Rsh0 = beta(1);
     Rshref = beta(2);
@@ -471,7 +479,7 @@ if ~badgamma
         plot(Ee(u),(log10(pRsh(u)) - log10(Rsh(u)))./log10(Rsh(u))*100,'x')
         xlabel('Irradiance (W/m^2)')
         ylabel('Percent Deviation in log_{10}(R_{sh})')
-        refline(0,0)
+        line(xlim, [0 0]);
 %        ylim([-35 15])
 
         figure
@@ -507,7 +515,7 @@ if ~badgamma
         plot(Ee(u),(Rs0-Rs(u))./Rs(u)*100,'x')
         xlabel('Irradiance (W/m^2)')
         ylabel('Percent Deviation in R_S')
-        refline(0,0)
+        line(xlim, [0 0]);
         
         figure
         plot(Ee(u&v),Rs(u&v),'b.')
