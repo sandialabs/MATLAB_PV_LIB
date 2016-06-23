@@ -445,7 +445,9 @@ E_minutes(E_minutes > 20) = E_minutes(E_minutes > 20) - 1440;
 end
 
 function [DeltaT]=calculate_deltaT(year, month)
-	
+% This function generates delta T based upon year and month using 
+% piecewise polynomial expressions.
+
     % The equations aren't meant to be used outside of the range of years
     % [-1999, 3000]
     if any(year < -1999 | year > 3000)
