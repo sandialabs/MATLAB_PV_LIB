@@ -15,6 +15,9 @@ function TMYData = pvl_readtmy3(varargin)
 %   If a FileName is not provided, the user will be prompted to browse to
 %   an appropriate TMY3 file.
 %
+%   TMY3 format was changed slightly on January 19, 2015 ([2]) to include
+%   Present weather variables along with changes to other variables. 
+%
 %   Input
 %     FileName - an optional argument which allows the user to select which
 %     TMY3 format file should be read. A file path may also be necessary if
@@ -106,11 +109,22 @@ function TMYData = pvl_readtmy3(varargin)
 %       TMYData.Lprecipquantity - The period of accumulation for the liquid precipitation depth field, hour
 %       TMYData.LprecipSource - See [1], Table 1-5, 8760x1 cell array of strings
 %       TMYData.LprecipUncertainty - See [1], Table 1-6
+%       TMYData.PresWth - Present weather code, see [2]. Only available in
+%         TMY3 files created after the January 2015 TMY3 update.
+%       TMYData.PresWthSource - Present weather code source, see [2]. Only
+%         available in TMY3 files created after the Jan. 2015 TMY3 update.
+%       TMYData.PresWthUncertainty - Present weather code uncertainty, see
+%         [2]. Only available in TMY3 files after the Jan. 2015 update.
 %
 % Reference
 % [1] Wilcox, S and Marion, W., 2008. Users Manual for TMY3 Data Sets, 
 % NREL/TP-581-43156, National Renewable Energy Laboratory.  Available at
 % <http://www.nrel.gov/docs/fy08osti/43156.pdf>.
+%
+% [2] National Solar Radiation Data Base, 1991-2005 Update: Typical
+% Meteorological Year 3. 
+% http://rredc.nrel.gov/solar/old_data/nsrdb/1991-2005/tmy3/ retrieved June
+% 6, 2016.
 %
 %
 % See also
@@ -136,7 +150,8 @@ Header1 = textscan(FileID, '%f%q%q%f%f%f%f', 1,'Delimiter',',');
 Header2 = textscan(FileID, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s',1,'Delimiter',',');
 DataLines = textscan(FileID, '%s%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%f%s%f',8760,'Delimiter',',');
 ST = fclose(FileID);
-%% Read in the data from the struct created from the textscan
+
+% Parse out the header information since it is common to both formats
 TMYData.SiteID = Header1{1};
 TMYData.StationName = Header1{2};
 TMYData.StationState = Header1{3};
@@ -144,6 +159,31 @@ TMYData.SiteTimeZone = Header1{4};
 TMYData.SiteLatitude = Header1{5};
 TMYData.SiteLongitude = Header1{6};
 TMYData.SiteElevation = Header1{7};
+%% Determine if the file is from pre-January 19, 2015 or post-20150119
+if isempty(strfind(char(DataLines{1,1}{1,1}), 'PresWth'))
+    % The string 'PresWth' was not found in DataLines{1,1}{1,1}, so we have a
+    % pre-2015 TMY3 file
+    TMYData = ParsePre2015TMY(DataLines);
+else
+    % The string 'PresWth' was found in DataLines{1,1}{1,1}, so we have a
+    % post-2015 TMY3 file. We'll need to re-import the file to accomodate
+    % the additional columns.
+    FileID = fopen(FilePathAndNameAndExt);
+    Header1 = textscan(FileID, '%f%q%q%f%f%f%f', 1,'Delimiter',',');
+    Header2 = textscan(FileID, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s',1,'Delimiter',',');
+    DataLines = textscan(FileID, '%s%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%f%s%f%f%s%f',8760,'Delimiter',',');
+    ST = fclose(FileID);
+    
+    TMYData = ParsePost2015TMY(DataLines);
+end
+end
+
+function TMYData = ParsePre2015TMY(DataLines)
+
+%% Read in the data from the struct created from the textscan for TMY3 
+% This fuction will read pre-2015 TMY3 files and sort them into column
+% vectors. A different format is used for TMY3 files after the January 2015
+% update, and thus requires a different function.
 
 TMYData.DateString = DataLines{1};
 TMYData.TimeString = DataLines{2};
@@ -215,3 +255,84 @@ TMYData.LprecipSource = DataLines{67};
 TMYData.LprecipUncertainty = DataLines{68};
 %% Create a MATLAB datenum  from the string date and time
 TMYData.DateNumber = datenum(strcat(TMYData.DateString,'-',TMYData.TimeString),'mm/dd/yyyy-HH:MM'); %MATLAB datenum format
+end
+
+
+
+function TMYData = ParsePost2015TMY(DataLines)
+
+%% Read in the data from the struct created from the textscan
+TMYData.DateString = DataLines{1};
+TMYData.TimeString = DataLines{2};
+TMYData.ETR = DataLines{3};
+TMYData.ETRN = DataLines{4};
+TMYData.GHI = DataLines{5};
+TMYData.GHISource = DataLines{6};
+TMYData.GHIUncertainty = DataLines{7};
+TMYData.DNI = DataLines{8};
+TMYData.DNISource = DataLines{9};
+TMYData.DNIUncertainty = DataLines{10};
+TMYData.DHI = DataLines{11};
+TMYData.DHISource = DataLines{12};
+TMYData.DHIUncertainty = DataLines{13};
+TMYData.GHillum = DataLines{14};
+TMYData.GHillumSource = DataLines{15};
+TMYData.GHillumUncertainty = DataLines{16};
+TMYData.DNillum = DataLines{17};
+TMYData.DNillumSource = DataLines{18};
+TMYData.DNillumUncertainty = DataLines{19};
+TMYData.DHillum = DataLines{20};
+TMYData.DHillumSource = DataLines{21};
+TMYData.DHillumUncertainty = DataLines{22};
+TMYData.Zenithlum = DataLines{23};
+TMYData.ZenithlumSource = DataLines{24};
+TMYData.ZenithlumUncertainty = DataLines{25};
+TMYData.TotCld = DataLines{26};
+TMYData.TotCldSource = DataLines{27};
+TMYData.TotCldUnertainty = DataLines{28};
+TMYData.OpqCld = DataLines{29};
+TMYData.OpqCldSource = DataLines{30};
+TMYData.OpqCldUncertainty = DataLines{31};
+TMYData.DryBulb = DataLines{32};
+TMYData.DryBulbSource = DataLines{33};
+TMYData.DryBulbUncertainty = DataLines{34};
+TMYData.DewPoint = DataLines{35};
+TMYData.DewPointSource = DataLines{36};
+TMYData.DewPointUncertainty = DataLines{37};
+TMYData.RHum = DataLines{38};
+TMYData.RHumSource = DataLines{39};
+TMYData.RHumUncertainty = DataLines{40};
+TMYData.Pressure = DataLines{41};
+TMYData.PressureSource = DataLines{42};
+TMYData.PressureUncertainty = DataLines{43};
+TMYData.Wdir = DataLines{44};
+TMYData.WdirSource = DataLines{45};
+TMYData.WdirUncertainty = DataLines{46};
+TMYData.Wspd = DataLines{47};
+TMYData.WspdSource = DataLines{48};
+TMYData.WspdUncertainty = DataLines{49};
+TMYData.Hvis = DataLines{50};
+TMYData.HvisSource = DataLines{51};
+TMYData.HvisUncertainty = DataLines{52};
+TMYData.CeilHgt = DataLines{53};
+TMYData.CeilHgtSource = DataLines{54};
+TMYData.CeilHgtUncertainty = DataLines{55};
+TMYData.Pwat = DataLines{56};
+TMYData.PwatSource = DataLines{57};
+TMYData.PwatUncertainty = DataLines{58};
+TMYData.AOD = DataLines{59};
+TMYData.AODSource = DataLines{60};
+TMYData.AODUncertainty = DataLines{61};
+TMYData.Alb = DataLines{62};
+TMYData.AlbSource = DataLines{63};
+TMYData.AlbUncertainty = DataLines{64};
+TMYData.Lprecipdepth = DataLines{65};
+TMYData.Lprecipquantity = DataLines{66};
+TMYData.LprecipSource = DataLines{67};
+TMYData.LprecipUncertainty = DataLines{68};
+TMYData.PresWth = DataLines{69};
+TMYData.PresWthSource = DataLines{70};
+TMYData.PresWthUncertainty = DataLines{71};
+%% Create a MATLAB datenum  from the string date and time
+TMYData.DateNumber = datenum(strcat(TMYData.DateString,'-',TMYData.TimeString),'mm/dd/yyyy-HH:MM'); %MATLAB datenum format
+end
