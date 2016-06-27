@@ -69,8 +69,10 @@ Location.altitude = 1619;
 UTCoffset = 0; % because example data are in UTC time
 
 win_length = 10; % consider 10 minute intervals
-sample_interval = 1; % GHI data is nominally at 1 minute intervals
-
+% GHI data is nominally at 1 minute intervals, but in our example there are
+% missing samples and data aren't exactly at 1 minute intervals
+sample_interval = 1; 
+% Demonstrate algorithm for unequally spaced data
 [clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time, UTCoffset, Location, win_length, sample_interval);
 
 figure
@@ -82,3 +84,30 @@ ylabel('GHI (W/m^2)')
 datetick('x','mm/dd','KeepTicks')
 legend('GHI data','Clear times')
 
+%% make data equally spaced by rounding, fill in missing data by linear
+% interpolation
+
+% create full time vector sTime
+sivec = 0:round(max(Time)*1440) - round(Time(1)*1440);
+sTime = (round(Time(1)*1440) + sivec)/1440;
+sTime = sTime(:);
+
+sGHI = NaN(size(sTime));
+sGHI(round(Time*1440) - round(Time(1)*1440) + 1) = GHI;
+% interpolate GHI to fill in NaNs in daylight GHI. Leave NaNs in for nighttime data
+[~, SunEl, ~, ~] = pvl_ephemeris(pvl_maketimestruct(sTime,UTCoffset), Location);
+daylight = SunEl > 1;
+u = isnan(sGHI) & daylight;
+sGHI(u) = interp1(sTime(daylight & ~u), sGHI(daylight & ~u), sTime(u));
+
+% Demonstrate algorithm for equally spaced data
+[clearSamples, csGHI, alpha] = pvl_detect_clear_times(sGHI, sTime, UTCoffset, Location, win_length, sample_interval);
+
+figure
+hold all
+plot(sTime, sGHI, 'b.')
+plot(sTime(clearSamples), sGHI(clearSamples), 'r.')
+xlabel('Time (UTC)')
+ylabel('GHI (W/m^2)')
+datetick('x','mm/dd','KeepTicks')
+legend('GHI data','Clear times')

@@ -12,9 +12,12 @@ function [clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time, UTCoff
 %   identifies clear periods, uses the identified periods to estimate bias
 %   in the clear sky model and/or GHI data, adjusts the clear sky model and
 %   repeats.  Code handles GHI data with some irregularities, i.e., missing
-%   values or unequal data spacing.  Code execution can be made
-%   significantly faster if equally spaced and complete data can be
-%   assumed.
+%   values or unequal data spacing, but execution is significantly faster 
+%   if data are equally spaced and without missing values.
+%   
+%   If non-daylight times are included the corresponding GHI values should
+%   be NaNs.
+%
 %   Clear times are identified by meeting 5 criteria, thresholds
 %   for which are hardcoded in this version.  Values for these thresholds
 %   are appropriate for 10 minute windows of 1 minute GHI data.
@@ -86,6 +89,21 @@ dates = datenum(dv(:,1:3));
 days = unique(dates);
 ivec = (1:length(Time))';
 
+% check for equally spaced data, code execution is much faster with equal
+% time spacing
+
+sTime = diff(round(Time*1440)); % minutes between samples
+if length(unique(sTime)) == 1 && mod(win_length, sample_interval)==0
+    % equally spaced data, none missing
+    equal_spacing = true;
+else
+    equal_spacing = false;
+end
+
+% get sun angles for determining sunrise/sunset
+[~, SunEl, ~, ~] = pvl_ephemeris(pvl_maketimestruct(Time,UTCoffset), Location);
+daylight = SunEl > 1;
+
 % Get standard Ineichen clear sky GHI
 csGHI0 = pvl_clearsky_ineichen(pvl_maketimestruct(Time,UTCoffset),Location);
 % replace NaNs with 0
@@ -97,56 +115,81 @@ csGHI0(csNaNs) = 0;
 max_samples_per_window = 2 * win_length / sample_interval;  % upper bound on number of data samples in an interval
 min_samples_per_window = floor(0.8 * win_length / sample_interval) ; % lower bound on number of data samples in an interval
 
-% initialize some arrays
-clearMean = NaN(size(GHI));
-clearMax = clearMean;
-clearMaxSlope = clearMean;
-timeDiff = zeros(max_samples_per_window, length(clearMean));
-clearGHIDiff = timeDiff;
+if not(equal_spacing)
+    % pre-allocate some arrays
+    clearMean = NaN(size(GHI));
+    clearMax = clearMean;
+    clearMaxSlope = clearMean;
+    timeDiff = zeros(max_samples_per_window, length(clearMean));
+    clearGHIDiff = timeDiff;
 
-measuredMean  = clearMean;
-measuredMax  = clearMean;
-measuredMaxSlope  = clearMean;
-measuredSqSlope  = clearMean;
-measuredStdSlope  = clearMean;
-measuredLineLength = clearMean;
+    measuredMean  = clearMean;
+    measuredMax  = clearMean;
+    measuredMaxSlope  = clearMean;
+    measuredSqSlope  = clearMean;
+    measuredStdSlope  = clearMean;
+    measuredLineLength = clearMean;
 
-
-k = 0; % counts number of intervals meeting data size criteria, i.e., samples between min_samples_per_window and max_samples_per_window
-for j = 1:length(Time)
-    tu = Time>=Time(j) & Time<(Time(j)+ (win_length + 1)/1440);
-    if sum(tu) >= min_samples_per_window && sum(tu) <= max_samples_per_window  % at least 8 measurements within a window but not more than 20
-        k = k + 1;
+    k = 0; % counts number of intervals meeting data size criteria, i.e., samples between min_samples_per_window and max_samples_per_window
+    for j = 1:length(Time)
+        tu = Time>=Time(j) & Time<(Time(j)+ (win_length + 1)/1440);
         tidx = ivec(tu);
-        w = diff(Time(tidx)*1440);  % time intervals in minutes between samples
-        
-        % Calculate parameters (all but line length) for alpha=1 case
-        wx = [w; 0]/sum(w); % leave last point out of mean
-        clearMean(j) = sum(wx.*csGHI0(tidx));
-        clearMax(j) = max(csGHI0(tidx));
-        clearMaxSlope(j) = max(abs(diff(csGHI0(tidx),1,1)./w));
-        tmp_diffGHI = diff(csGHI0(tidx));
-        clearGHIDiff(1:length(tmp_diffGHI),j) = tmp_diffGHI;
-        timeDiff(1:length(tmp_diffGHI),j) = w;
+        tmp_GHI = GHI(tidx);
+        if sum(daylight(tu)) < min_samples_per_window 
+            % sun is not above horizon, skip interval
+        elseif sum(~isnan(tmp_GHI)) >= min_samples_per_window && ...
+                sum(~isnan(tmp_GHI)) <= max_samples_per_window  % e.g., at least 8 measurements within a window but not more than 20
+            k = k + 1;
+            tmp_csGHI0 = csGHI0(tidx);
+            w = diff(Time(tidx)*1440);  % time intervals in minutes between samples
 
-        % Calculate parameters for measured GHI
-        measuredMean(j) = sum(wx.*GHI(tidx));
-        measuredMax(j) = max(GHI(tidx));
-        tmpSlope = diff(GHI(tidx),1,1)./w;
-        measuredMaxSlope(j) = max(abs(tmpSlope));
-        measuredSqSlope(j) = sum(tmpSlope.^2);
-        measuredStdSlope(j) = std(tmpSlope);
-        measuredLineLength(j) = sum(sqrt(diff(GHI(tidx),1,1).^2 + w.^2)); 
-    else
-        % too much missing data or too many data samples
-        disp(['Data problem between ' datestr(min(Time(tu))) ' and ' datestr(max(Time(tu))) ...
-            ' have ' num2str(sum(tu)) ' values']);
+            % Calculate parameters (all but line length) for alpha=1 case
+            wx = [w; 0]/sum(w); % leave last point out of mean
+            clearMean(j) = sum(wx.*tmp_csGHI0);
+            clearMax(j) = max(tmp_csGHI0);
+            clearMaxSlope(j) = max(abs(diff(tmp_csGHI0,1,1)./w));
+            tmp_diffGHI = diff(tmp_csGHI0);
+            clearGHIDiff(1:length(tmp_diffGHI),j) = tmp_diffGHI;
+            timeDiff(1:length(tmp_diffGHI),j) = w;
+
+            % Calculate parameters for measured GHI
+            measuredMean(j) = sum(wx.*tmp_GHI);
+            measuredMax(j) = max(tmp_GHI);
+            tmpSlope = diff(tmp_GHI,1,1)./w;
+            measuredMaxSlope(j) = max(abs(tmpSlope));
+            measuredSqSlope(j) = sum(tmpSlope.^2);
+            measuredStdSlope(j) = std(tmpSlope);
+            measuredLineLength(j) = sum(sqrt(diff(tmp_GHI,1,1).^2 + w.^2)); 
+        else            
+            % too much missing data or too many data samples
+            disp(['Data problem between ' datestr(min(Time(tu))) ' and ' datestr(max(Time(tu))) ...
+                ' have ' num2str(sum(tu)) ' values']);
+        end
     end
+    
+else % equal data spacing
+
+    samples_per_window = win_length / sample_interval;
+    H = hankel(1:samples_per_window,samples_per_window:length(Time));
+    clearMean = mean(csGHI0(H));
+    clearMax = max(csGHI0(H));
+    clearSlope = diff(csGHI0(H),1,1);
+
+    % Calculate parameters for measured GHI
+    measuredMean = mean(GHI(H));
+    measuredMax = max(GHI(H));
+    measuredSlope = diff(GHI(H),1,1);
+    measuredLineLength = sum(sqrt(measuredSlope.^2 + (sample_interval*ones(size(measuredSlope))).^2 ));
+    
 end
 
-% Normalized variance of measured GHI < 0.005 criterion doesn't depend on
-% clear sky GHI
-c4 = measuredStdSlope ./ measuredMean < VarDiff;
+% Normalized variance of measured GHI < Vardeiff criterion doesn't depend on
+% clear sky GHI, compute outside of iteration on CS model adjustment alpha
+if not(equal_spacing)
+    c4 = measuredStdSlope ./ measuredMean < VarDiff;
+else
+    c4 = std(measuredSlope) ./ measuredMean < VarDiff;
+end
 
 % initialize state for iterative process
 alpha = 1;      %start off with Ineichen clear sky model 
@@ -159,8 +202,15 @@ for ii=1:20
     csGHI = alpha * csGHI0;
     
     % Adjust Clear Sky Model parameters for scaling by alpha
-    clearLineLength = sum(sqrt((alpha*clearGHIDiff).^2 + timeDiff.^2 ));
-    clearLineLength = clearLineLength(:);
+    if not(equal_spacing)
+        clearLineLength = sum(sqrt((alpha*clearGHIDiff).^2 + timeDiff.^2 ));
+        clearLineLength = clearLineLength(:);
+    else
+        clearLineLength = sum(sqrt((alpha*clearSlope).^2 + (sample_interval*ones(size(measuredSlope))).^2 ));
+        measuredMaxSlope = max(abs(measuredSlope));
+        clearMaxSlope = max(abs(clearSlope));
+    end
+    
 
     % Evaluate comparison criteria
     c1 = abs(measuredMean - alpha * clearMean) < MeanDiff;
@@ -184,11 +234,15 @@ for ii=1:20
     
     clearSamples = false(size(GHI));
 
-    for j = 1:length(Time)
-        if clearWindows(j)
-            tu = Time>=Time(j) & Time<(Time(j)+win_length/1440);
-            clearSamples(tu) = true;
+    if not(equal_spacing)
+        for j = 1:length(Time)
+            if clearWindows(j)
+                tu = Time>=Time(j) & Time<(Time(j)+win_length/1440);
+                clearSamples(tu) = true;
+            end
         end
+    else
+        clearSamples = ismember(ivec,H(:,clearWindows));
     end
 
     RMSE = @(x)sqrt(mean((GHI(clearSamples) - x*csGHI0(clearSamples)).^2));
