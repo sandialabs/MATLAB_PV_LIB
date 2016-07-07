@@ -91,7 +91,6 @@ Const.q = 1.60218E-19; % c
 maxiter = 20;
 eps1 = NaN; % use default
 graphic = false;
-graphic = true;
 
 % Estimate PVsyst model parameters. Structure PVsyst contains the model
 % parameters.  Logical oflag indicates success or failure. Logical array u

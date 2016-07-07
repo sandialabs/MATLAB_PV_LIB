@@ -1,0 +1,188 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_detect_shadows</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_detect_shadows_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_detect_shadows</h1><!--introduction--><p>Identify shading on a GHI instrument from nearby structures such as wires and poles.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Output</a></li><li><a href="#5">Notes</a></li><li><a href="#6">References</a></li><li><a href="#7">Load example data</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">|out = pvl_detect_shadows(Time, GHI, dbg)|
+</pre><h2>Description<a name="2"></a></h2><pre class="language-matlab">|pvl_detect_shadows| uses morphological <span class="string">image</span> <span class="string">processing</span> <span class="string">methods</span> <span class="string">to</span>
+identify <span class="string">shadows</span> <span class="string">from</span> <span class="string">fixed</span> <span class="string">local</span> <span class="string">objects</span> <span class="string">in</span> <span class="string">GHI</span> <span class="string">data.</span> <span class="string">GHI</span> <span class="string">data</span> <span class="string">are</span>
+are <span class="string">assumed</span> <span class="string">to</span> <span class="string">be</span> <span class="string">reasonably</span> <span class="string">complete</span> <span class="string">with</span> <span class="string">relatively</span> <span class="string">few</span> <span class="string">missing</span> <span class="string">values</span>
+and <span class="string">at</span> <span class="string">a</span> <span class="string">fixed</span> <span class="string">time</span> <span class="string">interval</span> <span class="string">nominally</span> <span class="string">of</span> <span class="string">1</span> <span class="string">minute</span> <span class="string">over</span> <span class="string">the</span> <span class="string">course</span> <span class="string">of</span>
+several <span class="string">months.</span> <span class="string">Shadows</span> <span class="string">are</span> <span class="string">assumed</span> <span class="string">to</span> <span class="string">be</span> <span class="string">relatively</span> <span class="string">short</span> <span class="string">duration.</span>
+The <span class="string">algorithm</span> <span class="string">forms</span> <span class="string">a</span> <span class="string">2D</span> <span class="string">image</span> <span class="string">of</span> <span class="string">the</span> <span class="string">GHI</span> <span class="string">data</span> <span class="string">by</span> <span class="string">arranging</span> <span class="string">time</span> <span class="string">of</span> <span class="string">day</span>
+along <span class="string">the</span> <span class="string">x-axis</span> <span class="string">and</span> <span class="string">day</span> <span class="string">of</span> <span class="string">year</span> <span class="string">along</span> <span class="string">the</span> <span class="string">y-axis.</span> <span class="string">Rapid</span> <span class="string">change</span> <span class="string">in</span> <span class="string">GHI</span>
+in <span class="string">the</span> <span class="string">x-direction</span> <span class="string">is</span> <span class="string">used</span> <span class="string">to</span> <span class="string">identify</span> <span class="string">edges</span> <span class="string">of</span> <span class="string">shadows</span>; continuity <span class="string">in</span>
+the <span class="string">y-direction</span> <span class="string">is</span> <span class="string">used</span> <span class="string">to</span> <span class="string">separate</span> <span class="string">local</span> <span class="string">object</span> <span class="string">shading</span> <span class="string">from</span> <span class="string">cloud</span>
+shadows.
+</pre><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Time</tt></b> - a K x 1 vector of datetimes in UTC corresponding to the measured GHI</li><li><b><tt>GHI</tt></b> - a K x 1 vector of measured GHI (W/m2)</li><li><b><tt>interval</tt></b> - an integer number of minutes between data points</li><li><b><tt>site_info</tt></b> - a structure with the following fields:</li><li><b><tt>site_info.lat</tt></b> - site latitude</li><li><b><tt>site_info.long</tt></b> - site longitude, positive is east of prime meridian</li><li><b><tt>site_info.alt</tt></b> - site altitude in meters</li><li><b><tt>UTCoffset</tt></b> - in hours, positive for east of prime meridian</li><li><b><tt>dbg</tt></b> - a boolean; additional plots are created if set to True</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>out</tt></b> - a structure with the following fields:</li><li>*|out.localtime - a K x 1 vector of datetime in adjusted by UTCoffset</li><li><b><tt>out.GHI</tt></b> - copy of input GHI in M x N = (samples per day) x (days) format</li><li><b><tt>out.boosted</tt></b> - M x N array of GHI after adjustment for dynamic range</li><li><b><tt>out.alpha</tt></b> - scalar used to adjust dynamic range</li><li><b><tt>out.gradient</tt></b> - M x N array of morphological gradient of boosted</li><li><b><tt>out.clouds</tt></b> - M x N array of boolean with True indicating non-clearsky conditions</li><li><b><tt>out.night</tt></b> - M x N array of boolean with True indicating clearsky GHI&lt;100 W/m2</li><li><b><tt>thresholded</tt></b> - M x N array of boolean with True indicating a large morphological gradient</li><li><b><tt>wires</tt></b> - M x N array of boolean with True indicating a shadow</li></ul></div><h2>Notes<a name="5"></a></h2><pre class="language-matlab">Morphological <span class="string">image</span> <span class="string">functions</span> <span class="string">are</span> <span class="string">defined</span> <span class="string">as</span> <span class="string">methods</span> <span class="string">in</span> <span class="string">class</span> <span class="string">GHIImage.</span>
+Method <span class="string">names</span> <span class="string">are</span> <span class="string">common</span> <span class="string">in</span> <span class="string">literature</span>, and <span class="string">the</span> <span class="string">Matlab</span> <span class="string">Image</span> <span class="string">Processing</span>
+toolbox <span class="string">uses</span> <span class="string">the</span> <span class="string">common</span> <span class="string">naming</span> <span class="string">convention.</span>  <span class="string">To</span> <span class="string">avoid</span> <span class="string">namespace</span> <span class="string">conflict</span>
+with <span class="string">the</span> <span class="string">Matlab</span> <span class="string">toolbox</span>, the <span class="string">PVLib</span> <span class="string">implementation</span> <span class="string">uses</span> <span class="string">a</span> <span class="string">class</span>
+definition.
+</pre><h2>References<a name="6"></a></h2><pre class="language-matlab">[1] Martin, C. E., Hansen, C. W., An <span class="string">Image</span> <span class="string">Processing</span> <span class="string">Algorithm</span> <span class="string">to</span>
+Identify <span class="string">Near-Field</span> <span class="string">Shading</span> <span class="string">in</span> <span class="string">Irradiance</span> <span class="string">Measurements</span>, preprint <span class="string">2016</span>
+[2] Reno, M.J. and C.W. Hansen, "Identification of <span class="string">periods</span> <span class="string">of</span> <span class="string">clear</span> <span class="string">sky</span>
+irradiance <span class="string">in</span> <span class="string">time</span> <span class="string">series</span> <span class="string">of</span> <span class="string">GHI</span> <span class="string">measurements"</span> <span class="string">Renewable</span> <span class="string">Energy</span>, v90,
+p. 520-531, 2016.
+</pre><h2>Load example data<a name="7"></a></h2><pre class="codeinput">fprintf(<span class="string">'Loading data...'</span>);
+load(<span class="string">'SMUD22_GHI_data.mat'</span>);
+data_interval = 1; <span class="comment">% minutes, time between GHI samples</span>
+x = pvl_detect_shadows(data.Time, data.GHI, data_interval, data.info, false);
+tmp=x.GHI+1;  <span class="comment">% add 1 to avoid zeros, which can be a problem for the image</span>
+tmp(x.night)=NaN;
+make_shadow_figure(tmp, x.localtime,-1);
+c=colorbar;
+c.Label.String = <span class="string">'Scaled GHI (W/m^2)'</span>;
+title(<span class="string">'GHI data'</span>)
+
+<span class="comment">%  figure showing only wires</span>
+tmp=100*x.wires;
+tmp(x.night)=18;
+make_shadow_figure(tmp,x.localtime,1);
+title(<span class="string">'Detected shadows'</span>);
+</pre><pre class="codeoutput">Loading data...
+Computing clear sky estimate...
+Removing clouds...
+</pre><img vspace="5" hspace="5" src="pvl_detect_shadows_help_01.png" alt=""> <img vspace="5" hspace="5" src="pvl_detect_shadows_help_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_detect_shadows
+% Identify shading on a GHI instrument from nearby structures such as 
+% wires and poles.
+%
+%% Syntax
+%   |out = pvl_detect_shadows(Time, GHI, dbg)|
+%
+%% Description
+%   |pvl_detect_shadows| uses morphological image processing methods to
+%   identify shadows from fixed local objects in GHI data. GHI data are 
+%   are assumed to be reasonably complete with relatively few missing values
+%   and at a fixed time interval nominally of 1 minute over the course of 
+%   several months. Shadows are assumed to be relatively short duration. 
+%   The algorithm forms a 2D image of the GHI data by arranging time of day 
+%   along the x-axis and day of year along the y-axis. Rapid change in GHI
+%   in the x-direction is used to identify edges of shadows; continuity in
+%   the y-direction is used to separate local object shading from cloud
+%   shadows.
+%
+%% Inputs
+% * *|Time|* - a K x 1 vector of datetimes in UTC corresponding to the measured GHI
+% * *|GHI|* - a K x 1 vector of measured GHI (W/m2) 
+% * *|interval|* - an integer number of minutes between data points
+% * *|site_info|* - a structure with the following fields:
+% * *|site_info.lat|* - site latitude
+% * *|site_info.long|* - site longitude, positive is east of prime meridian
+% * *|site_info.alt|* - site altitude in meters
+% * *|UTCoffset|* - in hours, positive for east of prime meridian
+% * *|dbg|* - a boolean; additional plots are created if set to True
+%
+%% Output
+% * *|out|* - a structure with the following fields:
+% * *|out.localtime - a K x 1 vector of datetime in adjusted by UTCoffset
+% * *|out.GHI|* - copy of input GHI in M x N = (samples per day) x (days) format
+% * *|out.boosted|* - M x N array of GHI after adjustment for dynamic range
+% * *|out.alpha|* - scalar used to adjust dynamic range
+% * *|out.gradient|* - M x N array of morphological gradient of boosted
+% * *|out.clouds|* - M x N array of boolean with True indicating non-clearsky conditions
+% * *|out.night|* - M x N array of boolean with True indicating clearsky GHI<100 W/m2
+% * *|thresholded|* - M x N array of boolean with True indicating a large morphological gradient 
+% * *|wires|* - M x N array of boolean with True indicating a shadow
+% 
+%% Notes
+%   Morphological image functions are defined as methods in class GHIImage.
+%   Method names are common in literature, and the Matlab Image Processing
+%   toolbox uses the common naming convention.  To avoid namespace conflict
+%   with the Matlab toolbox, the PVLib implementation uses a class
+%   definition.
+%
+%% References
+%   [1] Martin, C. E., Hansen, C. W., An Image Processing Algorithm to 
+%   Identify Near-Field Shading in Irradiance Measurements, preprint 2016
+%   [2] Reno, M.J. and C.W. Hansen, "Identification of periods of clear sky
+%   irradiance in time series of GHI measurements" Renewable Energy, v90, 
+%   p. 520-531, 2016.
+%
+%% Load example data
+fprintf('Loading data...');
+load('SMUD22_GHI_data.mat');
+data_interval = 1; % minutes, time between GHI samples
+x = pvl_detect_shadows(data.Time, data.GHI, data_interval, data.info, false);
+tmp=x.GHI+1;  % add 1 to avoid zeros, which can be a problem for the image
+tmp(x.night)=NaN;
+make_shadow_figure(tmp, x.localtime,-1);
+c=colorbar;
+c.Label.String = 'Scaled GHI (W/m^2)';
+title('GHI data')
+
+%  figure showing only wires
+tmp=100*x.wires;
+tmp(x.night)=18;
+make_shadow_figure(tmp,x.localtime,1);
+title('Detected shadows');
+
+
+
+##### SOURCE END #####
+--></body></html>

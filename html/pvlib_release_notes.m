@@ -26,6 +26,24 @@
 %
 %% Version History 
 %
+%% *Version 1.32:* February-2016
+%
+% *New Functions*
+%
+% |pvl_detect_clear_times| - Identify times with GHI consistent with clear
+% sky conditions.
+%
+% |pvl_detect_shadows| - Identify shading on a GHI instrument from nearby structures such as 
+% wires and poles.
+%
+% |pvl_huld_parameter_estimation| - Estimates parameters for the Huld module performance model.
+%
+% *Significant Changes*
+%
+% # Revised coefficients in |pvl_FSspeccorr| to new values provided by
+% FirstSolar.
+% # Corrected |pvl_snlinverter| to apply night tare losses based on AC
+% power rather than DC power.
 %
 %% *Version 1.31:* January-2016
 %

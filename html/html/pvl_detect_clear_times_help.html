@@ -1,0 +1,258 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_detect_clear_times</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_detect_clear_times_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_detect_clear_times</h1><!--introduction--><p>Identify times with GHI consistent with clear sky conditions.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs:</a></li><li><a href="#4">Output:</a></li><li><a href="#5">References</a></li><li><a href="#6">Notes:</a></li><li><a href="#7">Example</a></li><li><a href="#8">make data equally spaced by rounding, fill in missing data by linear</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">|[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time,
+UTCoffset, Location, win_length, sample_interval)|
+</pre><h2>Description<a name="2"></a></h2><pre class="language-matlab">Detects <span class="string">clear</span> <span class="string">sky</span> <span class="string">times</span> <span class="string">by</span> <span class="string">comparing</span> <span class="string">statistics</span> <span class="string">for</span> <span class="string">a</span> <span class="string">regular</span> <span class="string">GHI</span>
+time <span class="string">series</span> <span class="string">to</span> <span class="string">the</span> <span class="string">Ineichen</span> <span class="string">clear</span> <span class="string">sky</span> <span class="string">model.</span>  <span class="string">Statistics</span> <span class="string">are</span> <span class="string">calculated</span>
+using <span class="string">a</span> <span class="string">sliding</span> <span class="string">time</span> <span class="string">window</span> <span class="string">(e.g., 10 minutes).</span> <span class="string">An</span> <span class="string">iterative</span> <span class="string">algorithm</span>
+identifies <span class="string">clear</span> <span class="string">periods</span>, uses <span class="string">the</span> <span class="string">identified</span> <span class="string">periods</span> <span class="string">to</span> <span class="string">estimate</span> <span class="string">bias</span>
+in <span class="string">the</span> <span class="string">clear</span> <span class="string">sky</span> <span class="string">model</span> <span class="string">and/or</span> <span class="string">GHI</span> <span class="string">data</span>, adjusts <span class="string">the</span> <span class="string">clear</span> <span class="string">sky</span> <span class="string">model</span> <span class="string">and</span>
+repeats.  Code handles <span class="string">GHI</span> <span class="string">data</span> <span class="string">with</span> <span class="string">some</span> <span class="string">irregularities</span>, i.e., missing
+values <span class="string">or</span> <span class="string">unequal</span> <span class="string">data</span> <span class="string">spacing.</span>  <span class="string">Code</span> <span class="string">execution</span> <span class="string">can</span> <span class="string">be</span> <span class="string">made</span>
+significantly <span class="string">faster</span> <span class="string">if</span> <span class="string">equally</span> <span class="string">spaced</span> <span class="string">and</span> <span class="string">complete</span> <span class="string">data</span> <span class="string">can</span> <span class="string">be</span>
+assumed.
+Clear <span class="string">times</span> <span class="string">are</span> <span class="string">identified</span> <span class="string">by</span> <span class="string">meeting</span> <span class="string">5</span> <span class="string">criteria</span>, thresholds
+<span class="keyword">for</span> which are <span class="string">hardcoded</span> <span class="string">in</span> <span class="string">this</span> <span class="string">version.</span>  <span class="string">Values</span> <span class="string">for</span> <span class="string">these</span> <span class="string">thresholds</span>
+are <span class="string">appropriate</span> <span class="string">for</span> <span class="string">10</span> <span class="string">minute</span> <span class="string">windows</span> <span class="string">of</span> <span class="string">1</span> <span class="string">minute</span> <span class="string">GHI</span> <span class="string">data.</span>
+</pre><h2>Inputs:<a name="3"></a></h2><div><ul><li><b><tt>GHI</tt></b> - a Nx1 vector of GHI values (W/m^2)</li><li><b><tt>Time</tt></b> - a Nx1 vector of datenum with equal time spacing</li><li><b><tt>UTCoffset</tt></b> - scalar UTC offset (e.g. EST = -5)</li><li><b><tt>Location</tt></b> - a struct with the following elements, note that all      elements must be scalars in this application.</li><li><b><tt>Location.latitude</tt></b> - scalar latitude in decimal degrees (positive is      northern hemisphere)</li><li><b><tt>Location.longitude</tt></b> - scalar longitude in decimal degrees (positive is      east of prime meridian)</li><li><b><tt>Location.altitude</tt></b> - scalar height above sea level in meters.      While altitude is optional in many uses, it is required in this      model implementation.</li><li><b><tt>win_length</tt></b> - length of sliding time window in minutes, integer</li><li><b><tt>sample_interval</tt></b> - nominal minutes between each GHI sample time, integer</li></ul></div><h2>Output:<a name="4"></a></h2><div><ul><li>* <tt>clearSamples</tt>* - column vector of logical values with True indicating    a clear sample in the input GHI time series</li><li>* <tt>csGHI</tt>* - column vector with scaled clear sky GHI derived from the   Ineichen model</li><li>* <tt>alpha</tt>* - scaling factor applied to Ineichen model to obtain output csGHI</li></ul></div><h2>References<a name="5"></a></h2><pre class="language-matlab">[1] Reno, M.J. and C.W. Hansen, "Identification of <span class="string">periods</span> <span class="string">of</span> <span class="string">clear</span> <span class="string">sky</span>
+irradiance <span class="string">in</span> <span class="string">time</span> <span class="string">series</span> <span class="string">of</span> <span class="string">GHI</span> <span class="string">measurements"</span> <span class="string">Renewable</span> <span class="string">Energy</span>, v90,
+p. 520-531, 2016.
+</pre><h2>Notes:<a name="6"></a></h2><pre class="language-matlab">Initial <span class="string">implementation</span> <span class="string">by</span> <span class="string">Matthew</span> <span class="string">Reno.</span> <span class="string">Modifications</span> <span class="string">for</span> <span class="string">computational</span>
+efficiency <span class="string">by</span> <span class="string">Joshua</span> <span class="string">Patrick</span> <span class="string">and</span> <span class="string">Curtis</span> <span class="string">Martin.</span>
+</pre><h2>Example<a name="7"></a></h2><pre class="codeinput"><span class="comment">% load data for Albuquerque, Time in UTC and GHI in W/m2</span>
+load <span class="string">'PSEL_GHI_2012.mat'</span>;
+dv = datevec(Time);
+u = dv(:,2) == 4;  <span class="comment">% Select April 2012</span>
+Time = Time(u);
+GHI = GHI(u);
+
+<span class="comment">% set up Location</span>
+Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+UTCoffset = 0; <span class="comment">% because example data are in UTC time</span>
+
+win_length = 10; <span class="comment">% consider 10 minute intervals</span>
+<span class="comment">% GHI data is nominally at 1 minute intervals, but in our example there are</span>
+<span class="comment">% missing samples and data aren't exactly at 1 minute intervals</span>
+sample_interval = 1;
+<span class="comment">% Demonstrate algorithm for unequally spaced data</span>
+[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time, UTCoffset, Location, win_length, sample_interval);
+
+figure
+hold <span class="string">all</span>
+plot(Time, GHI, <span class="string">'b.'</span>)
+plot(Time(clearSamples), GHI(clearSamples), <span class="string">'r.'</span>)
+xlabel(<span class="string">'Time (UTC)'</span>)
+ylabel(<span class="string">'GHI (W/m^2)'</span>)
+datetick(<span class="string">'x'</span>,<span class="string">'mm/dd'</span>,<span class="string">'KeepTicks'</span>)
+legend(<span class="string">'GHI data'</span>,<span class="string">'Clear times'</span>)
+</pre><pre class="codeoutput">Data problem between 11-Apr-2012 17:50:00 and 11-Apr-2012 17:59:59 have 8 values
+</pre><img vspace="5" hspace="5" src="pvl_detect_clear_times_help_01.png" alt=""> <h2>make data equally spaced by rounding, fill in missing data by linear<a name="8"></a></h2><p>interpolation</p><pre class="codeinput"><span class="comment">% create full time vector sTime</span>
+sivec = 0:round(max(Time)*1440) - round(Time(1)*1440);
+sTime = (round(Time(1)*1440) + sivec)/1440;
+sTime = sTime(:);
+
+sGHI = NaN(size(sTime));
+sGHI(round(Time*1440) - round(Time(1)*1440) + 1) = GHI;
+<span class="comment">% interpolate GHI to fill in NaNs in daylight GHI. Leave NaNs in for nighttime data</span>
+[~, SunEl, ~, ~] = pvl_ephemeris(pvl_maketimestruct(sTime,UTCoffset), Location);
+daylight = SunEl &gt; 1;
+u = isnan(sGHI) &amp; daylight;
+sGHI(u) = interp1(sTime(daylight &amp; ~u), sGHI(daylight &amp; ~u), sTime(u));
+
+<span class="comment">% Demonstrate algorithm for equally spaced data</span>
+[clearSamples, csGHI, alpha] = pvl_detect_clear_times(sGHI, sTime, UTCoffset, Location, win_length, sample_interval);
+
+figure
+hold <span class="string">all</span>
+plot(sTime, sGHI, <span class="string">'b.'</span>)
+plot(sTime(clearSamples), sGHI(clearSamples), <span class="string">'r.'</span>)
+xlabel(<span class="string">'Time (UTC)'</span>)
+ylabel(<span class="string">'GHI (W/m^2)'</span>)
+datetick(<span class="string">'x'</span>,<span class="string">'mm/dd'</span>,<span class="string">'KeepTicks'</span>)
+legend(<span class="string">'GHI data'</span>,<span class="string">'Clear times'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_detect_clear_times_help_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_detect_clear_times
+% Identify times with GHI consistent with clear sky conditions.
+%
+%% Syntax
+%   |[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time,
+%   UTCoffset, Location, win_length, sample_interval)|
+%
+%% Description
+%   Detects clear sky times by comparing statistics for a regular GHI 
+%   time series to the Ineichen clear sky model.  Statistics are calculated
+%   using a sliding time window (e.g., 10 minutes). An iterative algorithm
+%   identifies clear periods, uses the identified periods to estimate bias
+%   in the clear sky model and/or GHI data, adjusts the clear sky model and
+%   repeats.  Code handles GHI data with some irregularities, i.e., missing
+%   values or unequal data spacing.  Code execution can be made
+%   significantly faster if equally spaced and complete data can be
+%   assumed.
+%   Clear times are identified by meeting 5 criteria, thresholds
+%   for which are hardcoded in this version.  Values for these thresholds
+%   are appropriate for 10 minute windows of 1 minute GHI data.
+%
+%
+%% Inputs:
+%
+% * *|GHI|* - a Nx1 vector of GHI values (W/m^2)
+% * *|Time|* - a Nx1 vector of datenum with equal time spacing
+% * *|UTCoffset|* - scalar UTC offset (e.g. EST = -5)
+% * *|Location|* - a struct with the following elements, note that all
+%      elements must be scalars in this application.
+% * *|Location.latitude|* - scalar latitude in decimal degrees (positive is
+%      northern hemisphere)
+% * *|Location.longitude|* - scalar longitude in decimal degrees (positive is
+%      east of prime meridian)
+% * *|Location.altitude|* - scalar height above sea level in meters.
+%      While altitude is optional in many uses, it is required in this
+%      model implementation.
+% * *|win_length|* - length of sliding time window in minutes, integer
+% * *|sample_interval|* - nominal minutes between each GHI sample time, integer
+%
+%% Output:   
+% * * |clearSamples|* - column vector of logical values with True indicating 
+%    a clear sample in the input GHI time series
+% * * |csGHI|* - column vector with scaled clear sky GHI derived from the
+%   Ineichen model
+% * * |alpha|* - scaling factor applied to Ineichen model to obtain output csGHI
+%   
+%% References
+%   [1] Reno, M.J. and C.W. Hansen, "Identification of periods of clear sky
+%   irradiance in time series of GHI measurements" Renewable Energy, v90, 
+%   p. 520-531, 2016.
+%
+%% Notes:
+%   Initial implementation by Matthew Reno. Modifications for computational
+%   efficiency by Joshua Patrick and Curtis Martin.
+%
+%% Example
+
+% load data for Albuquerque, Time in UTC and GHI in W/m2
+load 'PSEL_GHI_2012.mat';
+dv = datevec(Time);
+u = dv(:,2) == 4;  % Select April 2012
+Time = Time(u);
+GHI = GHI(u);
+
+% set up Location
+Location.latitude = 35.04;
+Location.longitude = -106.62;
+Location.altitude = 1619;
+UTCoffset = 0; % because example data are in UTC time
+
+win_length = 10; % consider 10 minute intervals
+% GHI data is nominally at 1 minute intervals, but in our example there are
+% missing samples and data aren't exactly at 1 minute intervals
+sample_interval = 1; 
+% Demonstrate algorithm for unequally spaced data
+[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time, UTCoffset, Location, win_length, sample_interval);
+
+figure
+hold all
+plot(Time, GHI, 'b.')
+plot(Time(clearSamples), GHI(clearSamples), 'r.')
+xlabel('Time (UTC)')
+ylabel('GHI (W/m^2)')
+datetick('x','mm/dd','KeepTicks')
+legend('GHI data','Clear times')
+
+%% make data equally spaced by rounding, fill in missing data by linear
+% interpolation
+
+% create full time vector sTime
+sivec = 0:round(max(Time)*1440) - round(Time(1)*1440);
+sTime = (round(Time(1)*1440) + sivec)/1440;
+sTime = sTime(:);
+
+sGHI = NaN(size(sTime));
+sGHI(round(Time*1440) - round(Time(1)*1440) + 1) = GHI;
+% interpolate GHI to fill in NaNs in daylight GHI. Leave NaNs in for nighttime data
+[~, SunEl, ~, ~] = pvl_ephemeris(pvl_maketimestruct(sTime,UTCoffset), Location);
+daylight = SunEl > 1;
+u = isnan(sGHI) & daylight;
+sGHI(u) = interp1(sTime(daylight & ~u), sGHI(daylight & ~u), sTime(u));
+
+% Demonstrate algorithm for equally spaced data
+[clearSamples, csGHI, alpha] = pvl_detect_clear_times(sGHI, sTime, UTCoffset, Location, win_length, sample_interval);
+
+figure
+hold all
+plot(sTime, sGHI, 'b.')
+plot(sTime(clearSamples), sGHI(clearSamples), 'r.')
+xlabel('Time (UTC)')
+ylabel('GHI (W/m^2)')
+datetick('x','mm/dd','KeepTicks')
+legend('GHI data','Clear times')
+
+##### SOURCE END #####
+--></body></html>

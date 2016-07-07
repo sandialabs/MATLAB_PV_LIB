@@ -1,6 +1,6 @@
 %% Functions by Category
 % PV_LIB Toolbox
-% Version 1.2 Oct-2014
+% Version 1.32 Feb-2016
 %
 %
 %% Time and Location Utilities
@@ -68,6 +68,11 @@
 % * <pvl_getaoi_help.html |pvl_getaoi|> - Determine angle of incidence between tilted array surface 
 % (tilt/azimuth) and apparent sun position (zenith/azimuth) 
 
+%% Irradiance Analysis Functions
+% * <pvl_detect_clear_times_help.html |pvl_detect_clear_times|> - Identify times with GHI consistent with clear sky conditions
+% * <pvl_detect_shadows_help.html |pvl_detect_shadows|> - Identify shading on a GHI instrument from nearby structures such as 
+% wires and poles
+
 %% Photovoltaic System Functions
 %%
 % * <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|> - Retrieves coefficients for the Sandia Array Performance Model (SAPM)
@@ -92,12 +97,15 @@
 %%
 % * <pvl_PVsyst_parameter_estimation_help.html |pvl_PVsyst_parameter_estimation|> - Estimates parameters for the PVsyst version 6 module performance model
 % * <pvl_desoto_parameter_estimation_help.html |pvl_desoto_parameter_estimation|> - Estimates parameters for the De Soto single diode module performance model
+% * <pvl_huld_parameter_estimation_help.html |pvl_huld_parameter_estimation|> - Estimates parameters for the Huld module performance model
 % * <pvl_rectify_IV_curve_help.html |pvl_rectify_IV_curve|> - Ensures that Isc and Voc are included in a IV curve and removes duplicate voltage and current points
-
+% * <pvl_huld_parameter_estimation_help.html |pvl_huld_parameter_estimation|> - Estimates parameters for the Huld module performance model
+%
 %%  Numerical utilities
 %%
 % * <pvl_lambertw_help.html |pvl_lambertw|> - Compute values for the Lambert W function W(z)
 % * <numdiff_help.html |numdiff|> - Compute numerical derivatives for unequally spaced data
+% * <pvl_robustfit_help.html |pvl_robustfit|> - Robust regression for linear models
 
 %% Example Scripts
 %%

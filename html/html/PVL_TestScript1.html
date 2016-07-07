@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>PVL_TestScript1</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="PVL_TestScript1.m"><style type="text/css">
+      --><title>PVL_TestScript1</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="PVL_TestScript1.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,8 +66,35 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>PVL_TestScript1</h1><!--introduction--><p>Example script to demonstrate the modeling of a PV system</p><p>This script demonstrates how to use the PV_Lib Toolbox to model the power output of a fixed-tilt photovoltaic array in Albuquerque, New Mexico, USA. The script uses irradiance and weather data that is read in from a Typical Meteorological  Year 3 (TMY3) formatted file that contains one year of hourly-averaged data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">PV_LIB Functions used in this example</a></li><li><a href="#3"><b>Step 0: Define PV System</b></a></li><li><a href="#6">0.1   Define the PV module</a></li><li><a href="#7">0.2    Define the Inverter</a></li><li><a href="#8">0.3    Define the Array configuration</a></li><li><a href="#9">0.4    Define Additional Array Parameters</a></li><li><a href="#10"><b>Step 1: Read in Irradiance and Weather</b></a></li><li><a href="#11">1.1 Define Time and Irradiance Variabiles</a></li><li><a href="#15">1.2   Define the Site Location</a></li><li><a href="#16">1.3 Calculate Sun Position</a></li><li><a href="#18">1.4 Calculate Air Mass</a></li><li><a href="#19"><b>Step 2: Calculate Incident Radiation</b></a></li><li><a href="#20">2.1 Calculate Solar Angle of Incidence</a></li><li><a href="#22">2.2 Calculate Beam Radiation Component on Array</a></li><li><a href="#23">2.3 Calculate SkyDiffuse Radiation Component on Array</a></li><li><a href="#26">2.4 Calculate Ground Reflected Radiation Component on Array</a></li><li><a href="#29"><b>Step 3 Shading and Soiling</b></a></li><li><a href="#30"><b>Step 4: Calculate Cell Temperature</b></a></li><li><a href="#31"><b>Step 5: Calculate Module/Array IV Performance</b></a></li><li><a href="#35"><b>Step 6: DC and Mismatch Losses</b></a></li><li><a href="#36"><b>Step 7: DC to DC Max Power Point Tracking</b></a></li><li><a href="#37"><b>Step 8: DC to AC Conversion</b></a></li></ul></div><h2>PV_LIB Functions used in this example<a name="1"></a></h2><div><ul><li><a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a></li><li><a href="pvl_snlinverterdb_help.html"><tt>pvl_snlinverterdb</tt></a></li><li><a href="pvl_readtmy3_help.html"><tt>pvl_readtmy3</tt></a></li><li><a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a></li><li><a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a></li><li><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a></li><li><a href="pvl_absoluteairmass_help.html"><tt>pvl_absoluteairmass</tt></a></li><li><a href="pvl_relativeairmass_help.html"><tt>pvl_relativeairmass</tt></a></li><li><a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_grounddiffuse_help.html"><tt>pvl_grounddiffuse</tt></a></li><li><a href="pvl_sapmcelltemp_help.html"><tt>pvl_sapmcelltemp</tt></a></li><li><a href="pvl_sapm_help.html"><tt>pvl_sapm</tt></a></li><li><a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a></li></ul></div><pre class="codeinput">clear <span class="string">all</span>; <span class="comment">%clear memory before running script</span>
+  </style></head><body><div class="content"><h1>PVL_TestScript1</h1><!--introduction--><p>Example script to demonstrate the modeling of a PV system</p><p>This script demonstrates how to use the PV_Lib Toolbox to model the power output of a fixed-tilt photovoltaic array in Albuquerque, New Mexico, USA. The script uses irradiance and weather data that is read in from a Typical Meteorological  Year 3 (TMY3) formatted file that contains one year of hourly-averaged data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">PV_LIB Functions used in this example</a></li><li><a href="#3"><b>Step 0: Define PV System</b></a></li><li><a href="#6">0.1   Define the PV module</a></li><li><a href="#7">0.2    Define the Inverter</a></li><li><a href="#8">0.3    Define the Array configuration</a></li><li><a href="#9">0.4    Define Additional Array Parameters</a></li><li><a href="#10"><b>Step 1: Read in Irradiance and Weather</b></a></li><li><a href="#11">1.1 Define Time and Irradiance Variabiles</a></li><li><a href="#15">1.2   Define the Site Location</a></li><li><a href="#16">1.3 Calculate Sun Position</a></li><li><a href="#18">1.4 Calculate Air Mass</a></li><li><a href="#19"><b>Step 2: Calculate Incident Radiation</b></a></li><li><a href="#20">2.1 Calculate Solar Angle of Incidence</a></li><li><a href="#22">2.2 Calculate Beam Radiation Component on Array</a></li><li><a href="#23">2.3 Calculate SkyDiffuse Radiation Component on Array</a></li><li><a href="#26">2.4 Calculate Ground Reflected Radiation Component on Array</a></li><li><a href="#29"><b>Step 3 Shading and Soiling</b></a></li><li><a href="#30"><b>Step 4: Calculate Cell Temperature</b></a></li><li><a href="#31"><b>Step 5: Calculate Module/Array IV Performance</b></a></li><li><a href="#35"><b>Step 6: DC and Mismatch Losses</b></a></li><li><a href="#36"><b>Step 7: DC to DC Max Power Point Tracking</b></a></li><li><a href="#37"><b>Step 8: DC to AC Conversion</b></a></li></ul></div><h2>PV_LIB Functions used in this example<a name="1"></a></h2><div><ul><li><a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a></li><li><a href="pvl_readtmy3_help.html"><tt>pvl_readtmy3</tt></a></li><li><a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a></li><li><a href="pvl_makelocationstruct_help.html"><tt>pvl_makelocationstruct</tt></a></li><li><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a></li><li><a href="pvl_absoluteairmass_help.html"><tt>pvl_absoluteairmass</tt></a></li><li><a href="pvl_relativeairmass_help.html"><tt>pvl_relativeairmass</tt></a></li><li><a href="pvl_getaoi_help.html"><tt>pvl_getaoi</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_grounddiffuse_help.html"><tt>pvl_grounddiffuse</tt></a></li><li><a href="pvl_sapmcelltemp_help.html"><tt>pvl_sapmcelltemp</tt></a></li><li><a href="pvl_sapm_help.html"><tt>pvl_sapm</tt></a></li><li><a href="pvl_snlinverter_help.html"><tt>pvl_snlinverter</tt></a></li></ul></div><pre class="codeinput">clear <span class="string">all</span>; <span class="comment">%clear memory before running script</span>
 close <span class="string">all</span>; <span class="comment">%close all files and figures</span>
+</pre><pre class="codeoutput">Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\private\evalmxdom.m' could not be
+cleared because it contains MATLAB code that is currently executing. 
+Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\publish.p' could not be cleared
+because it contains MATLAB code that is currently executing. 
+Warning: The file 'S:\MATLAB_Solar_Functions\PV_LIB Version 1_32
+Development\html\PVL_TestScript1.m' could not be cleared because it contains
+MATLAB code that is currently executing. 
+Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\private\evalmxdom.m' could not be
+cleared because it contains MATLAB code that is currently executing. 
+Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\publish.p' could not be cleared
+because it contains MATLAB code that is currently executing. 
+Warning: The file 'S:\MATLAB_Solar_Functions\PV_LIB Version 1_32
+Development\html\PVL_TestScript1.m' could not be cleared because it contains
+MATLAB code that is currently executing. 
+Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\private\evalmxdom.m' could not be
+cleared because it contains MATLAB code that is currently executing. 
+Warning: The file 'C:\Program
+Files\MATLAB\R2015b\toolbox\matlab\codetools\publish.p' could not be cleared
+because it contains MATLAB code that is currently executing. 
+Warning: The file 'S:\MATLAB_Solar_Functions\PV_LIB Version 1_32
+Development\html\PVL_TestScript1.m' could not be cleared because it contains
+MATLAB code that is currently executing. 
 </pre><h2><b>Step 0: Define PV System</b><a name="3"></a></h2><p>Before modeling can even begin, the PV system must be defined so that it can be properly represented by the model.  This system we use for this example is outlined below:</p><div><ul><li><b>Location:</b> Albuquerque, New Mexico USA</li><li><b>Module:</b> Candadian Solar CS5P-220M</li><li><b>Inverter:</b> PV Powered PVP2500</li><li><b># of Modules per String:</b> 9</li><li><b># of Parallel strings:</b> 2</li><li><b>Array Tilt Angle:</b> 35.04 degrees</li><li><b>Array Azimuth Angle:</b> 180 degrees*</li></ul></div><p>*Azumuth angle convention is decimal degrees East of North.  With North = 0 deg, East = 90 deg, South = 180 deg, and West = 270 deg.</p><h2>0.1   Define the PV module<a name="6"></a></h2><p>Define the PV module from the Sandia PV Module Database.</p><p>This step uses the PV_LIB function <a href="pvl_sapmmoduledb_help.html"><tt>pvl_sapmmoduledb</tt></a> to extract a selected module from the excel version of the Sandia PV Module Database.  The module selected is found on row 123 in that file.</p><pre class="codeinput">ModuleParameters = pvl_sapmmoduledb(123,<span class="string">'SandiaModuleDatabase_20120925.xlsx'</span>)
 </pre><pre class="codeoutput">
 ModuleParameters = 
@@ -176,8 +203,8 @@ ylabel(<span class="string">'Angle (deg)'</span>)
 title(<span class="string">'Albuquerque Angle of Incidence - Aug 2'</span>,<span class="string">'FontSize'</span>,14)
 </pre><img vspace="5" hspace="5" src="PVL_TestScript1_03.png" alt=""> <h2>2.2 Calculate Beam Radiation Component on Array<a name="22"></a></h2><p>The beam component of the irradiance, <tt>Eb</tt> is simply:</p><p><img src="PVL_TestScript1_eq01540178742677260109.png" alt="$DNI*cos(AOI)$"></p><pre class="codeinput">Eb = 0*AOI; <span class="comment">%Initiallize variable</span>
 Eb(AOI&lt;90) = DNI(AOI&lt;90).*cosd(AOI(AOI&lt;90)); <span class="comment">%Only calculate when sun is in view of the plane of array</span>
-</pre><h2>2.3 Calculate SkyDiffuse Radiation Component on Array<a name="23"></a></h2><p>There are many models that have been developed to estimate the amount of diffuse radiation that reaches a tlited plane from the sky <tt>EdiffSky</tt>.  The PV_LIB Toolbox provides several of the more popular ones to choose from.  They are listed below.</p><div><ul><li><a href="pvl_isotropicsky_help.html"> <tt>pvl_isotropicsky</tt></a></li><li><a href="pvl_haydavies1980_help.html"><tt>pvl_haydavies1980</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_reindl1990_help.html"><tt>pvl_reindl1990</tt></a></li></ul></div><p>We will use <a href="pvl_kingdiffuse_help.html"> <tt>pvl_kingdiffuse</tt></a> for this example.</p><pre class="codeinput">EdiffSky = pvl_kingdiffuse(Array.Tilt,DHI, GHI, 90-AppSunEl);
-</pre><h2>2.4 Calculate Ground Reflected Radiation Component on Array<a name="26"></a></h2><p>If the array is tilted there will be a small amount of diffuse radiation reflecting off the ground surfaxce and hitting the plane of the array <tt>EdiffGround</tt>.  We calculate this component using the PV_LIB function <a href="pvl_grounddiffuse_help.html"> <tt>pvl_grounddiffuse</tt></a>. The ground reflectance or albedo is an input to this function.  A good source of albedo values can be found in ...(add link to web).</p><pre class="codeinput">Albedo = 0.2;
+</pre><h2>2.3 Calculate SkyDiffuse Radiation Component on Array<a name="23"></a></h2><p>There are many models that have been developed to estimate the amount of diffuse radiation that reaches a tlited plane from the sky <tt>EdiffSky</tt>.  The PV_LIB Toolbox provides several of the more popular ones to choose from.  They are listed below.</p><div><ul><li><a href="pvl_isotropicsky_help.html"> <tt>pvl_isotropicsky</tt></a></li><li><a href="pvl_haydavies1980_help.html"><tt>pvl_haydavies1980</tt></a></li><li><a href="pvl_kingdiffuse_help.html"><tt>pvl_kingdiffuse</tt></a></li><li><a href="pvl_reindl1990_help.html"><tt>pvl_reindl1990</tt></a></li></ul></div><p>We will use <a href="pvl_isotropicsky_help.html"> <tt>pvl_isotropicsky</tt></a> for this example.</p><pre class="codeinput">EdiffSky = pvl_isotropicsky(Array.Tilt,DHI);
+</pre><h2>2.4 Calculate Ground Reflected Radiation Component on Array<a name="26"></a></h2><p>If the array is tilted there will be a small amount of diffuse radiation reflecting off the ground surfaxce and hitting the plane of the array <tt>EdiffGround</tt>.  We calculate this component using the PV_LIB function <a href="pvl_grounddiffuse_help.html"> <tt>pvl_grounddiffuse</tt></a>. The ground reflectance or albedo is an input to this function.</p><pre class="codeinput">Albedo = 0.2;
 EdiffGround = pvl_grounddiffuse(Array.Tilt,GHI, Albedo);
 E = Eb + EdiffSky + EdiffGround; <span class="comment">% Total incident irradiance (W/m^2)</span>
 Ediff = EdiffSky + EdiffGround; <span class="comment">% Total diffuse incident irradiance (W/m^2)</span>
@@ -246,7 +273,6 @@ title(<span class="string">'Albuquerque DC and AC Power Output - Aug 2'</span>,<
 %% PV_LIB Functions used in this example
 % 
 % * <pvl_sapmmoduledb_help.html |pvl_sapmmoduledb|>
-% * <pvl_snlinverterdb_help.html |pvl_snlinverterdb|>
 % * <pvl_readtmy3_help.html |pvl_readtmy3|>
 % * <pvl_maketimestruct_help.html |pvl_maketimestruct|>
 % * <pvl_makelocationstruct_help.html |pvl_makelocationstruct|>
@@ -420,16 +446,15 @@ Eb(AOI<90) = DNI(AOI<90).*cosd(AOI(AOI<90)); %Only calculate when sun is in view
 % * <pvl_reindl1990_help.html |pvl_reindl1990|>
 %
 %%
-% We will use <pvl_kingdiffuse_help.html  |pvl_kingdiffuse|> for this
+% We will use <pvl_isotropicsky_help.html  |pvl_isotropicsky|> for this
 % example.
-EdiffSky = pvl_kingdiffuse(Array.Tilt,DHI, GHI, 90-AppSunEl); 
+EdiffSky = pvl_isotropicsky(Array.Tilt,DHI); 
 
 %% 2.4 Calculate Ground Reflected Radiation Component on Array
 % If the array is tilted there will be a small amount of diffuse radiation 
 % reflecting off the ground surfaxce and hitting the plane of the array |EdiffGround|.  We calculate 
 % this component using the PV_LIB function <pvl_grounddiffuse_help.html  |pvl_grounddiffuse|>.
-% The ground reflectance or albedo is an input to this function.  A good
-% source of albedo values can be found in ...(add link to web).
+% The ground reflectance or albedo is an input to this function.
 Albedo = 0.2;
 EdiffGround = pvl_grounddiffuse(Array.Tilt,GHI, Albedo);
 E = Eb + EdiffSky + EdiffGround; % Total incident irradiance (W/m^2)

@@ -91,5 +91,5 @@ ACPower = ((Pac0 ./ (A - B)) - C .* (A-B)) .* (Pdc - B)...
     + C .* (Pdc-B).^2;
     
 ACPower(ACPower>Pac0) = Pac0; % Inverter clipping at maximum rated AC Power
-ACPower(DCPower<Ps0)= -1.*abs(Pnt); % Inverter night tare losses
+ACPower(Pdc<Ps0)= -1.*abs(Pnt); % Inverter night tare losses
 ACPower = ACPower(:);
