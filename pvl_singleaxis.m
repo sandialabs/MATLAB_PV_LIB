@@ -80,14 +80,14 @@ function [TrkrTheta, AOI, SurfTilt, SurfAz] = pvl_singleaxis(SunZen, SunAz, Lati
 %
 %
 p = inputParser;
-p.addRequired('SunZen', @(x) all(isnumeric(x) & x>=0 & x<=180) & isvector(x));
-p.addRequired('SunAz', @(x) all(isnumeric(x) & x>=0 & x<=360) & isvector(x));
-p.addRequired('Latitude', @(x) (isnumeric(x) & isscalar(x)));
-p.addRequired('AxisTilt', @(x) (isnumeric(x) & isscalar(x) & x>=0 & x<=90));
-p.addRequired('AxisAzimuth', @(x) (isnumeric(x) & isscalar(x) & x>=0 & x<=360));
-p.addRequired('MaxAngle', @(x) (isnumeric(x) & isscalar(x) & x<=180 & x>=0));
-p.addOptional('BackTrack', 0, @(x) (isscalar(x)));
-p.addOptional('GCR',1/3.5, @(x) (isnumeric(x) & isscalar(x) & x<=1));
+p.addRequired('SunZen', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
+p.addRequired('SunAz', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=360) | isnan(x)));
+p.addRequired('Latitude', @(x) isnumeric(x) && isscalar(x));
+p.addRequired('AxisTilt', @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=90);
+p.addRequired('AxisAzimuth', @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=360);
+p.addRequired('MaxAngle', @(x) isnumeric(x) && isscalar(x) && x>=0 && x<=180);
+p.addOptional('BackTrack', 0, @(x) isscalar(x));
+p.addOptional('GCR',1/3.5, @(x) isnumeric(x) & isscalar(x) & x<=1);
 p.parse(SunZen, SunAz, Latitude, AxisTilt, AxisAzimuth, MaxAngle, varargin{:})
 
 if Latitude<0

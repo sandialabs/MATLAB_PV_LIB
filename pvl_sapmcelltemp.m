@@ -1,4 +1,4 @@
-function [Tcell Tmodule] = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)
+function [Tcell, Tmodule] = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT)
 % PVL_SAPMCELLTEMP Estimate cell temperature from irradiance, windspeed, ambient temperature, and module parameters (SAPM)
 %
 % Syntax
@@ -41,32 +41,20 @@ function [Tcell Tmodule] = pvl_sapmcelltemp(E, E0, a, b, windspeed, Tamb, deltaT
 % See also PVL_SAPM
 %
 p = inputParser;
-p.addRequired('E', @(x) all(isnumeric(x) & (x >= 0) & isvector(x)));
-p.addRequired('E0', @(x) all(isnumeric(x) & isscalar(x) & (x >= 0)));
-p.addRequired('a', @(x) all(isscalar(x) & isnumeric(x)));
-p.addRequired('b', @(x) all(isscalar(x) & isnumeric(x)));
-p.addRequired('windspeed', @(x) all(isvector(x) & isnumeric(x)));
-p.addRequired('Tamb', @(x) all(isnumeric(x) & (x >= -273.15) & isvector(x)));
-p.addRequired('deltaT', @(x) all(isnumeric(x) & (x >= 0) & isscalar(x)));
+p.addRequired('E', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('E0', @(x) isnumeric(x) && isscalar(x) && all(x>=0 | isnan(x)));
+p.addRequired('a', @(x) isnumeric(x) && isscalar(x));
+p.addRequired('b', @(x) isnumeric(x) && isscalar(x));
+p.addRequired('windspeed', @(x) isnumeric(x) && isvector(x));
+p.addRequired('Tamb', @(x) isnumeric(x) && isvector(x) && all(x >= -273.15 | isnan(x)));
+p.addRequired('deltaT', @(x) isnumeric(x) && isscalar(x) && all(x>=0 | isnan(x)));
 p.parse(E, E0, a, b, windspeed, Tamb, deltaT)
 
-E = E(:);
-
-if isscalar(p.Results.windspeed)
-    windspeed =  p.Results.windspeed*ones(size(E));
-else
-    windspeed = p.Results.windspeed(:);
+if ~(isscalar(windspeed) || numel(windspeed) == numel(E))
+    error('Input windspeed must be scalar or vectors of same length as E.');
 end
-
-if isscalar(p.Results.Tamb)
-    Tamb = p.Results.Tamb*ones(size(E));
-else
-    Tamb = p.Results.Tamb(:);
-end
-
-if (numel(E) ~= numel(windspeed)) || (numel(E) ~= numel(Tamb)) || (numel(E) ~= numel(windspeed))
-    error(['Error in pvl_kingcelltemp. Inputs E, Tamb, and windspeed must '...
-        'be scalars or vectors of same length.']);
+if ~(isscalar(Tamb) || numel(Tamb) == numel(E))
+    error('Input Tamb must be scalar or vectors of same length as E.');
 end
 
 Tmodule = E.*(exp(a+b.*windspeed))+Tamb;

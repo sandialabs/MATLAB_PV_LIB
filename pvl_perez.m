@@ -85,14 +85,14 @@ function SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunA
 %
 
 p=inputParser;
-p.addRequired('SurfTilt', @(x) (isnumeric(x) && all(x<=180) && all(x>=0) && isvector(x)));
-p.addRequired('SurfAz', @(x) isnumeric(x) && all(x<=360) && all(x>=0) && isvector(x));
-p.addRequired('DHI', @(x) (isnumeric(x) && isvector(x) && all((x>=0) | isnan(x))));
-p.addRequired('DNI', @(x) isnumeric(x) && isvector(x) && all((x>=0) | isnan(x)));
-p.addRequired('HExtra', @(x) isnumeric(x) && isvector(x) && all((x>=0) | isnan(x)));
-p.addRequired('SunZen', @(x) isnumeric(x) && all(x<=180) && all((x>=0) | isnan(x)) && isvector(x));
-p.addRequired('SunAz', @(x) (isnumeric(x) && all(x<=360) && all((x>=0) | isnan(x)) && isvector(x)));
-p.addRequired('AM', @(x) (all(((isnumeric(x) & x>=0) | isnan(x))) & isvector(x)));
+p.addRequired('SurfTilt', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
+p.addRequired('SurfAz', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=360) | isnan(x)));
+p.addRequired('DHI', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('DNI', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('HExtra', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('SunZen', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
+p.addRequired('SunAz', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=360) | isnan(x)));
+p.addRequired('AM', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
 p.addOptional('model', '1990', @(x) ischar(x));
 p.parse(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, varargin{:});
 
