@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>PV_LIB Toolbox System Requirements</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-21"><meta name="DC.source" content="pvlib_system_requirements.m"><style type="text/css">
+      --><title>PV_LIB Toolbox System Requirements</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvlib_system_requirements.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,15 +66,19 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>PV_LIB Toolbox System Requirements</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li></ul></div><h2>Requirements<a name="1"></a></h2><div><ul><li>PV_LIB Toolbox 1.3 requires MATLAB&reg; version 2011a or later, except for function pvl_readISH, which requires MATLAB&reg; version 2013a or later</li><li>No other Matlab Toolboxes are required</li></ul></div><p>Copyright 2015 Sandia National Laboratories.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+  </style></head><body><div class="content"><h1>PV_LIB Toolbox System Requirements</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li></ul></div><h2>Requirements<a name="1"></a></h2><div><ul><li>PV_LIB Toolbox 1.3 requires MATLAB&reg; version 2011a or later, except for function <tt>pvl_readISH</tt>, which requires MATLAB&reg; version 2013a or later. No other Matlab&reg; Toolboxes are required except for:</li><li><tt>pvl_PVsyst_parameter_estimation</tt>, <tt>pvl_desoto_parameter_estimation</tt>,   and <tt>pvl_huld_parameter_estimation</tt> require either the Matlab&reg;   Statistics Toolbox or Python 2.7.10 (or later) with the statsmodels   package.</li></ul></div><p>Copyright 2015 Sandia National Laboratories.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% PV_LIB Toolbox System Requirements
 % 
 %% Requirements
 %%
 % * PV_LIB Toolbox 1.3 requires MATLAB(R) version 2011a or later, except
-% for function pvl_readISH, which requires MATLAB(R) version 2013a or later
-% * No other Matlab Toolboxes are required
+% for function |pvl_readISH|, which requires MATLAB(R) version 2013a or
+% later. No other Matlab(R) Toolboxes are required except for:
+% * |pvl_PVsyst_parameter_estimation|, |pvl_desoto_parameter_estimation|,
+%   and |pvl_huld_parameter_estimation| require either the Matlab(R) 
+%   Statistics Toolbox or Python 2.7.10 (or later) with the statsmodels
+%   package.
 %
 %%
 % Copyright 2015 Sandia National Laboratories.

@@ -27,7 +27,7 @@ Location.latitude = 35.04;
 Location.longitude = -106.62;
 Location.altitude = 1619;
 % Create 1-min time series for Jan 1, 2012
-DN = datenum(2012, 6,1):1/(24*60):datenum(2012, 6, 1, 23, 59, 59); 
+DN = datenum(2016, 4,1):1/(24*60):datenum(2016, 4, 1, 23, 59, 59); 
 Time = pvl_maketimestruct(DN, -7);
 [SunAz, SunEl, ApparentSunEl, SolarTime]=pvl_ephemeris(Time, Location);
 ApparentZenith = 90-ApparentSunEl;

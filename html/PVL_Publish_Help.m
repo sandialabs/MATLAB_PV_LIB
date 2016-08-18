@@ -1,5 +1,5 @@
 % Publish all help files
-addpath(genpath('S:\MATLAB_Solar_Functions\PV_LIB Version 1_3 Development'))
+addpath(genpath('S:\MATLAB_Solar_Functions\PV_LIB Version 1_32 Development'))
 
 %% Time and Location Utilities
 publish('pvl_date2doy_help.m');             %1
@@ -42,6 +42,11 @@ publish('pvl_klucher1979_help.m');          %31
 publish('pvl_haydavies1980_help.m');        %32
 publish('pvl_getaoi_help.m');               %33
 
+%% Irradiance Analysis Functions
+publish('pvl_detect_clear_times_help.m');
+
+publish('pvl_detect_shadows_help.m');
+
 %% Photovoltaic System Functions
 publish('pvl_sapmmoduledb_help.m');         %37
 %publish('pvl_snlinverterdb_help.m');        %42
@@ -70,10 +75,15 @@ publish('pvl_singleaxis_help.m');           %44
 publish('pvl_PVsyst_parameter_estimation_help.m');
 publish('pvl_desoto_parameter_estimation_help.m');
 publish('pvl_rectify_IV_curve_help.m');
+publish('pvl_huld_parameter_estimation.help.m');
+
+
 
 %% Numerical utilities
 publish('pvl_lambertw_help.m');
 publish('numdiff_help.m');
+
+publish('pvl_robustfit_help.m');
 
 %% Example Scripts
 publish('PVL_TestScript1.m');               

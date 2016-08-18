@@ -1,4 +1,4 @@
-%% pvl_ephereris 
+%% pvl_ephemeris 
 % Calculates the position of the sun given time, location, and optionally pressure and temperature
 %
 %% Syntax
@@ -97,8 +97,8 @@ ylabel('Solar Elevation Angle (deg)')
 % February 1985.
 %
 %% See Also
-% <pvl_maketimestruc_help.html |pvl_maketimestruc|> , 
-% <pvl_makelocationstruc_help.html |pvl_makelocationstruc|>, 
+% <pvl_maketimestruct_help.html |pvl_maketimestruct|> , 
+% <pvl_makelocationstruct_help.html |pvl_makelocationstruct|>, 
 % <pvl_alt2pres_help.html |pvl_alt2pres|>,  
 % <pvl_getaoi_help.html |pvl_getaoi|> 
 %%

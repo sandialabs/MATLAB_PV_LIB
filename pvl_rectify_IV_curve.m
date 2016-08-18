@@ -1,4 +1,4 @@
-function [I V] = pvl_rectify_IV_curve(tI, tV, Voc, Isc)
+function [I, V] = pvl_rectify_IV_curve(tI, tV, Voc, Isc)
 % PVL_RECTIFY_IV_CURVE ensures that Isc and Voc are included in a IV curve
 % and removes duplicate voltage and current points
 %
@@ -25,6 +25,10 @@ function [I V] = pvl_rectify_IV_curve(tI, tV, Voc, Isc)
 %   I, V - vectors of equal length containing current and voltage,
 %   respectively
 
+if isnan(Isc) || isnan(Voc)
+    return
+end
+
 % Filter out negative voltage and current values
 u=tV<Voc & tV>0 & tI>0;
 
@@ -33,7 +37,7 @@ V=[0; tV(u); Voc];
 I=[Isc; tI(u); 0];
 
 % remove duplicate Voltage points
-[C,ia,ic] = unique(V);
+[~,ia,ic] = unique(V);
 c = hist(ic,1:length(ia));
 cfil = c>1;
 ind = find(cfil);

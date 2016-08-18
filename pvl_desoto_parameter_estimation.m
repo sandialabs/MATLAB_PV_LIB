@@ -3,7 +3,7 @@ function [Model] = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxit
 % module performance model
 %
 % Syntax
-%   [Model Iph Io Rsh Rs u] = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxiter, eps1, graphic, n)
+%   [Model] = pvl_desoto_parameter_estimation(IVCurves, Specs, Const, maxiter, eps1, graphic, n)
 %
 % Description
 %   pvl_desoto_parameter_estimation estimates parameters for the De Soto module
@@ -110,7 +110,7 @@ if isnan(n)
     % See [2], Step 2 or [3] Step 2.
     X = Specs.Ns*Vth.*log(Ee/Const.E0);
     Y = Voc - Specs.bVoc*(Tc-Const.T0);
-    beta = robustfit(X,Y);
+    beta = pvl_robustfit(X,Y,true);
     Voc0 = beta(1);
     n = beta(2);
 
@@ -280,7 +280,7 @@ TcK = Tc + 273.15; % Convert Tc to K
 T0K = Const.T0 + 273.15; % convert T0 to K
 X = 1/Const.keV*(1/T0K - 1./TcK(u) + Const.dEgdT*(TcK(u)-T0K)./TcK(u));
 Y = log(Io(u))-3*log(TcK(u)/T0K);
-beta = robustfit(X,Y);
+beta = pvl_robustfit(X,Y,true);
 Io0 = exp(beta(1));
 Eg0 = beta(2);
 
@@ -312,7 +312,8 @@ if graphic
     plot(Tc(u),(pIo-Io(u))./Io(u)*100,'x')
     xlabel('Cell temp. (C)')
     ylabel('Percent Deviation in I_O')
-    refline(0,0)
+    [mx, Mx] = xlim;
+    line([mx Mx],[0 0]);
     
     figure('Position',[1 1 600 300])
     plot(Tc(u),Y  + 3*(Tc(u)/Const.T0),'k.')
@@ -336,7 +337,7 @@ end
 % Estimate Iph0
 X = (Tc(u)-Const.T0);
 Y = Iph(u).*(Const.E0./Ee(u));
-beta = robustfit(X,Y);
+beta = pvl_robustfit(X,Y,true);
 Iph0 = beta(1);
 
 if graphic
@@ -365,7 +366,8 @@ if graphic
     plot(Ee(u),(pIph-Iph(u))./Iph(u)*100,'x')
     xlabel('Irradiance (W/m^2)')
     ylabel('Percent Deviation from I_{ L}')
-    refline(0,0)
+    mx = xlim;
+    line(mx,[0 0]);
 end
 
 % Additional filter for Rsh and Rs; restrict effective irradiance to be
@@ -376,7 +378,8 @@ v = Ee>400;
 % Estimate Rsh0
 Y = Rsh(u&v);
 X = Const.E0./Ee(u&v);
-beta = robustfit(X,Y,'bisquare',4.685,'off'); % const is 'off' to omit the intercept.
+beta = pvl_robustfit(X,Y,false);
+%beta = pvl_robustfit(X,Y,'bisquare',4.685,'off'); % const is 'off' to omit the intercept.
 Rsh0 = beta(1);
 
 if graphic
@@ -397,7 +400,8 @@ if graphic
     plot(Ee(u),(log10(pRsh) - log10(Rsh(u)))./log10(Rsh(u))*100,'x')
     xlabel('Irradiance (W/m^2)')
     ylabel('Percent Deviation in log_{10}(R_{sh})')
-    refline(0,0)
+    mx = xlim;
+    line(mx,[0 0]);
     ylim([-35 15])
 end
 
@@ -420,7 +424,8 @@ if graphic
     plot(Ee(u),(Rs0-Rs(u))./Rs(u)*100,'x')
     xlabel('Irradiance (W/m^2)')
     ylabel('Percent Deviation in R_S')
-    refline(0,0)
+    mx = xlim;
+    line(mx,[0 0])
 end
 
 % Set diode factor
