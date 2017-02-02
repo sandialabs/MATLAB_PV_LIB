@@ -155,7 +155,7 @@ if ischar(varargin{1})
         otherwise
             error('Incorrect module type for use of default parameters')
     end
-    % User input coefficients
+% User input coefficients
 else
     coeff = varargin{1};
 end
