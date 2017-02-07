@@ -31,8 +31,9 @@ function [M] = pvl_FSspeccorr(Pwat,AMa,varargin)
 %   Eq. 1 to determine the coefficients for each module.
 %
 %  Function pvl_FSspeccorr was developed by Mitchell Lee and Alex Panchula,
-%   at First Solar, 2015. Detailed description of spectral correction
-%   can be found in [2]
+%   at First Solar, 2015. Detailed description of the spectral correction
+%   can be found in [2]. Additional validation and testing of the model
+%   can be found in [3].
 %
 % Inputs:
 %   Pwat - atmospheric precipitable water (cm). Can be
@@ -48,17 +49,19 @@ function [M] = pvl_FSspeccorr(Pwat,AMa,varargin)
 %           'multisi','polysi' - coefficients for multi-crystalline silicon
 %               modules. The module used to calculate the spectral
 %               correction coefficients corresponds to the Mult-crystalline
-%               silicon Manufacturer 2 Model C from [3].
+%               silicon Manufacturer 2 Model C from [4].
 %           'cigs' - coefficients for anonymous copper indium gallium selenide
 %               PV module. Lower and upper limits of QE are 350 nm and 1300 nm,
 %               respectively. Please note that the QE of CIGS modules
 %               can vary significantly depending on the PV manufacture and
-%               vintage.
-%           'aSi' - coefficients for anonymous amorphous silicon PV module.
+%               vintage. Spectral Response of module module used to derive
+%               CIGS coefficients can be found in [3]. 
+%           'asi' - coefficients for anonymous amorphous silicon PV module.
 %               Lower and upper limits of QE are 280 nm and 800 nm,
 %               respectively. Please note that the QE of a-Si modules
 %               can vary significantly depending on the PV manufacture and
-%               vintage.
+%               vintage.  Spectral Response of module module used to derive
+%               a-Si coefficients can be found in [3]. 
 %   custCoeff - allows for entry of user defined spectral correction
 %       coefficients. Coefficients must be entered as a numeric row or
 %       column vector of length 6. Derivation of coefficients requires use
@@ -83,10 +86,12 @@ function [M] = pvl_FSspeccorr(Pwat,AMa,varargin)
 % [2]   Lee, Mitchell, and Panchula, Alex. "Spectral Correction for
 %           Photovoltaic Module Performance Based on Air Mass and Precipitable
 %           Water." IEEE Photovoltaic Specialists Conference, Portland, 2016
-% [3]   Marion, William F., et al. User's Manual for Data for Validating
+% [3]   Schweiger, M. and Hermann, W, Influence of Spectral Effects on 
+%           Energy Yield of Different PV Modules: Comparison of Pwat and 
+%           MMF Approach, TUV Rheinland Energy GmbH report 21237296.003, January 2017
+% [4]   Marion, William F., et al. User's Manual for Data for Validating
 %           Models for PV Module Performance. National Renewable Energy Laboratory, 2014.
 %           http://www.nrel.gov/docs/fy14osti/61610.pdf
-
 
 
 % Correct for AMa and Pwat having transposed dimensions
