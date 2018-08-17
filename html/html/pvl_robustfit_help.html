@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>pvl_robustfit</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_robustfit_help.m"><style type="text/css">
+      --><title>pvl_robustfit</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_robustfit_help.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,12 +66,12 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>pvl_robustfit</h1><!--introduction--><p>Regress Y onto X using iteratively reweighted least squares</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Example</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>beta = pvl_robustfit(X, Y, intercept)</tt></p><h2>Description<a name="2"></a></h2><pre class="language-matlab">|pvl_robustfit| regresses Y <span class="string">onto</span> <span class="string">X</span> <span class="string">using</span> <span class="string">iteratively</span> <span class="string">reweighted</span> <span class="string">least</span>
+  </style></head><body><div class="content"><h1>pvl_robustfit</h1><!--introduction--><p>Regress Y onto X using iteratively reweighted least squares</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Example</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>beta = pvl_robustfit(X, Y, intercept)</tt></p><h2 id="2">Description</h2><pre class="language-matlab">|pvl_robustfit| regresses Y <span class="string">onto</span> <span class="string">X</span> <span class="string">using</span> <span class="string">iteratively</span> <span class="string">reweighted</span> <span class="string">least</span>
 squares, with <span class="string">the</span> <span class="string">Tukey</span> <span class="string">bi-weight</span> <span class="string">function.</span> <span class="string">|pvl_robustfit|</span> <span class="string">uses</span> <span class="string">the</span>
 Matlab <span class="string">function</span> <span class="string">|robustfit|</span> <span class="string">if</span> <span class="string">the</span> <span class="string">Statistics</span> <span class="string">toolbox</span> <span class="string">is</span> <span class="string">available.</span>
 Otherwise <span class="string">it</span> <span class="string">uses</span> <span class="string">the</span> <span class="string">RLM</span> <span class="string">function</span> <span class="string">in</span> <span class="string">the</span> <span class="string">Python</span> <span class="string">statsmodels</span> <span class="string">package</span>,
 which <span class="string">requires</span> <span class="string">a</span> <span class="string">Python</span> <span class="string">installation.</span>
-</pre><h2>Inputs<a name="3"></a></h2><div><ul><li>* <tt>X</tt>* - a N x M matrix, where M is the number of predictors and N is      the number of observations</li><li>* <tt>Y</tt>* - a N by 1 vector</li><li>* <tt>intercept</tt>* - an integer; 0 indicates no intercept, any other value     indicates that the regression has an intercept term</li></ul></div><p>Output * * <tt>beta</tt>* - a vector of coefficients, M x 1 if no intercept is specified,     (M+1) x 1 if an intercept is specified. The coefficient for the     intercept (if present) is beta(1).</p><h2>Example<a name="4"></a></h2><p>generate data with non-constant variance and outliers</p><pre class="codeinput">X = 1:0.05:4;
+</pre><h2 id="3">Inputs</h2><div><ul><li>* <tt>X</tt>* - a N x M matrix, where M is the number of predictors and N is      the number of observations</li><li>* <tt>Y</tt>* - a N by 1 vector</li><li>* <tt>intercept</tt>* - an integer; 0 indicates no intercept, any other value     indicates that the regression has an intercept term</li></ul></div><p>Output * * <tt>beta</tt>* - a vector of coefficients, M x 1 if no intercept is specified,     (M+1) x 1 if an intercept is specified. The coefficient for the     intercept (if present) is beta(1).</p><h2 id="4">Example</h2><p>generate data with non-constant variance and outliers</p><pre class="codeinput">X = 1:0.05:4;
 X = X(:);
 Y = 4 - 0.3*X + rand(size(X))./(0.5*X.^2);
 
@@ -83,7 +83,7 @@ hold <span class="string">all</span>
 plot(X,[ones(size(X)) X]*beta,<span class="string">'-'</span>)
 plot(X,[ones(size(X)) X]*beta2,<span class="string">'-'</span>)
 legend(<span class="string">'Data'</span>,<span class="string">'Robust fit'</span>,<span class="string">'Least squares'</span>)
-</pre><img vspace="5" hspace="5" src="pvl_robustfit_help_01.png" alt=""> <p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="pvl_robustfit_help_01.png" alt=""> <p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% pvl_robustfit 
 % Regress Y onto X using iteratively reweighted least squares

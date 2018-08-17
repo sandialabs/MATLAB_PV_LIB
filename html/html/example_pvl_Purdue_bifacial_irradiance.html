@@ -1,0 +1,245 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>example_pvl_Purdue_bifacial_irradiance</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="example_pvl_Purdue_bifacial_irradiance.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">example_pvl_Purdue_albedo_model</a></li><li><a href="#2">Load weather data</a></li><li><a href="#3">Sun position calculations</a></li><li><a href="#4">Describe system</a></li><li><a href="#5">Run the irradiance calculations</a></li><li><a href="#6">Plot the results</a></li><li><a href="#7">Describe system</a></li><li><a href="#8">Plot the results</a></li></ul></div><h2 id="1">example_pvl_Purdue_albedo_model</h2><p>Example calculation of front and rear irradiance on a bifacial module.</p><pre class="codeinput">clc
+clearvars
+close <span class="string">all</span>
+</pre><h2 id="2">Load weather data</h2><pre class="codeinput">TMYData = pvl_readtmy3(<span class="string">'723650TY.csv'</span>);
+TimeMatlab = TMYData.DateNumber;
+dv = datevec(TimeMatlab);
+
+tfilter = and(dv(:,2) == 8, dv(:,3) == 2); <span class="comment">% Select August 2</span>
+
+Time = pvl_maketimestruct(TimeMatlab(tfilter), ones(size(TimeMatlab(tfilter)))*TMYData.SiteTimeZone);
+</pre><h2 id="3">Sun position calculations</h2><pre class="codeinput">HExtra = pvl_extraradiation(pvl_date2doy(Time.year,Time.month,Time.day));
+Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,TMYData.SiteElevation);
+PresPa = TMYData.Pressure(tfilter)*100; <span class="comment">%Convert pressure from mbar to Pa</span>
+[SunAz, SunEl, AppSunEl, SolarTime] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb(tfilter));
+SunZen = 90 - AppSunEl;
+AM = pvl_relativeairmass(SunZen);
+AM(isnan(AM)) = 20;
+</pre><h2 id="4">Describe system</h2><pre class="codeinput">SurfTilt = 90; <span class="comment">%Vertical installation</span>
+SurfAz = 90; <span class="comment">%East-west facing</span>
+EtoH = 0; <span class="comment">%Ground-mounted</span>
+Albedo = 0.25; <span class="comment">% 25% albedo coefficient for concrete/vegetation</span>
+Rloss_Para = [0.16 4/(3*pi) -0.074]; <span class="comment">%Default parameters to calculate the reflection loss between the air/glass interface</span>
+</pre><h2 id="5">Run the irradiance calculations</h2><pre class="codeinput">[I_Front_R,I_Rear_R] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,<span class="keyword">...</span>
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,<span class="string">'1990'</span>,<span class="string">'Yes'</span>,Rloss_Para); <span class="comment">%Consider reflection loss</span>
+
+[I_Front_NR,I_Rear_NR] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,<span class="keyword">...</span>
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,<span class="string">'1990'</span>,<span class="string">'No'</span>); <span class="comment">%Do NOT consider reflection loss</span>
+</pre><h2 id="6">Plot the results</h2><pre class="codeinput">figure
+hold <span class="string">all</span>
+s = {<span class="string">'r-'</span>,<span class="string">'b-'</span>,<span class="string">'k-'</span>,<span class="string">'r--'</span>,<span class="string">'b--'</span>,<span class="string">'k--'</span>};
+plot(Time.hour,I_Front_NR,s{4})
+plot(Time.hour,I_Rear_NR,s{5})
+plot(Time.hour,I_Front_NR+I_Rear_NR,s{6})
+plot(Time.hour,I_Front_R,s{1})
+plot(Time.hour,I_Rear_R,s{2})
+plot(Time.hour,I_Front_R+I_Rear_R,s{3})
+xlim([-5 22])
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Total Irradiance (W/m^2)'</span>)
+legend(<span class="string">'Front'</span>,<span class="string">'Rear'</span>,<span class="string">'Total'</span>, <span class="keyword">...</span>
+    <span class="string">'Front red. by refl.'</span>,<span class="string">'Rear red. by refl.'</span>,<span class="string">'Total red. by refl.'</span>, <span class="keyword">...</span>
+    <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>)
+title({<span class="string">'Irradiance on a east-facing vertical bifacial module'</span>;<span class="string">'Albuquerque - Aug 2'</span>},<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="example_pvl_Purdue_bifacial_irradiance_01.png" alt=""> <h2 id="7">Describe system</h2><pre class="codeinput">Module_length = 1.4; <span class="comment">% meters, dimension of module not parallel to the ground</span>
+Module_elev = 0.5; <span class="comment">% meters, distance from the ground to the bottom of the module</span>
+SurfTilt = 35; <span class="comment">% Latitude tilt installation</span>
+SurfAz = 180; <span class="comment">% South facing</span>
+EtoH = Module_elev / Module_length;
+
+Albedo = 0.25; <span class="comment">% 25% albedo coefficient for concrete/vegetation</span>
+Rloss_Para = [0.16 4/(3*pi) -0.074]; <span class="comment">%Default parameters to calculate the reflection loss between the air/glass interface</span>
+
+<span class="comment">%Running the calculation</span>
+[I_Front_R,I_Rear_R] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,<span class="keyword">...</span>
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,<span class="string">'1990'</span>,<span class="string">'Yes'</span>,Rloss_Para); <span class="comment">%Consider reflection loss</span>
+
+[I_Front_NR,I_Rear_NR] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,<span class="keyword">...</span>
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,<span class="string">'1990'</span>,<span class="string">'No'</span>); <span class="comment">%Do NOT consider reflection loss</span>
+</pre><h2 id="8">Plot the results</h2><pre class="codeinput">figure
+hold <span class="string">all</span>
+s = {<span class="string">'r-'</span>,<span class="string">'b-'</span>,<span class="string">'k-'</span>,<span class="string">'r--'</span>,<span class="string">'b--'</span>,<span class="string">'k--'</span>};
+plot(Time.hour,I_Front_NR,s{4})
+plot(Time.hour,I_Rear_NR,s{5})
+plot(Time.hour,I_Front_NR+I_Rear_NR,s{6})
+plot(Time.hour,I_Front_R,s{1})
+plot(Time.hour,I_Rear_R,s{2})
+plot(Time.hour,I_Front_R+I_Rear_R,s{3})
+xlim([-5 22])
+xlabel(<span class="string">'Hour of Day'</span>)
+ylabel(<span class="string">'Total Irradiance (W/m^2)'</span>)
+legend(<span class="string">'Front'</span>,<span class="string">'Rear'</span>,<span class="string">'Total'</span>, <span class="keyword">...</span>
+    <span class="string">'Front red. by refl.'</span>,<span class="string">'Rear red. by refl.'</span>,<span class="string">'Total red. by refl.'</span>, <span class="keyword">...</span>
+    <span class="string">'Location'</span>, <span class="string">'NorthWest'</span>)
+title({<span class="string">'Irradiance on a south-facing latitude tilt bifacial module'</span>;<span class="string">'Albuquerque - Aug 2'</span>},<span class="string">'FontSize'</span>,14)
+</pre><img vspace="5" hspace="5" src="example_pvl_Purdue_bifacial_irradiance_02.png" alt=""> <p>Copyright 2018 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% example_pvl_Purdue_albedo_model
+%
+% Example calculation of front and rear irradiance on a bifacial module.
+
+clc
+clearvars
+close all
+
+%% Load weather data
+TMYData = pvl_readtmy3('723650TY.csv');
+TimeMatlab = TMYData.DateNumber;
+dv = datevec(TimeMatlab);
+
+tfilter = and(dv(:,2) == 8, dv(:,3) == 2); % Select August 2
+
+Time = pvl_maketimestruct(TimeMatlab(tfilter), ones(size(TimeMatlab(tfilter)))*TMYData.SiteTimeZone);
+
+%% Sun position calculations
+HExtra = pvl_extraradiation(pvl_date2doy(Time.year,Time.month,Time.day));
+Location = pvl_makelocationstruct(TMYData.SiteLatitude,TMYData.SiteLongitude,TMYData.SiteElevation);
+PresPa = TMYData.Pressure(tfilter)*100; %Convert pressure from mbar to Pa
+[SunAz, SunEl, AppSunEl, SolarTime] = pvl_ephemeris(Time,Location,PresPa,TMYData.DryBulb(tfilter));
+SunZen = 90 - AppSunEl;
+AM = pvl_relativeairmass(SunZen);
+AM(isnan(AM)) = 20;
+
+%% Describe system
+SurfTilt = 90; %Vertical installation
+SurfAz = 90; %East-west facing
+EtoH = 0; %Ground-mounted
+Albedo = 0.25; % 25% albedo coefficient for concrete/vegetation
+Rloss_Para = [0.16 4/(3*pi) -0.074]; %Default parameters to calculate the reflection loss between the air/glass interface
+
+%% Run the irradiance calculations
+[I_Front_R,I_Rear_R] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,...
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,'1990','Yes',Rloss_Para); %Consider reflection loss
+  
+[I_Front_NR,I_Rear_NR] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,...
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,'1990','No'); %Do NOT consider reflection loss
+
+%% Plot the results
+
+figure
+hold all
+s = {'r-','b-','k-','rREPLACE_WITH_DASH_DASH','bREPLACE_WITH_DASH_DASH','kREPLACE_WITH_DASH_DASH'};
+plot(Time.hour,I_Front_NR,s{4})
+plot(Time.hour,I_Rear_NR,s{5})
+plot(Time.hour,I_Front_NR+I_Rear_NR,s{6})
+plot(Time.hour,I_Front_R,s{1})
+plot(Time.hour,I_Rear_R,s{2})
+plot(Time.hour,I_Front_R+I_Rear_R,s{3})
+xlim([-5 22])
+xlabel('Hour of Day')
+ylabel('Total Irradiance (W/m^2)')
+legend('Front','Rear','Total', ...
+    'Front red. by refl.','Rear red. by refl.','Total red. by refl.', ...
+    'Location', 'NorthWest')
+title({'Irradiance on a east-facing vertical bifacial module';'Albuquerque - Aug 2'},'FontSize',14)
+
+
+%% Describe system
+Module_length = 1.4; % meters, dimension of module not parallel to the ground
+Module_elev = 0.5; % meters, distance from the ground to the bottom of the module
+SurfTilt = 35; % Latitude tilt installation
+SurfAz = 180; % South facing
+EtoH = Module_elev / Module_length; 
+
+Albedo = 0.25; % 25% albedo coefficient for concrete/vegetation
+Rloss_Para = [0.16 4/(3*pi) -0.074]; %Default parameters to calculate the reflection loss between the air/glass interface
+
+%Running the calculation
+[I_Front_R,I_Rear_R] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,...
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,'1990','Yes',Rloss_Para); %Consider reflection loss
+  
+[I_Front_NR,I_Rear_NR] = pvl_Purdue_bifacial_irradiance(SurfTilt, SurfAz, EtoH, Albedo,...
+      TMYData.DHI(tfilter), TMYData.DNI(tfilter), HExtra, SunZen, SunAz, AM,'1990','No'); %Do NOT consider reflection loss
+
+%% Plot the results
+
+figure
+hold all
+s = {'r-','b-','k-','rREPLACE_WITH_DASH_DASH','bREPLACE_WITH_DASH_DASH','kREPLACE_WITH_DASH_DASH'};
+plot(Time.hour,I_Front_NR,s{4})
+plot(Time.hour,I_Rear_NR,s{5})
+plot(Time.hour,I_Front_NR+I_Rear_NR,s{6})
+plot(Time.hour,I_Front_R,s{1})
+plot(Time.hour,I_Rear_R,s{2})
+plot(Time.hour,I_Front_R+I_Rear_R,s{3})
+xlim([-5 22])
+xlabel('Hour of Day')
+ylabel('Total Irradiance (W/m^2)')
+legend('Front','Rear','Total', ...
+    'Front red. by refl.','Rear red. by refl.','Total red. by refl.', ...
+    'Location', 'NorthWest')
+title({'Irradiance on a south-facing latitude tilt bifacial module';'Albuquerque - Aug 2'},'FontSize',14)
+
+%%
+% Copyright 2018 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

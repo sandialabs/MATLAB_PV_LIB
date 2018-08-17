@@ -1,0 +1,205 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_est_single_diode_param</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_est_single_diode_param_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_est_single_diode_param</h1><!--introduction--><p>Uses a regression technique to fit the single diode equation to data for a single IV curve.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax:</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Example</a></li><li><a href="#6">Sources</a></li><li><a href="#7">See also</a></li></ul></div><h2 id="1">Syntax:</h2><p><tt>[Io Iph Rs Rsh n] = pvl_est_single_diode_param(I, V, NsVth)</tt></p><h2 id="2">Description</h2><p><tt>pvl_est_single_diode_param</tt> uses a regression technique based on [1] to fit the single diode equation to data for a single IV curve.  Although values for each of the five parameters are returned, testing has shown only <tt>Rsh</tt> to be stable.  Values for the parameters <tt>Rs</tt>, <tt>Io</tt> and <tt>n</tt> may be negative or imaginary even for IV curve data without obvious flaws. The method coded here uses a principal component transformation of (V,I) prior to regression to attempt to overcome effects of strong colinearity between V and I over much of the I-V curve.</p><h2 id="3">Inputs</h2><div><ul><li><b><tt>I</tt></b> - a vector of length N of current for the IV curve.  The first value   is taken as Isc, the last value must be 0.</li><li><b><tt>V</tt></b> - a vector of length N of voltage for the IV curve corresponding to   the current values in the input vector I.  The first value must be 0,   the last value is taken as Voc.</li><li><b><tt>NsVth</tt></b> - the thermal voltage for the module, equal to <tt>Ns</tt> (number of   cells in series) x <tt>Vth</tt> (thermal voltage per cell).</li></ul></div><h2 id="4">Outputs</h2><div><ul><li><b><tt>Io</tt></b> - the dark current value (A) for the IV curve.</li><li><b><tt>Iph</tt></b> - the light current value (A) for the IV curve.</li><li><b><tt>Rs</tt></b> - series resistance (ohm) for the IV curve.</li><li><b><tt>Rsh</tt></b> - shunt resistance (ohm) for the IV curve.</li><li><b><tt>n</tt></b> - diode (ideality) factor (unitless) for the IV curve.</li></ul></div><h2 id="5">Example</h2><pre class="codeinput">clearvars
+
+<span class="comment">% load IV curve data for a 36 cell Mitsubishi cSi module</span>
+load <span class="string">'Desoto_demo.mat'</span>
+
+<span class="comment">% Build structure for constants</span>
+Const.E0 = 1000; <span class="comment">% W/m2</span>
+Const.T0 = 25; <span class="comment">% C</span>
+Const.k = 1.38066E-23; <span class="comment">% J/K</span>
+Const.q = 1.60218E-19; <span class="comment">% c</span>
+
+i = 63; <span class="comment">% randomly selected IV curve</span>
+
+Vth = Const.k/Const.q*(IVCurves(i).Tc+273.15);
+
+<span class="comment">% Clean up measured IV curve data</span>
+[I, V] = pvl_rectify_IV_curve(IVCurves(i).I, IVCurves(i).V, IVCurves(i).Voc, IVCurves(i).Isc);
+
+<span class="comment">% Estimate 5 parameters for the IV curve</span>
+[Io, Iph, Rs, Rsh, n] = <span class="keyword">...</span>
+        pvl_est_single_diode_param(I, V, Specs.Ns*Vth);
+
+<span class="comment">% Compute IV curve associated with the 5 parameters</span>
+Result = pvl_singlediode(Iph, Io, Rs, Rsh, n*Specs.Ns*Vth, 100);
+
+figure
+
+plot(IVCurves(i).V,IVCurves(i).I,<span class="string">'k.'</span>)
+hold <span class="string">on</span>
+plot(Result.V,Result.I,<span class="string">'r+'</span>)
+xlabel(<span class="string">'Voltage (V)'</span>)
+ylabel(<span class="string">'Current (A)'</span>)
+title(<span class="string">'Fitted IV Curve using regression method'</span>,<span class="string">'FontSize'</span>,14)
+xlim([0 21])
+ylim([0 7])
+text(2,6,[<span class="string">'I_L = '</span> num2str(Iph)]);
+text(2,5.5,[<span class="string">'I_O = '</span> num2str(Io)]);
+text(2,5,[<span class="string">'R_{SH} = '</span> num2str(Rsh)]);
+text(2,4.5,[<span class="string">'R_S = '</span> num2str(Rs)]);
+text(2,4,[<span class="string">'n = '</span> num2str(n)]);
+<span class="comment">%</span>
+</pre><img vspace="5" hspace="5" src="pvl_est_single_diode_param_help_01.png" alt=""> <h2 id="6">Sources</h2><p>[1] A. Ortiz-Conde, F. Garci'a Sa'nchez, J. Murci, "New method to   extract the model parameters of solar cells from the explict analytic   solutions of their illuminated I-V characteristics", Solar Energy   Materials and Solar Cells 90, pp 352-361, 2006.</p><p>[2] C. Hansen, Parameter Estimation for Single Diode Models of   Photovoltaic Modules, Sandia National Laboratories Report   SAND2015-2065.</p><h2 id="7">See also</h2><p><a href="pvl_singlediode_help.html"><tt>pvl_singlediode</tt></a>, <a href="pvl_rectify_IV_curve_help.html"><tt>pvl_rectify_IV_curve</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_est_single_diode_param
+% Uses a regression technique to fit the single diode equation to data for
+% a single IV curve.
+%
+%% Syntax:
+% |[Io Iph Rs Rsh n] = pvl_est_single_diode_param(I, V, NsVth)|
+%
+%% Description
+% |pvl_est_single_diode_param| uses a regression technique based on [1] to
+% fit the single diode equation to data for a single IV curve.  Although
+% values for each of the five parameters are returned, testing has shown  
+% only |Rsh| to be stable.  Values for the parameters |Rs|, |Io| and |n| may be 
+% negative or imaginary even for IV curve data without obvious flaws.
+% The method coded here uses a principal component transformation of (V,I)
+% prior to regression to attempt to overcome effects of strong
+% colinearity between V and I over much of the I-V curve.
+%
+%% Inputs
+% * *|I|* - a vector of length N of current for the IV curve.  The first value
+%   is taken as Isc, the last value must be 0.
+% * *|V|* - a vector of length N of voltage for the IV curve corresponding to
+%   the current values in the input vector I.  The first value must be 0,
+%   the last value is taken as Voc.
+% * *|NsVth|* - the thermal voltage for the module, equal to |Ns| (number of
+%   cells in series) x |Vth| (thermal voltage per cell).
+%
+%% Outputs
+% * *|Io|* - the dark current value (A) for the IV curve.
+% * *|Iph|* - the light current value (A) for the IV curve.
+% * *|Rs|* - series resistance (ohm) for the IV curve.
+% * *|Rsh|* - shunt resistance (ohm) for the IV curve.
+% * *|n|* - diode (ideality) factor (unitless) for the IV curve.
+%
+%% Example
+
+clearvars
+
+% load IV curve data for a 36 cell Mitsubishi cSi module
+load 'Desoto_demo.mat'
+
+% Build structure for constants
+Const.E0 = 1000; % W/m2
+Const.T0 = 25; % C
+Const.k = 1.38066E-23; % J/K
+Const.q = 1.60218E-19; % c
+
+i = 63; % randomly selected IV curve
+
+Vth = Const.k/Const.q*(IVCurves(i).Tc+273.15);
+
+% Clean up measured IV curve data
+[I, V] = pvl_rectify_IV_curve(IVCurves(i).I, IVCurves(i).V, IVCurves(i).Voc, IVCurves(i).Isc);
+
+% Estimate 5 parameters for the IV curve
+[Io, Iph, Rs, Rsh, n] = ...
+        pvl_est_single_diode_param(I, V, Specs.Ns*Vth);
+
+% Compute IV curve associated with the 5 parameters
+Result = pvl_singlediode(Iph, Io, Rs, Rsh, n*Specs.Ns*Vth, 100);
+
+figure
+
+plot(IVCurves(i).V,IVCurves(i).I,'k.')
+hold on
+plot(Result.V,Result.I,'r+')
+xlabel('Voltage (V)')
+ylabel('Current (A)')
+title('Fitted IV Curve using regression method','FontSize',14)
+xlim([0 21])
+ylim([0 7])
+text(2,6,['I_L = ' num2str(Iph)]);
+text(2,5.5,['I_O = ' num2str(Io)]);
+text(2,5,['R_{SH} = ' num2str(Rsh)]);
+text(2,4.5,['R_S = ' num2str(Rs)]);
+text(2,4,['n = ' num2str(n)]);
+%
+%% Sources
+% [1] A. Ortiz-Conde, F. Garci'a Sa'nchez, J. Murci, "New method to
+%   extract the model parameters of solar cells from the explict analytic
+%   solutions of their illuminated I-V characteristics", Solar Energy 
+%   Materials and Solar Cells 90, pp 352-361, 2006. 
+% 
+% [2] C. Hansen, Parameter Estimation for Single Diode Models of 
+%   Photovoltaic Modules, Sandia National Laboratories Report
+%   SAND2015-2065.
+%
+%% See also 
+% <pvl_singlediode_help.html |pvl_singlediode|>,
+% <pvl_rectify_IV_curve_help.html |pvl_rectify_IV_curve|>  
+%%
+% Copyright 2015 Sandia National Laboratories
+
+##### SOURCE END #####
+--></body></html>

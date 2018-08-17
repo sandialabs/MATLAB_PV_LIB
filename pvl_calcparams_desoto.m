@@ -128,14 +128,14 @@ function [IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_desoto(S,Tcell,alpha_isc,Mod
 %       Source = Reference 4
 
 p = inputParser;
-p.addRequired('S',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('Tcell',@(x) isnumeric(x) && isvector(x) && all(x>=-273.15 | isnan(x)));
-p.addRequired('alpha_isc', @(x) isnumeric(x) && isvector(x));
-p.addRequired('ModuleParameters', @(x) isstruct(x));
-p.addRequired('EgRef', @(x) isnumeric(x)  && isvector(x) && all(x>0 | isnan(x)));
-p.addRequired('dEgdT', @(x) isnumeric(x) && isvector(x));
-p.addOptional('Sref',1000, @(x) isnumeric(x) && isvector(x) && (all(x>0 | isnan(x))));
-p.addOptional('Tref',25, @(x) isnumeric(x) && isvector(x) && (all(x>-273.15 | isnan(x))));
+p.addRequired('S',@(x) all(x>=0) & isnumeric(x) & isvector(x) );
+p.addRequired('Tcell',@(x) all(x>=-273.15) & isnumeric(x) & isvector(x) );
+p.addRequired('alpha_isc', @(x) (isnumeric(x)));
+p.addRequired('ModuleParameters', @(x) (isstruct(x)));
+p.addRequired('EgRef', @(x) (isnumeric(x) & all(x>0)));
+p.addRequired('dEgdT', @(x) (isnumeric(x)));
+p.addOptional('Sref',1000, @(x) (all(x>0)& isnumeric(x)));
+p.addOptional('Tref',25, @(x) (all(x>-273.15) & isnumeric(x)));
 p.parse(S, Tcell, alpha_isc, ModuleParameters, EgRef, dEgdT, varargin{:});
 
 S = p.Results.S(:);

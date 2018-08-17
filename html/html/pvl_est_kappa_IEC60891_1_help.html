@@ -1,0 +1,211 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_est_kappa_IEC60891_1</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_est_kappa_IEC60891_1_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_est_kappa_IEC60891_1</h1><!--introduction--><p>PVL_EST_KAPPA_IEC60891_1 Estimate the curve correction factor kappa for IEC 60891 method 1.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description:</a></li><li><a href="#5">Inputs:</a></li><li><a href="#6">Outputs:</a></li><li><a href="#7">Example</a></li><li><a href="#8">References:</a></li><li><a href="#9">See also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>kappa = pvl_est_kappa_IEC60891_1(IVCurves, aIsc, bVoc)</tt></p><h2 id="3">Description:</h2><p>Methods in IEC60891 translates a point on an IV curve measured at irradiance G1 and cell temperature Tc1 to the corresponding point on an unobserved IV curve at irradiance G2 and cell temperature Tc2. The translation reduces the voltage value by a voltage drop across the &#8216;internal series resistance&#8217; of the module ([IEC 60891], Eq. 2). A value for the curve correction factor interpreted as the temperature coefficient of the series resistance is found by interative search using a set of IV curves measured at different cell temperatures and at a common irradiance: first, voltage and current for each IV curve are translated to a common temperature, then kappa is found by minimizing the variance of Pmp of the translated IV curves.</p><p><tt>pvl_est_kappa_IEC60891_1</tt> assumes that the IV curves have been translated to a common irradiance.</p><h2 id="5">Inputs:</h2><div><ul><li><b><tt>IVCurves</tt></b> - A structure array with the following fields:</li><li>* <b><tt>IVCurves.Isc</tt></b> - short circuit current in amperes.</li><li>* <b><tt>IVCurves.Voc</tt></b> - open circuit voltage in volts.</li><li>* <b><tt>IVCurves.Imp</tt></b> - current at maximum power point in amperes.</li><li>* <b><tt>IVCurves.Vmp</tt></b> - voltage at maximum power point in volts.</li><li>* <b><tt>IVCurves.Pmp</tt></b> - power at maximum power point in watts.</li><li>* <b><tt>IVCurves.V</tt></b> - vector of voltage in volts.</li><li>* <b><tt>IVCurves.I</tt></b> - vector of current in amperes.</li><li>* <b><tt>IVCurves.Ee</tt></b> - Effective irradiance (W/m2).</li><li>* <b><tt>IVCurves.Tc</tt></b> - cell temperature (C).</li><li><b><tt>aIsc</tt></b> - temperature coefficient for short circuit current in A/C</li><li><b><tt>bVoc</tt></b> - temperature coefficient for open circuit voltage in V/C</li></ul></div><h2 id="6">Outputs:</h2><div><ul><li><b><tt>kappa</tt></b> - the curve correction factor in ohm/K.</li></ul></div><h2 id="7">Example</h2><pre class="codeinput">clearvars
+
+<span class="comment">% Set up parameters for a representative 60 cell cSi module using the Desoto model</span>
+Const.q = 1.60218E-19;
+Const.k = 1.38066E-23;
+Const.E0 = 1000;
+Const.T0 = 25;
+
+param.aIsc = 0.0008;  <span class="comment">% A/C</span>
+param.bVoc = -0.1900; <span class="comment">% V/C</span>
+
+param.Rs_ref = 0.2;
+param.Rsh_ref = 1000;
+param.IL_ref = 8.0;
+param.I0_ref = 5e-10;
+
+param.a_ref = 1.05 * 60 * Const.k/Const.q * (273.15 + Const.T0);
+
+EgRef = 1.121;
+dEgdT = -0.0002677;
+
+<span class="comment">% Calculate set of IV curves</span>
+Ee = 1000;
+Tc = 25:1:35;
+nPts = 100;
+<span class="keyword">for</span> i=1:length(Tc)
+    [IL, I0, Rs, Rsh1, nNsVth] = pvl_calcparams_desoto(Ee, Tc(i), param.aIsc, param, EgRef, dEgdT);
+    IVcurves(i) = pvl_singlediode(IL, I0, Rs, Rsh1, nNsVth, nPts);
+<span class="keyword">end</span>
+
+<span class="comment">% Add Ee and Tc to IVcurves</span>
+<span class="keyword">for</span> i=1:length(Tc)
+    IVcurves(i).Ee = Ee;
+    IVcurves(i).Tc = Tc(i);
+<span class="keyword">end</span>
+
+<span class="comment">% Estimate kappa</span>
+kappa = pvl_est_kappa_IEC60891_1(IVcurves, param.aIsc, param.bVoc)
+</pre><pre class="codeoutput">
+kappa =
+
+   -0.0041
+
+</pre><h2 id="8">References:</h2><div><ul><li>[1] IEC60891 Ed. 2 2009. Procedures for temperature and irradiance     corrections to measured I-V characteristics of crystalline silicon     photovoltaic (PV) devices.</li></ul></div><h2 id="9">See also</h2><p><a href="pvl_est_Rs_IEC60891_1_help.html"><tt>pvl_est_Rs_IEC60891_1</tt></a>, <a href="pvl_translate_IV_curve_IEC60891_1_help.html"><tt>pvl_translate_IV_curve_IEC60891_1</tt></a></p><p>Copyright 2018 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_est_kappa_IEC60891_1
+% PVL_EST_KAPPA_IEC60891_1 Estimate the curve correction factor kappa for 
+% IEC 60891 method 1.
+%
+%% Syntax
+%%
+% |kappa = pvl_est_kappa_IEC60891_1(IVCurves, aIsc, bVoc)|
+%
+%% Description:
+%%
+% Methods in IEC60891 translates a point on an IV curve measured at 
+% irradiance G1 and cell temperature Tc1 to the corresponding point on an 
+% unobserved IV curve at irradiance G2 and cell temperature Tc2. The 
+% translation reduces the voltage value by a voltage drop across the 
+% ‘internal series resistance’ of the module ([IEC 60891], Eq. 2). A value
+% for the curve correction factor interpreted as the temperature coefficient
+% of the series resistance is found by interative search using a set of 
+% IV curves measured at different cell temperatures and at a common irradiance:
+% first, voltage and current for each IV curve are translated to a common
+% temperature, then kappa is found by minimizing the variance of
+% Pmp of the translated IV curves.
+%
+% |pvl_est_kappa_IEC60891_1| assumes that the IV curves have been translated 
+% to a common irradiance.
+%
+%% Inputs:
+% * *|IVCurves|* - A structure array with the following fields: 
+% * * *|IVCurves.Isc|* - short circuit current in amperes.
+% * * *|IVCurves.Voc|* - open circuit voltage in volts.
+% * * *|IVCurves.Imp|* - current at maximum power point in amperes. 
+% * * *|IVCurves.Vmp|* - voltage at maximum power point in volts.
+% * * *|IVCurves.Pmp|* - power at maximum power point in watts.
+% * * *|IVCurves.V|* - vector of voltage in volts. 
+% * * *|IVCurves.I|* - vector of current in amperes.
+% * * *|IVCurves.Ee|* - Effective irradiance (W/m2).
+% * * *|IVCurves.Tc|* - cell temperature (C).
+% * *|aIsc|* - temperature coefficient for short circuit current in A/C
+% * *|bVoc|* - temperature coefficient for open circuit voltage in V/C
+% 
+%% Outputs:
+% * *|kappa|* - the curve correction factor in ohm/K.
+%
+%% Example
+clearvars
+
+% Set up parameters for a representative 60 cell cSi module using the Desoto model
+Const.q = 1.60218E-19;
+Const.k = 1.38066E-23;
+Const.E0 = 1000;
+Const.T0 = 25;
+
+param.aIsc = 0.0008;  % A/C
+param.bVoc = -0.1900; % V/C
+ 
+param.Rs_ref = 0.2;
+param.Rsh_ref = 1000;
+param.IL_ref = 8.0;
+param.I0_ref = 5e-10;
+ 
+param.a_ref = 1.05 * 60 * Const.k/Const.q * (273.15 + Const.T0);
+ 
+EgRef = 1.121;
+dEgdT = -0.0002677;
+
+% Calculate set of IV curves
+Ee = 1000;
+Tc = 25:1:35;
+nPts = 100;
+for i=1:length(Tc)
+    [IL, I0, Rs, Rsh1, nNsVth] = pvl_calcparams_desoto(Ee, Tc(i), param.aIsc, param, EgRef, dEgdT);
+    IVcurves(i) = pvl_singlediode(IL, I0, Rs, Rsh1, nNsVth, nPts);
+end
+
+% Add Ee and Tc to IVcurves
+for i=1:length(Tc)
+    IVcurves(i).Ee = Ee;
+    IVcurves(i).Tc = Tc(i);
+end
+
+% Estimate kappa
+kappa = pvl_est_kappa_IEC60891_1(IVcurves, param.aIsc, param.bVoc)
+
+
+%% References:
+% * [1] IEC60891 Ed. 2 2009. Procedures for temperature and irradiance 
+%     corrections to measured I-V characteristics of crystalline silicon 
+%     photovoltaic (PV) devices.
+%
+%% See also 
+% <pvl_est_Rs_IEC60891_1_help.html |pvl_est_Rs_IEC60891_1|>,
+% <pvl_translate_IV_curve_IEC60891_1_help.html |pvl_translate_IV_curve_IEC60891_1|>
+%
+%%
+% Copyright 2018 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

@@ -151,16 +151,8 @@ Header2 = textscan(FileID, '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s
 DataLines = textscan(FileID, '%s%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%s%f%f%f%s%f',8760,'Delimiter',',');
 ST = fclose(FileID);
 
-% Parse out the header information since it is common to both formats
-TMYData.SiteID = Header1{1};
-TMYData.StationName = Header1{2};
-TMYData.StationState = Header1{3};
-TMYData.SiteTimeZone = Header1{4};
-TMYData.SiteLatitude = Header1{5};
-TMYData.SiteLongitude = Header1{6};
-TMYData.SiteElevation = Header1{7};
 %% Determine if the file is from pre-January 19, 2015 or post-20150119
-if isempty(strfind(char(DataLines{1,1}{1,1}), 'PresWth'))
+if ~contains(char(DataLines{1,1}{1,1}), 'PresWth')
     % The string 'PresWth' was not found in DataLines{1,1}{1,1}, so we have a
     % pre-2015 TMY3 file
     TMYData = ParsePre2015TMY(DataLines);
@@ -176,6 +168,16 @@ else
     
     TMYData = ParsePost2015TMY(DataLines);
 end
+
+% Parse out the header information since it is common to both formats
+TMYData.SiteID = Header1{1};
+TMYData.StationName = Header1{2};
+TMYData.StationState = Header1{3};
+TMYData.SiteTimeZone = Header1{4};
+TMYData.SiteLatitude = Header1{5};
+TMYData.SiteLongitude = Header1{6};
+TMYData.SiteElevation = Header1{7};
+
 end
 
 function TMYData = ParsePre2015TMY(DataLines)

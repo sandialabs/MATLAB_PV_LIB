@@ -198,6 +198,7 @@ end
 
 
 %% See also 
+% <pvl_est_single_diode_param_help.html |pvl_est_single_diode_param|>,
 % <pvl_calcparams_PVsyst_help.html |pvl_calcparams_PVsyst|>,  
 % <pvl_singlediode_help.html |pvl_singlediode|>  
 %%

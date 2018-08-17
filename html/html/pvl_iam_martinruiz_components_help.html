@@ -1,0 +1,154 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PVL_IAM_MARTINRUIZ_COMPONENTS</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_iam_martinruiz_components_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PVL_IAM_MARTINRUIZ_COMPONENTS</h1><!--introduction--><p>Calculate the reflection loss for direct beam, isotropic diffuse, and ground-reflected albedo light.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs:</a></li><li><a href="#4">Output:</a></li><li><a href="#5">Example</a></li><li><a href="#6">References</a></li><li><a href="#7">See Also</a></li><li><a href="#8">Notes:</a></li></ul></div><h2 id="1">Syntax</h2><div><ul><li>*<tt>[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, AOI)</tt></li><li>*<tt>[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, AOI, Rloss_Para)</tt></li></ul></div><h2 id="2">Description</h2><p>This model calculates the reflection losses at the air/glass interface of a solar module separately for direct (beam), isotropic sky diffuse and ground-reflected (albedo) irradiance. The model uses empirical equations developed in [1].</p><h2 id="3">Inputs:</h2><div><ul><li><b><tt>SurfTilt</tt></b> - a scalar or vector of surface tilt angles in decimal degrees.     If <tt>SurfTilt</tt> is a vector it must be of the same size as all other vector     inputs. <tt>SurfTilt</tt> must be &gt;=0 and &lt;=180. The tilt angle is defined as     degrees from horizontal (e.g. surface facing up = 0, surface facing     horizon = 90).</li><li><b><tt>AOI</tt></b> - a scalar or vector of the angle of incidence of beam irradiance     in decimal degrees. If AOI is a vector it must be of the same size as all other vector     inputs. <tt>AOI</tt> must be &gt;=0 and &lt;=90. The angle of incidence can be calculated by     <tt>pvl_getaoi</tt>.</li><li><b><tt>Rloss_Para</tt></b> - a three-element vector represents the parameters     (in order, ar, c1, and c2) in the reflection models in Ref. [4].     By default a parameter set for a glass-faced silicon solar module,     [ar = 0.16, cl = 4/(3*pi), c2 = -0.074], will be used.</li></ul></div><h2 id="4">Output:</h2><div><ul><li><b><tt>Rloss_Beam</tt></b> - A column vector with the same number of elements as any input     vectors, which contains the reflection loss of the direct beam light.</li><li><b><tt>Rloss_Iso</tt></b> - A single value, the reflection loss of the isotropic diffuse irradiance.</li><li><b><tt>Rloss_Albedo</tt></b> - A single value, the reflection loss of ground-reflected irradiance.</li></ul></div><h2 id="5">Example</h2><p>This example plots the IAM for glass over a range of incident angles.</p><pre class="codeinput">SurfTilt = 30;   <span class="comment">% tilt from horizontal</span>
+theta = 0:90;    <span class="comment">%incident angle in degrees</span>
+[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, theta);
+<span class="comment">% convert from reflection loss to incident angle modifier.</span>
+IAM_beam = 1 - Rloss_Beam;
+IAM_iso = 1 - Rloss_Iso;
+IAM_ground = 1 - Rloss_Albedo;
+figure
+hold <span class="string">all</span>
+plot(theta, IAM_beam)
+plot(theta, repmat(IAM_iso, size(theta)))
+plot(theta, repmat(IAM_ground, size(theta)))
+legend(<span class="string">'Beam'</span>, <span class="string">'Isotropic diffuse'</span>, <span class="string">'Ground-reflected'</span>, <span class="string">'Location'</span>, <span class="string">'Best'</span>)
+xlabel(<span class="string">'Incident Angle (deg)'</span>)
+ylabel(<span class="string">'Incident angle modifier'</span>)
+title(<span class="string">'Martin and Ruiz IAM model by irradiance component'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_iam_martinruiz_components_help_01.png" alt=""> <h2 id="6">References</h2><pre class="language-matlab">[1] Mart&iacute;n, N., Ruiz, J. M. 2005. Annual <span class="string">angular</span> <span class="string">reflection</span> <span class="string">losses</span> <span class="string">in</span>
+PV <span class="string">modules.</span> <span class="string">Progress</span> <span class="string">in</span> <span class="string">Photovoltaics:</span> <span class="string">Research</span> <span class="string">and</span> <span class="string">Applications</span>, 13(1), 75&#8211;84.
+</pre><h2 id="7">See Also</h2><p><a href="pvl_iam_martinruiz_help.html"><tt>pvl_iam_martinruiz</tt></a></p><h2 id="8">Notes:</h2><p><tt>pvl_iam_martinruiz_components</tt> provided by Xingshu Sun of Purdue University, 2018.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PVL_IAM_MARTINRUIZ_COMPONENTS
+% Calculate the reflection loss for direct beam, isotropic diffuse, and ground-reflected albedo light.
+%
+%% Syntax
+% * *|[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, AOI)|
+% * *|[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, AOI, Rloss_Para)|
+%
+%% Description
+% This model calculates the reflection losses at the air/glass interface of
+% a solar module separately for direct (beam), isotropic sky diffuse and 
+% ground-reflected (albedo) irradiance. The model uses empirical equations 
+% developed in [1].
+%
+%% Inputs:
+% * *|SurfTilt|* - a scalar or vector of surface tilt angles in decimal degrees.
+%     If |SurfTilt| is a vector it must be of the same size as all other vector
+%     inputs. |SurfTilt| must be >=0 and <=180. The tilt angle is defined as
+%     degrees from horizontal (e.g. surface facing up = 0, surface facing
+%     horizon = 90).
+% * *|AOI|* - a scalar or vector of the angle of incidence of beam irradiance
+%     in decimal degrees. If AOI is a vector it must be of the same size as all other vector
+%     inputs. |AOI| must be >=0 and <=90. The angle of incidence can be calculated by
+%     |pvl_getaoi|.
+% * *|Rloss_Para|* - a three-element vector represents the parameters 
+%     (in order, ar, c1, and c2) in the reflection models in Ref. [4].
+%     By default a parameter set for a glass-faced silicon solar module, 
+%     [ar = 0.16, cl = 4/(3*pi), c2 = -0.074], will be used.  
+%
+%% Output:
+% * *|Rloss_Beam|* - A column vector with the same number of elements as any input
+%     vectors, which contains the reflection loss of the direct beam light. 
+% * *|Rloss_Iso|* - A single value, the reflection loss of the isotropic diffuse irradiance. 
+% * *|Rloss_Albedo|* - A single value, the reflection loss of ground-reflected irradiance.
+%
+
+%% Example
+% This example plots the IAM for glass over a range of incident angles.
+SurfTilt = 30;   % tilt from horizontal
+theta = 0:90;    %incident angle in degrees
+[Rloss_Beam, Rloss_Iso, Rloss_Albedo] = pvl_iam_martinruiz_components(SurfTilt, theta);
+% convert from reflection loss to incident angle modifier.  
+IAM_beam = 1 - Rloss_Beam;
+IAM_iso = 1 - Rloss_Iso;
+IAM_ground = 1 - Rloss_Albedo;
+figure
+hold all
+plot(theta, IAM_beam)
+plot(theta, repmat(IAM_iso, size(theta)))
+plot(theta, repmat(IAM_ground, size(theta)))
+legend('Beam', 'Isotropic diffuse', 'Ground-reflected', 'Location', 'Best')
+xlabel('Incident Angle (deg)')
+ylabel('Incident angle modifier')
+title('Martin and Ruiz IAM model by irradiance component')
+%% References
+%   [1] Martín, N., Ruiz, J. M. 2005. Annual angular reflection losses in
+%   PV modules. Progress in Photovoltaics: Research and Applications, 13(1), 75–84.
+%% See Also
+% <pvl_iam_martinruiz_help.html |pvl_iam_martinruiz|>
+%
+%% Notes:
+% |pvl_iam_martinruiz_components| provided by Xingshu Sun of Purdue
+% University, 2018.
+%
+
+##### SOURCE END #####
+--></body></html>

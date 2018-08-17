@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>pvl_exceltime2matlab</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_exceltime2matlab_help.m"><style type="text/css">
+      --><title>pvl_exceltime2matlab</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_exceltime2matlab_help.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>pvl_exceltime2matlab</h1><!--introduction--><p>Convert a Microsoft Excel time to a MATLAB datenum</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example</a></li><li><a href="#8">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>MatTime = pvl_exceltime2matlab(ExcTime)</tt></p><h2>Description<a name="2"></a></h2><p>Converts a Microsoft Excel serial time to a MATLAB datenum. Specifically, it converts from Excel's "1900" date system (days from Jan-1-1900 00:00:00)to MATLAB's datenum date system (days from Jan-1-0000 00:00:00).</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>ExcTime</tt></b> - an array of dates in Microsoft Excel's serial 1900 date    system.</li></ul></div><h2>Outputs<a name="5"></a></h2><div><ul><li><b><tt>MatTime</tt></b> - an array of dates in MATLAB's serial datenum format.</li></ul></div><h2>Example<a name="7"></a></h2><p>Example uses Jan 1, 1987 13:00</p><pre class="codeinput">ExcTime = 31778.541666667;
+  </style></head><body><div class="content"><h1>pvl_exceltime2matlab</h1><!--introduction--><p>Convert a Microsoft Excel time to a MATLAB datenum</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#7">Example</a></li><li><a href="#8">See Also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>MatTime = pvl_exceltime2matlab(ExcTime)</tt></p><h2 id="2">Description</h2><p>Converts a Microsoft Excel serial time to a MATLAB datenum. Specifically, it converts from Excel's "1900" date system (days from Jan-1-1900 00:00:00)to MATLAB's datenum date system (days from Jan-1-0000 00:00:00).</p><h2 id="3">Inputs</h2><div><ul><li><b><tt>ExcTime</tt></b> - an array of dates in Microsoft Excel's serial 1900 date    system.</li></ul></div><h2 id="5">Outputs</h2><div><ul><li><b><tt>MatTime</tt></b> - an array of dates in MATLAB's serial datenum format.</li></ul></div><h2 id="7">Example</h2><p>Example uses Jan 1, 1987 13:00</p><pre class="codeinput">ExcTime = 31778.541666667;
 MatTime = pvl_exceltime2matlab(ExcTime)
 datestr(MatTime)
 </pre><pre class="codeoutput">
@@ -77,9 +77,9 @@ MatTime =
 
 ans =
 
-01-Jan-1987 13:00:00
+    '01-Jan-1987 13:00:00'
 
-</pre><h2>See Also<a name="8"></a></h2><p><a href="pvl_matlabtime2excel_help.html"><tt>pvl_matlabtime2excel</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><h2 id="8">See Also</h2><p><a href="pvl_matlabtime2excel_help.html"><tt>pvl_matlabtime2excel</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% pvl_exceltime2matlab 
 % Convert a Microsoft Excel time to a MATLAB datenum

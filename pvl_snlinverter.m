@@ -68,8 +68,8 @@ function ACPower = pvl_snlinverter(Inverter, Vdc, Pdc)
 
 p = inputParser;
 p.addRequired('Inverter',@(x) isstruct(x))
-p.addRequired('Vdc', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('Pdc', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('Vdc', @(x) all(isnumeric(x) & x>=0 & isvector(x)));
+p.addRequired('Pdc', @(x) all(isnumeric(x) & x>=0 & isvector(x)));
 p.parse(Inverter, Vdc, Pdc);
 
 Pac0 = p.Results.Inverter.Pac0;

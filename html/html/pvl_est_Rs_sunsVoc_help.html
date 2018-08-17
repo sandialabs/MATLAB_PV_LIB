@@ -1,0 +1,234 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_est_Rs_sunsVoc</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_est_Rs_sunsVoc_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_est_Rs_sunsVoc</h1><!--introduction--><p>PVL_EST_RS_SUNSVOC Estimate Rs using the suns-Voc method.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description:</a></li><li><a href="#5">Inputs:</a></li><li><a href="#6">Outputs:</a></li><li><a href="#7">Example</a></li><li><a href="#8">References:</a></li><li><a href="#9">See also</a></li></ul></div><h2 id="1">Syntax</h2><div><ul><li><tt>[Rs, errest] = pvl_est_Rs_sunsVoc(sunsV, sunsI, Isc, Vmp, Imp)</tt></li><li><tt>[Rs, errest] = pvl_est_Rs_sunsVoc(sunsV, sunsI, Isc, Vmp, Imp, Rsh1, Rsh2, nNsVth, Io, Isc2)</tt></li></ul></div><h2 id="3">Description:</h2><p>The suns-Voc method estimates series resistance using the suns-Voc curve and a measured IV curve. It is assumed that both the suns-Voc and measured IV curves are at cell temperature of 25C. The suns-Voc curve is expressed as a pair of vectors (sunsV, sunsI) where sunsV is a vector of Voc at irradiance levels E, and sunsI = Isc0 - Isc(E) where Isc0 is the short circuit current at STC (1000 W/m2 and 25C). A point is selected on the (sunsV, sunsI) curve where the pseudo-current sunsI is equal to the measured Imp.</p><p>If optional arguments are provided, the difference between the returned Rs value and the Rs parameter for the single diode equation is estimated, see [2]. For this estimate, shunt resistance and short circuit current are required for the IV curve at irradiance E = (1 - Imp / Isc0)*1000 W/m2.</p><h2 id="5">Inputs:</h2><div><ul><li><b><tt>sunsV</tt></b> - a vector of voltage for suns-Voc curve.</li><li><b><tt>sunsI</tt></b> - a vector of pseudo-current in amps for the suns-Voc curve.</li><li><b><tt>Isc</tt></b> - short circuit current in amps for the measured IV curve.</li><li><b><tt>Vmp</tt></b> - voltage at the maximum power point for the measured IV curve.</li><li><b><tt>Imp</tt></b> - current at the maximum power point for the measured IV curve.</li><li><b><tt>Rsh1</tt></b> - (optional) shunt resistance, in ohms, for the measured IV curve.</li><li><b><tt>Rsh2</tt></b> - (optional) shunt resistance, in ohms, for the IV curve at irradiance     E = (1 - Imp / Isc0) * 1000 W/m2 where Isc0 is short circuit current     in amps at STC.</li><li><b><tt>nNsVth</tt></b> - (optional) the product n (diode factor) x Ns (cells in series)     x Vth (thermal voltage per cell) for both IV curves.</li><li><b><tt>Io</tt></b> - (optional) the dark current, in A, for both IV curves.</li><li><b><tt>Isc2</tt></b> - (optional) short circuit current, in amps, for the IV curve     at irradiance E = (1 - Imp / Isc0) * 1000 W/m2 where Isc0 is short     circuit current in amps at STC.</li></ul></div><h2 id="6">Outputs:</h2><div><ul><li><b><tt>Rs</tt></b> - the series resistance value in ohms.</li><li><b><tt>errest</tt></b> - the estimated difference between Rs and the series resistance     parameter for the single diode equation.</li></ul></div><h2 id="7">Example</h2><pre class="codeinput">clearvars
+
+<span class="comment">% Set up parameters for a representative 60 cell cSi module using the Desoto model</span>
+Const.q = 1.60218E-19;
+Const.k = 1.38066E-23;
+Const.E0 = 1000;
+Const.T0 = 25;
+
+param.aIsc = 0.0008;  <span class="comment">% A/C</span>
+param.bVoc = -0.1900; <span class="comment">% V/C</span>
+
+param.Rs_ref = 0.2;
+param.Rsh_ref = 1000;
+param.IL_ref = 8.0;
+param.I0_ref = 5e-10;
+
+param.a_ref = 1.05 * 60 * Const.k/Const.q * (273.15 + Const.T0);
+
+EgRef = 1.121;
+dEgdT = -0.0002677;
+
+
+<span class="comment">% Calculate IV curve at STC</span>
+Ee = 1000;
+Tc = 25;
+nPts = 100;
+[IL, I0, Rs, Rshf, nNsVth] = pvl_calcparams_desoto(Ee, Tc, param.aIsc, param, EgRef, dEgdT);
+IVcurve_STC = pvl_singlediode(IL, I0, Rs, Rshf, nNsVth, nPts);
+
+
+<span class="comment">% simulate suns-Voc curve</span>
+suns = 10:10:1000; suns = suns(:);
+sunsTc = ones(size(suns)).*25;
+sunsIsc0 = IVcurve_STC.Isc;
+sunsIsc = suns./1000.*sunsIsc0;
+
+[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_desoto(suns, sunsTc, param.aIsc, param, EgRef, dEgdT);
+res = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, nPts);
+sunsVoc.V = [res(:).Voc];
+sunsVoc.I = (1 - suns(:)/1000)*sunsIsc0;
+
+<span class="comment">% Estimate Rs</span>
+Rs = pvl_est_Rs_sunsVoc(sunsVoc.V, sunsVoc.I, IVcurve_STC.Isc, IVcurve_STC.Vmp, IVcurve_STC.Imp)
+</pre><pre class="codeoutput">
+Rs =
+
+    0.2144
+
+</pre><h2 id="8">References:</h2><div><ul><li>[1] D. Pysch, A. Mette, S. W. Glunz, &#8220;A review and comparison of     different methods to determine the series resistance of solar cells",     Solar. Energy Materials and Cells 91, pp. 1698-1706, 2007.</li></ul></div><div><ul><li>[2] C. Hansen and B. King, "Determining series resistance for     equivalent circuit models of a PV module", in 45th IEEE Photovoltaic     Specialist Conference, Waikoloa, HI, 2018.</li></ul></div><h2 id="9">See also</h2><p><a href="pvl_est_Rs_Bowden_help.html"><tt>pvl_est_Rs_Bowden</tt></a> , <a href="pvl_est_Rs_Swanson_help.html"><tt>pvl_est_Rs_Swanson</tt></a> , <a href="pvl_est_Rs_Pysch_help.html"><tt>pvl_est_Rs_Pysch</tt></a> , <a href="pvl_est_Rs_IEC60891_1_help.html"><tt>pvl_est_Rs_IEC60891_1</tt></a> , <a href="pvl_est_Rs_IEC60891_2_help.html"><tt>pvl_est_Rs_IEC60891_2</tt></a></p><p>Copyright 2018 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_est_Rs_sunsVoc
+% PVL_EST_RS_SUNSVOC Estimate Rs using the suns-Voc method.
+%
+%% Syntax
+%%
+% *  |[Rs, errest] = pvl_est_Rs_sunsVoc(sunsV, sunsI, Isc, Vmp, Imp)|
+% *  |[Rs, errest] = pvl_est_Rs_sunsVoc(sunsV, sunsI, Isc, Vmp, Imp, Rsh1, Rsh2, nNsVth, Io, Isc2)|
+%
+%% Description:
+%%
+% The suns-Voc method estimates series resistance using the suns-Voc 
+% curve and a measured IV curve. It is assumed that both the suns-Voc and
+% measured IV curves are at cell temperature of 25C. The suns-Voc curve
+% is expressed as a pair of vectors (sunsV, sunsI) where sunsV is a
+% vector of Voc at irradiance levels E, and sunsI = Isc0 - Isc(E) where
+% Isc0 is the short circuit current at STC (1000 W/m2 and 25C). A point
+% is selected on the (sunsV, sunsI) curve where the pseudo-current sunsI
+% is equal to the measured Imp.
+%
+% If optional arguments are provided, the difference between the returned
+% Rs value and the Rs parameter for the single diode equation is estimated,
+% see [2]. For this estimate, shunt resistance and short circuit current
+% are required for the IV curve at irradiance E = (1 - Imp / Isc0)*1000 W/m2.
+%
+%% Inputs:
+% * *|sunsV|* - a vector of voltage for suns-Voc curve.
+% * *|sunsI|* - a vector of pseudo-current in amps for the suns-Voc curve.
+% * *|Isc|* - short circuit current in amps for the measured IV curve.
+% * *|Vmp|* - voltage at the maximum power point for the measured IV curve.
+% * *|Imp|* - current at the maximum power point for the measured IV curve.
+% * *|Rsh1|* - (optional) shunt resistance, in ohms, for the measured IV curve.
+% * *|Rsh2|* - (optional) shunt resistance, in ohms, for the IV curve at irradiance
+%     E = (1 - Imp / Isc0) * 1000 W/m2 where Isc0 is short circuit current
+%     in amps at STC.
+% * *|nNsVth|* - (optional) the product n (diode factor) x Ns (cells in series)
+%     x Vth (thermal voltage per cell) for both IV curves.
+% * *|Io|* - (optional) the dark current, in A, for both IV curves.
+% * *|Isc2|* - (optional) short circuit current, in amps, for the IV curve 
+%     at irradiance E = (1 - Imp / Isc0) * 1000 W/m2 where Isc0 is short 
+%     circuit current in amps at STC.
+% 
+%% Outputs:
+% * *|Rs|* - the series resistance value in ohms.
+% * *|errest|* - the estimated difference between Rs and the series resistance
+%     parameter for the single diode equation.
+%
+%% Example
+
+
+clearvars
+
+% Set up parameters for a representative 60 cell cSi module using the Desoto model
+Const.q = 1.60218E-19;
+Const.k = 1.38066E-23;
+Const.E0 = 1000;
+Const.T0 = 25;
+
+param.aIsc = 0.0008;  % A/C
+param.bVoc = -0.1900; % V/C
+ 
+param.Rs_ref = 0.2;
+param.Rsh_ref = 1000;
+param.IL_ref = 8.0;
+param.I0_ref = 5e-10;
+ 
+param.a_ref = 1.05 * 60 * Const.k/Const.q * (273.15 + Const.T0);
+ 
+EgRef = 1.121;
+dEgdT = -0.0002677;
+
+
+% Calculate IV curve at STC
+Ee = 1000;
+Tc = 25;
+nPts = 100;
+[IL, I0, Rs, Rshf, nNsVth] = pvl_calcparams_desoto(Ee, Tc, param.aIsc, param, EgRef, dEgdT);
+IVcurve_STC = pvl_singlediode(IL, I0, Rs, Rshf, nNsVth, nPts);
+
+
+% simulate suns-Voc curve
+suns = 10:10:1000; suns = suns(:);
+sunsTc = ones(size(suns)).*25;
+sunsIsc0 = IVcurve_STC.Isc;
+sunsIsc = suns./1000.*sunsIsc0;
+
+[IL, I0, Rs, Rsh, nNsVth] = pvl_calcparams_desoto(suns, sunsTc, param.aIsc, param, EgRef, dEgdT);
+res = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, nPts);
+sunsVoc.V = [res(:).Voc];
+sunsVoc.I = (1 - suns(:)/1000)*sunsIsc0;
+
+% Estimate Rs
+Rs = pvl_est_Rs_sunsVoc(sunsVoc.V, sunsVoc.I, IVcurve_STC.Isc, IVcurve_STC.Vmp, IVcurve_STC.Imp)
+
+
+%% References:
+% * [1] D. Pysch, A. Mette, S. W. Glunz, “A review and comparison of 
+%     different methods to determine the series resistance of solar cells",
+%     Solar. Energy Materials and Cells 91, pp. 1698-1706, 2007.
+%
+% * [2] C. Hansen and B. King, "Determining series resistance for
+%     equivalent circuit models of a PV module", in 45th IEEE Photovoltaic
+%     Specialist Conference, Waikoloa, HI, 2018.
+%
+%% See also 
+% <pvl_est_Rs_Bowden_help.html |pvl_est_Rs_Bowden|> ,        
+% <pvl_est_Rs_Swanson_help.html |pvl_est_Rs_Swanson|> ,        
+% <pvl_est_Rs_Pysch_help.html |pvl_est_Rs_Pysch|> ,        
+% <pvl_est_Rs_IEC60891_1_help.html |pvl_est_Rs_IEC60891_1|> ,        
+% <pvl_est_Rs_IEC60891_2_help.html |pvl_est_Rs_IEC60891_2|>
+%
+%%
+% Copyright 2018 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

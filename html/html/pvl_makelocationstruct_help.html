@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>pvl_makelocationstruct</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_makelocationstruct_help.m"><style type="text/css">
+      --><title>pvl_makelocationstruct</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_makelocationstruct_help.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,18 +66,20 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>pvl_makelocationstruct</h1><!--introduction--><p>Create a struct to define a site location.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Example</a></li><li><a href="#6">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>Location = pvl_makelocationstruct(latitude, longitude)</tt></p><p><tt>Location = pvl_makelocationstruct(latitude, longitude, altitude)</tt></p><h2>Description<a name="2"></a></h2><p>Creates a location struct for use with some PVLib functions. Site information includes latitude, longitude, and altitude (optional).</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>latitude</tt></b> - latitude coordinates in decimal degrees.             Latitude convention is positive north of the equator.</li><li><b><tt>longitude</tt></b> - longitude coordinates in decimal degrees.           Longitude convention is positive east of the prime meridian.</li><li><b><tt>altitude</tt></b> - (optional) surface elevation in meters above sea level.</li></ul></div><p>All inputs must be scalars.</p><h2>Outputs<a name="4"></a></h2><div><ul><li><b><tt>Location</tt></b> - Struct consisting of scalar components.</li><li><b><tt>Location.latitude</tt></b> - Latitude in decimal degrees.</li><li><b><tt>Location.longitude</tt></b> - Longitude in decimal degrees.</li><li><b><tt>Location.altitude</tt></b> - Elevation in meters above sea level (if altitude provided).</li></ul></div><h2>Example<a name="5"></a></h2><pre class="codeinput">latitude = 35.05;
+  </style></head><body><div class="content"><h1>pvl_makelocationstruct</h1><!--introduction--><p>Create a struct to define a site location.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Example</a></li><li><a href="#6">See Also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>Location = pvl_makelocationstruct(latitude, longitude)</tt></p><p><tt>Location = pvl_makelocationstruct(latitude, longitude, altitude)</tt></p><h2 id="2">Description</h2><p>Creates a location struct for use with some PVLib functions. Site information includes latitude, longitude, and altitude (optional).</p><h2 id="3">Inputs</h2><div><ul><li><b><tt>latitude</tt></b> - latitude coordinates in decimal degrees.             Latitude convention is positive north of the equator.</li><li><b><tt>longitude</tt></b> - longitude coordinates in decimal degrees.           Longitude convention is positive east of the prime meridian.</li><li><b><tt>altitude</tt></b> - (optional) surface elevation in meters above sea level.</li></ul></div><p>All inputs must be scalars.</p><h2 id="4">Outputs</h2><div><ul><li><b><tt>Location</tt></b> - Struct consisting of scalar components.</li><li><b><tt>Location.latitude</tt></b> - Latitude in decimal degrees.</li><li><b><tt>Location.longitude</tt></b> - Longitude in decimal degrees.</li><li><b><tt>Location.altitude</tt></b> - Elevation in meters above sea level (if altitude provided).</li></ul></div><h2 id="5">Example</h2><pre class="codeinput">latitude = 35.05;
 longitude = -116.5;
 altitude = 1200;
 Location = pvl_makelocationstruct(latitude, longitude, altitude)
 </pre><pre class="codeoutput">
 Location = 
 
+  struct with fields:
+
      latitude: 35.0500
     longitude: -116.5000
      altitude: 1200
 
-</pre><h2>See Also<a name="6"></a></h2><p><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>, <a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a>, <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a>, <a href="pvl_pres2alt_help.html"><tt>pvl_pres2alt</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><h2 id="6">See Also</h2><p><a href="pvl_ephemeris_help.html"><tt>pvl_ephemeris</tt></a>, <a href="pvl_maketimestruct_help.html"><tt>pvl_maketimestruct</tt></a>, <a href="pvl_alt2pres_help.html"><tt>pvl_alt2pres</tt></a>, <a href="pvl_pres2alt_help.html"><tt>pvl_pres2alt</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% pvl_makelocationstruct 
 % Create a struct to define a site location.

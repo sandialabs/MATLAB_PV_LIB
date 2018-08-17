@@ -4,6 +4,7 @@ function [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, varargin)
 % Syntax
 %   [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth)
 %   [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, NumPoints)
+%   [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, Vpoints)
 %
 % Description
 %   pvl_singlediode solves the single diode equation [1]:
@@ -37,15 +38,21 @@ function [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, varargin)
 %      temperature of the p-n junction in Kelvin, and q is the elementary 
 %      charge of an electron (coulombs). nNsVth may be a scalar or vector, 
 %      but vectors must be of same length as all other input vectors.
-%   NumPoints - Number of points in the desired IV curve (optional). Must be a finite 
-%      scalar value. Non-integer values will be rounded to the next highest
-%      integer (ceil). If ceil(NumPoints) is < 2, no IV curves will be produced
-%      (i.e. Result.V and Result.I will not be generated). The default
+%   NumPoints - Number of points to compute in each IV curve (optional).
+%      Must be a finite scalar value. Non-integer values will be rounded 
+%      to the next highest integer (ceil). The default
 %      value is 0, resulting in no calculation of IV points other than
 %      those specified in [3].
+%   Vpoints - number of points, or values of voltage at which to return IV curve points
+%      (optional). Must be a scalar, 1d array or a cell array of the same length 
+%       as all other input vectors. If a scalar, then the specified number of points
+%       is computed for each IV curve.  If a 1d array then points in that array
+%       between 0 and Voc are returned for each IV curve.  If a cell array then
+%       each element of the cell array contains a 1d array of voltage values
+%       at which points are returned.
 %
 % Output:
-%   Result - A structure with the following fields. All fields have the
+%   Result - A structure array with the following fields. All fields have the
 %   same number of rows as the largest input vector.
 %      Result.Isc - Column vector of short circuit current in amperes.
 %      Result.Voc - Column vector of open circuit voltage in volts.
@@ -54,20 +61,16 @@ function [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, varargin)
 %      Result.Pmp - Column vector of power at maximum power point in watts.
 %      Result.Ix - Column vector of current, in amperes, at V = 0.5*Voc.
 %      Result.Ixx - Column vector of current, in amperes, at V = 0.5*(Voc+Vmp).
-%      Result.V - Array of voltages in volts. Row n corresponds to IV 
-%        curve n, with V=0 in the leftmost column and V=Voc in the rightmost
-%        column. Thus, Result.Voc(n) = Result.V(n,ceil(NumPoints)). 
-%        Voltage points are equally spaced (in voltage) between 0 and Voc.
-%      Result.I - Array of currents in amperes. Row n corresponds to IV 
-%        curve n, with I=Isc in the leftmost column and I=0 in the 
-%        rightmost column. Thus, Result.Isc(n) = Result.I(n,1). 
+%      Result.V - Cell array of voltages in volts. Element n is an array of 
+%        voltages running from V=0 to V=Voc. Voltages are either equally
+%        spaced if NumPoints is input, or at values specified in input
+%        Vpoints.
+%      Result.I - Cell array of currents in amperes. Element n is an array
+%        of current values corresponding to the voltage values in element n
+%        of Result.V.
 %
 % Notes:
-%    1) To plot IV curve r, use: plot(Result.V(r,:), Result.I(r,:)) 
-%    2) To plot all IV curves on the same plot: plot(Result.V', Result.I')
-%    3) Generating IV curves using NumPoints will slow down function
-%       operation.
-%    4) The solution employed to solve the implicit diode equation utilizes
+%    1) The solution employed to solve the implicit diode equation utilizes
 %       the Lambert W function to obtain an explicit function of V=f(i) and
 %       I=f(V) as shown in [2].
 %
@@ -84,22 +87,24 @@ function [Result] = pvl_singlediode(IL, I0, Rs, Rsh, nNsVth, varargin)
 %     SAND2004-3535, Sandia National Laboratories, Albuquerque, NM
 %
 % See also
-%   PVL_SAPM   PVL_CALCPARAMS_DESOTO
+%   PVL_CALCPARAMS_DESOTO  PVL_CALCPARAMS_PVSYST
 %
 
-
+eps = 1e-6; % tolerance (fraction) for deciding two voltage values are the same
 
 % Vth is the thermal voltage of the cell in VOLTS
-% n is the usual diode ideality factor, assumed to be linear
+% n is the usual diode ideality factor
 % nNsVth is n*Ns*Vth
 
 p = inputParser;
-p.addRequired('IL',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('I0', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('Rs', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('Rsh', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('nNsVth',@(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addOptional('NumPoints', 0, @(x) isfinite(x) && isscalar(x));
+p.addRequired('IL',@(x) all(x>=0) & isnumeric(x) & isvector(x) );
+p.addRequired('I0', @(x) all(x>=0) & isnumeric(x) & isvector(x));
+p.addRequired('Rs', @(x) all(x>=0) & isnumeric(x) & isvector(x));
+p.addRequired('Rsh', @(x) all(x>=0) & isnumeric(x) & isvector(x));
+p.addRequired('nNsVth',@(x) all(x>=0) & isnumeric(x) & isvector(x) );
+p.addOptional('Points', NaN, @(x) (isscalar(x) && isfinite(x)) || ...
+                (isvector(x) && all(isfinite(x))) || ...
+                (iscell(x)));
 p.parse(IL, I0, Rs, Rsh, nNsVth, varargin{:});
 
 % Make all inputs into column vectors
@@ -108,7 +113,7 @@ I0=p.Results.I0(:);
 Rs = p.Results.Rs(:);
 Rsh = p.Results.Rsh(:);
 nNsVth = p.Results.nNsVth(:);
-NumPoints = p.Results.NumPoints(:);
+Points = p.Results.Points;
 
 % Ensure that all input values are either 1) scalars or 2) vectors of equal
 % length. The "vector" part of the check is performed by the input parser,
@@ -117,6 +122,13 @@ VectorSizes = [numel(IL), numel(I0), numel(Rs), numel(Rsh), numel(nNsVth)];
 MaxVectorSize = max(VectorSizes);
 if not(all((VectorSizes==MaxVectorSize) | (VectorSizes==1)))
     error('Input vectors IL, I0, Rs, Rsh, and nNsVth must either be scalars or vectors of the same length.');
+end
+
+% Ensure that if a cell array of voltage values is supplied, that one
+% element is provided for each IV curve
+
+if iscell(Points) && not(numel(Points)==MaxVectorSize)
+    error('A cell array of voltage was input.  The length of the cell array must equal the length of all other vectors')
 end
 
 % If any input variable is not a scalar, then make any scalar input values
@@ -139,9 +151,6 @@ Isc = zeros(MaxVectorSize, 1);
 
 u = IL>0;
 
-% Take care of any pesky non-integers by rounding up
-NumPoints = ceil(NumPoints);
-
 % Find Isc using Lambert W
 Isc(u) = I_from_V(Rsh(u), Rs(u), nNsVth(u), 0, I0(u), IL(u));
 
@@ -158,24 +167,6 @@ Voc(u) = V_from_I(Rsh(u), Rs(u), nNsVth(u), 0, I0(u), IL(u));
 Ix(u) = I_from_V(Rsh(u), Rs(u), nNsVth(u), 0.5*Voc(u), I0(u), IL(u));
 Ixx(u) = I_from_V(Rsh(u), Rs(u), nNsVth(u), 0.5*(Voc(u)+Vmax(u)), I0(u), IL(u));
 
-
-% If the user says they want a curve of with number of points equal to
-% NumPoints (must be >=2), then create a voltage array where voltage is
-% zero in the first column, and Voc in the last column. Number of columns
-% must equal NumPoints. Each row represents the voltage for one IV curve.
-% Then create a current array where current is Isc in the first column, and
-% zero in the last column, and each row represents the current in one IV
-% curve. Thus the nth (V,I) point of curve m would be found as follows:
-% (Result.V(m,n),Result.I(m,n)).
-if NumPoints >= 2
-   Result.I = zeros(MaxVectorSize, NumPoints);
-   Result.V = zeros(MaxVectorSize, NumPoints);
-   s = ones(1,NumPoints); % shaping vector to shape the column vector parameters into 2-D matrices
-   Result.V = (Voc)*(0:1/(NumPoints-1):1);
-   Result.I(u,:) = I_from_V(Rsh(u)*s, Rs(u)*s, nNsVth(u)*s, Result.V(u,:), I0(u)*s, IL(u)*s);
-   Result.I(:,end) = 0; % Make sure that I at Voc (the last point) is always 0
-end
-
 % Wrap up the results into the Result struct
 Result.Voc = Voc;
 Result.Vmp = Vmax;
@@ -184,6 +175,43 @@ Result.Ix = Ix;
 Result.Ixx = Ixx;
 Result.Pmp = Pmp;
 Result.Isc = Isc;
+
+
+if ~isnan(Points)
+    % IV curve points are requested
+    Result.I = cell(MaxVectorSize,1);
+    Vpoints = cell(MaxVectorSize,1);
+
+    for i=1:MaxVectorSize
+        if u(i)
+            if isscalar(Points)
+                % Take care of any pesky non-integers by rounding up
+                % User specified NumPoints rather than Vpoints. Create
+                % Vpoints, a cell array with an array of voltage values for each IV curve.
+                NumPoints = ceil(Points);
+                Vpoints(i) = { (Voc(i))*(0:1/(NumPoints-1):1) }; 
+            elseif isvector(Points)
+                % Same points for each curve
+                epsV = eps*Voc(i);
+                Vpoints(i) = { Points(Points>=0 & Points<=Voc(i)) };
+            elseif iscell(Points)
+                Vpoints(i) = Points(i);
+            end
+            
+            tmpI = I_from_V(Rsh(i), Rs(i), nNsVth(i), Vpoints{i}, I0(i), IL(i));
+            
+        else
+            Vpoints(i) = { zeros(NumPoints) };
+            tmpI = [];
+        end
+        Result.I(i) = { tmpI };
+
+    end
+
+    Result.V = cell2mat(Vpoints);
+    Result.I = cell2mat(Result.I);
+end
+
 
 end
 
@@ -211,16 +239,18 @@ if any(f)
     % The initial guess is w=logargW. Where direct evaluation (above) results
     % in NaN from overflow, 3 iterations of Newton's method gives 
     % approximately 8 digits of precision.
-    w = logargW;  
-    for i=1:3
+    w = logargW;
+    K = round(log10(w));
+    for i=1:(3*K)
         w = w.*((1-log(w)+logargW)./(1+w));
     end;
     inputterm(f) = w(f);
 end
 
-% Eqn. 3 in Jain and Kapoor, 2004
-V = -I.*(Rs + Rsh) + Iphi .* Rsh - nNsVth .* ...
-    inputterm + Io .* Rsh;
+% Eqn. 3 in Jain and Kapoor, 2004. modified to better handle very large Rsh values
+
+V = Rsh.*(-I.*(Rs./Rsh + 1) + Iphi - nNsVth./Rsh .* ...
+    inputterm + Io);
 
 end
 
@@ -265,8 +295,9 @@ if any(ff)
     % The initial guess is w=logargW. Where direct evaluation (above) results
     % in NaN from overflow, 3 iterations of Newton's method gives 
     % approximately 8 digits of precision.
-    x = logargW;  
-    for i=1:5
+    x = logargW; 
+    K = round(log10(x));
+    for i=1:(3*K)
         x = x.*((1-log(x)+logargW)./(1+x));
     end;
     tmp(ff) = x(ff);

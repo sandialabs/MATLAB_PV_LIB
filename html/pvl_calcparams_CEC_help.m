@@ -72,10 +72,10 @@ NumPoints = 1000;
 
 figure
 for i=1:6
-plot(IVResult.V(i,:),IVResult.I(i,:))
-hold on
-scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
-text(2,IVResult.Isc(i)+0.3,[num2str(Ee(i)) ' W/m^2'])
+    plot(IVResult.V(i,:),IVResult.I(i,:))
+    hold on
+    scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
+    text(2,IVResult.Isc(i)+0.3,[num2str(Ee(i)) ' W/m^2'])
 end
 xlabel('Voltage (V)')
 ylabel('Current (A)')
@@ -99,10 +99,9 @@ NumPoints = 1000;
 
 figure
 for i=1:6
-plot(IVResult.V(i,:),IVResult.I(i,:))
-hold on
-scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
-
+    plot(IVResult.V(i,:),IVResult.I(i,:))
+    hold on
+    scatter(IVResult.Vmp(i),IVResult.Imp(i),'filled')
 end
 xlabel('Voltage (V)')
 ylabel('Current (A)')

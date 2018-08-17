@@ -147,7 +147,7 @@ for i=1:N
 
     % Initial estimate of Rsh, from integral over voltage and regression
     % [2] Step 3a; [3] Step 3a 
-    [~, ~, ~, Rsh(i), ~] = est_single_diode_param(I, V, Specs.Ns*Vth(i));
+    [~, ~, ~, Rsh(i), ~] = pvl_est_single_diode_param(I, V, Specs.Ns*Vth(i));
 
     if Rsh(i)>0
         % Initial estimate of Io, evaluate the single diode model at Voc

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>PV_LIB Toolbox v1.3 Features</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvlib_features.m"><style type="text/css">
+      --><title>PV_LIB Toolbox v1.4 Features</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvlib_features.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,11 +66,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>PV_LIB Toolbox v1.3 Features</h1><!--introduction--><p>The PV_LIB Toolbox v1.3 includes tools that can:</p><div><ul><li>Read data from TMY2, TMY3, or Integrated Surface Database files.</li><li>Compute the solar position (elevation angle and azimuth).</li><li>Compute clear sky GHI using a variety of models.</li><li>Compute DNI and DHI using various models.</li><li>Compute the air mass (relative and absolute).</li><li>Compute the angle of incidence between the sun and a tilted PV array.</li><li>Compute standard air pressure from elevation.</li><li>Compute the estimated temperature of a PV module.</li><li>Read module and inverter model parameters from the SAM databases.</li><li>Compute the DC output of a PV array using the Sandia, De soto, PVsyst v6, CEC or Huld models.</li><li>Convert DC to AC power using the Sandia or Driessen inverter models.</li><li>Estimate parameters for the De soto or PVsyst v6 models from IV curves.</li></ul></div><!--/introduction--><p>Copyright 2015 Sandia National Laboratories.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+  </style></head><body><div class="content"><h1>PV_LIB Toolbox v1.4 Features</h1><!--introduction--><p>The PV_LIB Toolbox v1.4 includes tools that can:</p><div><ul><li>Read data from TMY2, TMY3, or Integrated Surface Database files.</li><li>Compute the solar position (elevation angle and azimuth).</li><li>Compute clear sky GHI using a variety of models.</li><li>Compute DNI and DHI using various models.</li><li>Compute the air mass (relative and absolute).</li><li>Compute the angle of incidence between the sun and a tilted PV array.</li><li>Compute standard air pressure from elevation.</li><li>Calculate irradiance on a tilted surface.</li><li>Calculate irradiance on the rear surface of a bifacial module.</li><li>Analyze time series of irradiance to identify periods of clear sky, and local shadows.</li><li>Compute the estimated temperature of a PV module.</li><li>Determine rotation angles for a single axis tracker with backtracking.</li><li>Read module and inverter model parameters from the SAM databases.</li><li>Compute the DC output of a PV array using the Sandia, De soto, PVsyst v6, CEC or Huld models.</li><li>Convert DC to AC power using the Sandia or Driessen inverter models.</li><li>Estimate parameters for the De Soto, PVsyst v6 and Huld models from IV curves.</li><li>Translate IV curves according to methods in IEC 60891.</li><li>Estimate series resistance from IV curves.</li></ul></div><!--/introduction--><p>Copyright 2015 Sandia National Laboratories.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% PV_LIB Toolbox v1.3 Features
+%% PV_LIB Toolbox v1.4 Features
 %
-% The PV_LIB Toolbox v1.3 includes tools that can:
+% The PV_LIB Toolbox v1.4 includes tools that can:
 %
 % * Read data from TMY2, TMY3, or Integrated Surface Database files.
 % * Compute the solar position (elevation angle and azimuth).
@@ -79,12 +79,18 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % * Compute the air mass (relative and absolute).
 % * Compute the angle of incidence between the sun and a tilted PV array.
 % * Compute standard air pressure from elevation.
+% * Calculate irradiance on a tilted surface.
+% * Calculate irradiance on the rear surface of a bifacial module.
+% * Analyze time series of irradiance to identify periods of clear sky, and local shadows.
 % * Compute the estimated temperature of a PV module.
+% * Determine rotation angles for a single axis tracker with backtracking.
 % * Read module and inverter model parameters from the SAM databases.
 % * Compute the DC output of a PV array using the Sandia, De soto, PVsyst v6, CEC or Huld models.
 % * Convert DC to AC power using the Sandia or Driessen inverter models.
-% * Estimate parameters for the De soto or PVsyst v6 models from IV curves.
-%
+% * Estimate parameters for the De Soto, PVsyst v6 and Huld models from IV curves.
+% * Translate IV curves according to methods in IEC 60891.
+% * Estimate series resistance from IV curves.
+
 %%
 % Copyright 2015 Sandia National Laboratories.
 ##### SOURCE END #####

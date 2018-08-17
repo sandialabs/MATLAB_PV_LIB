@@ -1,0 +1,266 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_est_diode_params_simple</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_est_diode_params_simple_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_est_diode_params_simple</h1><!--introduction--><p>PVL_EST_SINGLE_DIODE_PARAM_SIMPLE fits the single diode equation to data for a single IV curve.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#3">Description:</a></li><li><a href="#5">Inputs:</a></li><li><a href="#6">Outputs:</a></li><li><a href="#7">Example</a></li><li><a href="#8">References:</a></li><li><a href="#9">See also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>[IL, I0, Rsh, Rs] = pvl_est_single_diode_param_simple(IVCurve, nNsVth)</tt></p><h2 id="3">Description:</h2><p><tt>pvl_est_single_diode_param_simple</tt> uses a sequential technique described in [1] to fit the single diode equation to data for a single IV curve. The method here is a simplification of that found in [2] and coded in <tt>est_single_diode_param</tt>. The diode factor n is not determined in this function. A value for n can be found by regression between Voc and log(Ee) for a range of effective irradiance Ee, as coded in e.g. <tt>pvl_desoto_parameter_estimation</tt>.</p><h2 id="5">Inputs:</h2><div><ul><li><b><tt>IVCurve</tt></b> - A structure array with the following fields:</li><li>* <b><tt>IVCurve.Isc</tt></b> - short circuit current in amperes.</li><li>* <b><tt>IVCurve.Voc</tt></b> - open circuit voltage in volts.</li><li>* <b><tt>IVCurve.Imp</tt></b> - current at maximum power point in amperes.</li><li>* <b><tt>IVCurve.Vmp</tt></b> - voltage at maximum power point in volts.</li><li>* <b><tt>IVCurve.Pmp</tt></b> - power at maximum power point in watts.</li><li>* <b><tt>IVCurve.V</tt></b> - vector of voltage in volts.</li><li>* <b><tt>IVCurve.I</tt></b> - vector of current in amperes.</li><li>* <b><tt>IVCurve.Ee</tt></b> - Effective irradiance (W/m2).</li><li>* <b><tt>IVCurve.Tc</tt></b> - cell temperature (C).</li><li><b><tt>nNsVth</tt></b> - the product n (diode factor) x Ns (cells in series)     x Vth (thermal voltage per cell) for both IV curves.</li></ul></div><h2 id="6">Outputs:</h2><div><ul><li><b><tt>IL</tt></b> - the light current (A) for the IV curve</li><li><b><tt>I0</tt></b> - the dark current (A) for the IV curve</li><li><b><tt>Rsh</tt></b> - the shunt resistance (ohm) for the IV curve.</li><li><b><tt>Rs</tt></b> - the series resistance (ohm) for the IV curve.</li></ul></div><h2 id="7">Example</h2><pre class="codeinput">clearvars
+
+<span class="comment">% load IV curve data for a 36 cell Mitsubishi cSi module</span>
+load <span class="string">'Desoto_demo.mat'</span>
+
+<span class="comment">% Build structure for constants</span>
+Const.E0 = 1000; <span class="comment">% W/m2</span>
+Const.T0 = 25; <span class="comment">% C</span>
+Const.k = 1.38066E-23; <span class="comment">% J/K</span>
+Const.q = 1.60218E-19; <span class="comment">% c</span>
+
+<span class="comment">% Determine value for diode factor n determined by regression of Voc onto</span>
+<span class="comment">% log(effective irradiance)</span>
+<span class="comment">% Extract structure content to column vectors</span>
+Ee = [IVCurves.Ee]';
+Tc = [IVCurves.Tc]';
+Voc = [IVCurves.Voc]';
+
+<span class="comment">% Cell thermal voltage</span>
+Vth = Const.k/Const.q*(Tc+273.15);
+
+X = Specs.Ns*Vth.*log(Ee/Const.E0);
+Y = Voc - Specs.bVoc*(Tc-Const.T0);
+beta = pvl_robustfit(X,Y,true);
+Voc0 = beta(1);
+n = beta(2);
+
+figure
+scatter(X, Y, 5, <span class="string">'k'</span>, <span class="string">'filled'</span>)
+hold <span class="string">on</span>;
+x = (min(X): (max(X)-min(X))/100: max(X));
+plot(x, Voc0+n*x, <span class="string">'g'</span>, <span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Estimate diode factor n = slope'</span>)
+xlabel(<span class="string">'X = Specs.Ns*Vth.*log(E/Const.E0)'</span>)
+ylabel(<span class="string">'Y = Voc - Specs.bVoc*(Tc-Const.T0)'</span>)
+legend(<span class="string">'Data'</span>, <span class="string">'Regression model'</span>, <span class="string">'location'</span>, <span class="string">'NorthWest'</span>)
+box <span class="string">on</span>
+
+<span class="comment">% Randomly selected IV curve</span>
+i = 63;
+
+<span class="comment">% Clean up measured IV curve data</span>
+[I, V] = pvl_rectify_IV_curve(IVCurves(i).I, IVCurves(i).V, IVCurves(i).Voc, IVCurves(i).Isc);
+IVCurves(i).V = V;
+IVCurves(i).I = I;
+
+<span class="comment">% Estimate remaining 4 parameters for the IV curve</span>
+[IL, I0, Rsh, Rs] = <span class="keyword">...</span>
+        pvl_est_diode_params_simple(IVCurves(i), n*Specs.Ns*Vth(i));
+
+<span class="comment">% Compute IV curve associated with the 5 parameters</span>
+Result = pvl_singlediode(IL, I0, Rs, Rsh, n*Specs.Ns*Vth(i), 100);
+
+figure
+
+plot(IVCurves(i).V,IVCurves(i).I,<span class="string">'k.'</span>)
+hold <span class="string">on</span>
+plot(Result.V,Result.I,<span class="string">'r+'</span>)
+xlabel(<span class="string">'Voltage (V)'</span>)
+ylabel(<span class="string">'Current (A)'</span>)
+title(<span class="string">'Fitted IV Curve using simple method'</span>,<span class="string">'FontSize'</span>,14)
+xlim([0 21])
+ylim([0 7])
+text(2,6,[<span class="string">'I_L = '</span> num2str(IL)]);
+text(2,5.5,[<span class="string">'I_O = '</span> num2str(I0)]);
+text(2,5,[<span class="string">'R_{SH} = '</span> num2str(Rsh)]);
+text(2,4.5,[<span class="string">'R_S = '</span> num2str(Rs)]);
+text(2,4,[<span class="string">'n = '</span> num2str(n)]);
+</pre><img vspace="5" hspace="5" src="pvl_est_diode_params_simple_help_01.png" alt=""> <img vspace="5" hspace="5" src="pvl_est_diode_params_simple_help_02.png" alt=""> <h2 id="8">References:</h2><div><ul><li>[1] C. Hansen and B. King, "Determining series resistance for    equivalent circuit models of a PV module", in 45th IEEE Photovoltaic    Specialist Conference, Waikoloa, HI, 2018.</li></ul></div><div><ul><li>[2] C. Hansen, Parameter Estimation for Single Diode Models of    Photovoltaic Modules, Sandia National Laboratories Report SAND2015-2065%</li></ul></div><h2 id="9">See also</h2><p><a href="pvl_est_single_diode_params_help.html"><tt>pvl_est_single_diode_params</tt></a>, <a href="pvl_desoto_parameter_estimation_help.html"><tt>pvl_desoto_parameter_estimation</tt></a></p><p>Copyright 2018 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_est_diode_params_simple
+% PVL_EST_SINGLE_DIODE_PARAM_SIMPLE fits the single diode equation to data
+% for a single IV curve.
+%
+%% Syntax
+%%
+% |[IL, I0, Rsh, Rs] = pvl_est_single_diode_param_simple(IVCurve, nNsVth)|
+%
+%% Description:
+%%
+% |pvl_est_single_diode_param_simple| uses a sequential technique described
+% in [1] to fit the single diode equation to data for a single IV curve.
+% The method here is a simplification of that found in [2] and coded in
+% |est_single_diode_param|. The diode factor n is not determined in this
+% function. A value for n can be found by regression between Voc and 
+% log(Ee) for a range of effective irradiance Ee, as coded in e.g. 
+% |pvl_desoto_parameter_estimation|.
+%
+%
+%% Inputs:
+% * *|IVCurve|* - A structure array with the following fields: 
+% * * *|IVCurve.Isc|* - short circuit current in amperes.
+% * * *|IVCurve.Voc|* - open circuit voltage in volts.
+% * * *|IVCurve.Imp|* - current at maximum power point in amperes. 
+% * * *|IVCurve.Vmp|* - voltage at maximum power point in volts.
+% * * *|IVCurve.Pmp|* - power at maximum power point in watts.
+% * * *|IVCurve.V|* - vector of voltage in volts. 
+% * * *|IVCurve.I|* - vector of current in amperes.
+% * * *|IVCurve.Ee|* - Effective irradiance (W/m2).
+% * * *|IVCurve.Tc|* - cell temperature (C).
+% * *|nNsVth|* - the product n (diode factor) x Ns (cells in series)
+%     x Vth (thermal voltage per cell) for both IV curves.
+% 
+%% Outputs:
+% * *|IL|* - the light current (A) for the IV curve
+% * *|I0|* - the dark current (A) for the IV curve
+% * *|Rsh|* - the shunt resistance (ohm) for the IV curve.
+% * *|Rs|* - the series resistance (ohm) for the IV curve.
+%
+%% Example
+
+clearvars
+
+% load IV curve data for a 36 cell Mitsubishi cSi module
+load 'Desoto_demo.mat'
+
+% Build structure for constants
+Const.E0 = 1000; % W/m2
+Const.T0 = 25; % C
+Const.k = 1.38066E-23; % J/K
+Const.q = 1.60218E-19; % c
+
+% Determine value for diode factor n determined by regression of Voc onto
+% log(effective irradiance)
+% Extract structure content to column vectors
+Ee = [IVCurves.Ee]';
+Tc = [IVCurves.Tc]';
+Voc = [IVCurves.Voc]';
+
+% Cell thermal voltage
+Vth = Const.k/Const.q*(Tc+273.15); 
+
+X = Specs.Ns*Vth.*log(Ee/Const.E0);
+Y = Voc - Specs.bVoc*(Tc-Const.T0);
+beta = pvl_robustfit(X,Y,true);
+Voc0 = beta(1);
+n = beta(2);
+
+figure
+scatter(X, Y, 5, 'k', 'filled')
+hold on;
+x = (min(X): (max(X)-min(X))/100: max(X));
+plot(x, Voc0+n*x, 'g', 'LineWidth',2)
+title('Estimate diode factor n = slope')
+xlabel('X = Specs.Ns*Vth.*log(E/Const.E0)')
+ylabel('Y = Voc - Specs.bVoc*(Tc-Const.T0)')
+legend('Data', 'Regression model', 'location', 'NorthWest')
+box on
+
+% Randomly selected IV curve
+i = 63;
+
+% Clean up measured IV curve data
+[I, V] = pvl_rectify_IV_curve(IVCurves(i).I, IVCurves(i).V, IVCurves(i).Voc, IVCurves(i).Isc);
+IVCurves(i).V = V;
+IVCurves(i).I = I;
+
+% Estimate remaining 4 parameters for the IV curve
+[IL, I0, Rsh, Rs] = ...
+        pvl_est_diode_params_simple(IVCurves(i), n*Specs.Ns*Vth(i));
+
+% Compute IV curve associated with the 5 parameters
+Result = pvl_singlediode(IL, I0, Rs, Rsh, n*Specs.Ns*Vth(i), 100);
+
+figure
+
+plot(IVCurves(i).V,IVCurves(i).I,'k.')
+hold on
+plot(Result.V,Result.I,'r+')
+xlabel('Voltage (V)')
+ylabel('Current (A)')
+title('Fitted IV Curve using simple method','FontSize',14)
+xlim([0 21])
+ylim([0 7])
+text(2,6,['I_L = ' num2str(IL)]);
+text(2,5.5,['I_O = ' num2str(I0)]);
+text(2,5,['R_{SH} = ' num2str(Rsh)]);
+text(2,4.5,['R_S = ' num2str(Rs)]);
+text(2,4,['n = ' num2str(n)]);
+
+%% References:
+% * [1] C. Hansen and B. King, "Determining series resistance for
+%    equivalent circuit models of a PV module", in 45th IEEE Photovoltaic
+%    Specialist Conference, Waikoloa, HI, 2018.
+%
+% * [2] C. Hansen, Parameter Estimation for Single Diode Models of 
+%    Photovoltaic Modules, Sandia National Laboratories Report SAND2015-2065%
+%
+%% See also 
+% <pvl_est_single_diode_params_help.html |pvl_est_single_diode_params|>,
+% <pvl_desoto_parameter_estimation_help.html |pvl_desoto_parameter_estimation|>        
+%
+%%
+% Copyright 2018 Sandia National Laboratories
+
+
+##### SOURCE END #####
+--></body></html>

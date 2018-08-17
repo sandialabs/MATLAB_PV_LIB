@@ -2,22 +2,22 @@
 % Identify times with GHI consistent with clear sky conditions.
 %
 %% Syntax
-%   |[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time,
-%   UTCoffset, Location, win_length, sample_interval)|
+% |[clearSamples, csGHI, alpha] = pvl_detect_clear_times(GHI, Time, UTCoffset, Location, win_length, sample_interval)|
 %
 %% Description
-%   Detects clear sky times by comparing statistics for a regular GHI 
-%   time series to the Ineichen clear sky model.  Statistics are calculated
-%   using a sliding time window (e.g., 10 minutes). An iterative algorithm
-%   identifies clear periods, uses the identified periods to estimate bias
-%   in the clear sky model and/or GHI data, adjusts the clear sky model and
-%   repeats.  Code handles GHI data with some irregularities, i.e., missing
-%   values or unequal data spacing.  Code execution can be made
-%   significantly faster if equally spaced and complete data can be
-%   assumed.
-%   Clear times are identified by meeting 5 criteria, thresholds
-%   for which are hardcoded in this version.  Values for these thresholds
-%   are appropriate for 10 minute windows of 1 minute GHI data.
+% Detects clear sky times by comparing statistics for a regular GHI 
+% time series to the Ineichen clear sky model.  Statistics are calculated
+% using a sliding time window (e.g., 10 minutes). An iterative algorithm
+% identifies clear periods, uses the identified periods to estimate bias
+% in the clear sky model and/or GHI data, adjusts the clear sky model and
+% repeats.  Code handles GHI data with some irregularities, i.e., missing
+% values or unequal data spacing.  Code execution can be made
+% significantly faster if equally spaced and complete data can be
+% assumed.
+% 
+% Clear times are identified by meeting 5 criteria, thresholds
+% for which are hardcoded in this version.  Values for these thresholds
+% are appropriate for 10 minute windows of 1 minute GHI data.
 %
 %
 %% Inputs:
@@ -45,13 +45,13 @@
 % * * |alpha|* - scaling factor applied to Ineichen model to obtain output csGHI
 %   
 %% References
-%   [1] Reno, M.J. and C.W. Hansen, "Identification of periods of clear sky
-%   irradiance in time series of GHI measurements" Renewable Energy, v90, 
-%   p. 520-531, 2016.
+% [1] Reno, M.J. and C.W. Hansen, "Identification of periods of clear sky
+% irradiance in time series of GHI measurements" Renewable Energy, v90, 
+% p. 520-531, 2016.
 %
 %% Notes:
-%   Initial implementation by Matthew Reno. Modifications for computational
-%   efficiency by Joshua Patrick and Curtis Martin.
+% Initial implementation by Matthew Reno. Modifications for computational
+% efficiency by Joshua Patrick and Curtis Martin.
 %
 %% Example
 

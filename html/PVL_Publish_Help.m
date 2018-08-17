@@ -1,5 +1,5 @@
 % Publish all help files
-addpath(genpath('S:\MATLAB_Solar_Functions\PV_LIB Version 1_32 Development'))
+%addpath(genpath('S:\MATLAB_Solar_Functions\PV_LIB Version 1_4 Release'))
 
 %% Time and Location Utilities
 publish('pvl_date2doy_help.m');             %1
@@ -44,19 +44,18 @@ publish('pvl_getaoi_help.m');               %33
 
 %% Irradiance Analysis Functions
 publish('pvl_detect_clear_times_help.m');
-
 publish('pvl_detect_shadows_help.m');
 
 %% Photovoltaic System Functions
 publish('pvl_sapmmoduledb_help.m');         %37
-%publish('pvl_snlinverterdb_help.m');        %42
 publish('pvl_SAMLibraryReader_CECModules_help.m');
 publish('pvl_SAMLibraryReader_SNLInverters_help.m');
 publish('pvl_sapmcelltemp_help.m');         %38
 
-publish('pvl_physicaliam_help.m');          %34
-publish('pvl_ashraeiam_help.m');            %35
-publish('pvl_martinruiziam_help.m');        %36
+publish('pvl_iam_physical_help.m');          %34
+publish('pvl_iam_ashrae_help.m');            %35
+publish('pvl_iam_martinruiz_help.m');        %36
+publish('pvl_iam_martinruiz_components_help.m');
 
 publish('pvl_FSspeccorr_help.m');
 
@@ -72,12 +71,26 @@ publish('pvl_adrinverter_help.m');          %44
 
 publish('pvl_singleaxis_help.m');           %44
 
+publish('pvl_huld_parameter_estimation_help.m');
 publish('pvl_PVsyst_parameter_estimation_help.m');
 publish('pvl_desoto_parameter_estimation_help.m');
 publish('pvl_rectify_IV_curve_help.m');
-publish('pvl_huld_parameter_estimation.help.m');
+publish('pvl_est_single_diode_param_help.m');
+publish('pvl_est_diode_params_simple_help.m');
 
+%% Functions for analysis of module IV cuves
+publish('pvl_est_Rs_Bowden_help.m');
+publish('pvl_est_Rs_Swanson_help.m');
+publish('pvl_est_Rs_Pysch_help.m');
+publish('pvl_est_Rs_sunsVoc_help.m');
 
+%% Functions for translating IV curves to desired irradiance and temperature conditions
+publish('pvl_translate_IV_curve_IEC60891_1_help.m');
+publish('pvl_est_Rs_IEC60891_1_help.m');
+publish('pvl_est_kappa_IEC60891_1_help.m');
+publish('pvl_translate_IV_curve_IEC60891_2_help.m');
+publish('pvl_est_Rs_IEC60891_2_help.m');
+publish('pvl_est_kappa_IEC60891_2_help.m');
 
 %% Numerical utilities
 publish('pvl_lambertw_help.m');
@@ -88,6 +101,9 @@ publish('pvl_robustfit_help.m');
 %% Example Scripts
 publish('PVL_TestScript1.m');               
 publish('PVL_TestScript2.m');               
+publish('example_pvl_Purdue_albedo_model.m');
+publish('example_pvl_Purdue_bifacial_irradiance.m');
+
 
 %% Other Help
 publish('pvlib_features.m');

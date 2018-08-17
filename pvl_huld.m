@@ -35,7 +35,7 @@ function DCPower = pvl_huld(Module, Ee, Tm)
 % Reference:
 %   [1] A power-rating model for crystalline silicon PV modules, T. Huld,
 %   G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, Solar
-%   Energy Materials and Solar Cells 95(2011), pp 3359-3369
+%   Energy Materials and Solar Cells 95(2011), pp 3359-3369,
 %
 % See also
 %   PVL_SAPM
@@ -52,6 +52,9 @@ Const.T0 = 25;          %Reference temperature (25 deg C)
 % Make sure the inputs are columns
 Ee = Ee(:);
 Tm = Tm(:);
+
+% Set zero and negative values for Ee to NaN
+Ee(Ee<=0) = NaN;
 
 % Calculate the DC power
 DCPower = Ee.*(Module.Pmp0 + Module.k(1)*log(Ee) + Module.k(2)*log(Ee).^2 ...

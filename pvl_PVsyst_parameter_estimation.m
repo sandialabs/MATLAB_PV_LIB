@@ -133,7 +133,7 @@ for i=1:N
     [I, V] = pvl_rectify_IV_curve(IVCurves(i).I, IVCurves(i).V, Voc(i), Isc(i));
     % Initial estimate of Rsh, from integral over voltage and regression
     % [4] Step 3a; [5] Step 3a 
-    [pIo(i), pIph(i), pRs(i), pRsh(i), pn(i)] = est_single_diode_param(I, V, Vth(i)*Specs.Ns);
+    [pIo(i), pIph(i), pRs(i), pRsh(i), pn(i)] = pvl_est_single_diode_param(I, V, Vth(i)*Specs.Ns);
 end;
 
 pRsh = pRsh(:);

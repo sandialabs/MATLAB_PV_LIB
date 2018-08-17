@@ -187,7 +187,8 @@ end
 %     Measured IV Curves, Proc. of the 39th IEEE PVSC, June 2013.
 
 %% See also 
-% <pvl_calcparams_desoto_help.html |pvl_calcparams_desoto|>,  
+% <pvl_est_single_diode_param_help.html |pvl_est_single_diode_param|>,
+% <pvl_calcparams_desoto_help.html |pvl_calcparams_desoto|>,
 % <pvl_singlediode_help.html |pvl_singlediode|>  
 %%
 % Copyright 2015 Sandia National Laboratories

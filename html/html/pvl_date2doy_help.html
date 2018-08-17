@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>pvl_date2doy</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_date2doy_help.m"><style type="text/css">
+      --><title>pvl_date2doy</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_date2doy_help.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,25 +66,25 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>pvl_date2doy</h1><!--introduction--><p>Determine day of year from year, month of year, and day of month</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#6">Outputs</a></li><li><a href="#9">Example 1</a></li><li><a href="#10">Example 2</a></li><li><a href="#11">Example 3</a></li><li><a href="#12">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>DOY = pvl_date2doy(Year, Month, Day)</tt></p><h2>Description<a name="2"></a></h2><p>Calculates the day of the year given the year, month of year, and day of month in the Gregorian calendar.</p><h2>Inputs<a name="3"></a></h2><div><ul><li><b><tt>Year</tt></b> - scalar or vector of years (e.g. 1990). <tt>Year(i)</tt> corresponding              to <tt>Month(i)</tt> and <tt>Day(i)</tt>.</li><li><b><tt>Month</tt></b> - scalar or vector of month numbers (1-12). <tt>Month</tt> must be &gt;=1 and &lt;13</li><li><b><tt>Day</tt></b> - scalar or vector of day of month numbers.             <tt>Day</tt> must be &gt;=1 and &lt;32. <tt>Day</tt> may either be a whole or fractional day             (e.g. the 12th of the month at noon could be 12.5); if fractional,             pvl_date2doy will maintain the fractional day.</li></ul></div><p><tt>Year</tt>, <tt>Month</tt>, and <tt>Day</tt> must be vectors of equal length. If <tt>Year</tt> or <tt>Month</tt> are non-integers, the decimal portion of the values will be dropped (floor function). The calculation utilizes the 400 year cycle for leap years.</p><h2>Outputs<a name="6"></a></h2><div><ul><li><b><tt>DOY</tt></b> - A column vector of the day of year (whole or   fractional) as a floating point number from 1 to 366.999...</li></ul></div><p>Note that <tt>Day</tt> must be &gt;=1 and &lt;32. The calculation does NOT check   to ensure that the day of month is valid for a given month. Thus   <tt>pvl_date2doy(2012, 4, 31) = pvl_date2doy(2012, 5, 1)</tt>.</p><h2>Example 1<a name="9"></a></h2><p>Determine day of year for January 1, 2012</p><pre class="codeinput">pvl_date2doy(2012, 1, 1)
+  </style></head><body><div class="content"><h1>pvl_date2doy</h1><!--introduction--><p>Determine day of year from year, month of year, and day of month</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#6">Outputs</a></li><li><a href="#9">Example 1</a></li><li><a href="#10">Example 2</a></li><li><a href="#11">Example 3</a></li><li><a href="#12">See Also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>DOY = pvl_date2doy(Year, Month, Day)</tt></p><h2 id="2">Description</h2><p>Calculates the day of the year given the year, month of year, and day of month in the Gregorian calendar.</p><h2 id="3">Inputs</h2><div><ul><li><b><tt>Year</tt></b> - scalar or vector of years (e.g. 1990). <tt>Year(i)</tt> corresponding              to <tt>Month(i)</tt> and <tt>Day(i)</tt>.</li><li><b><tt>Month</tt></b> - scalar or vector of month numbers (1-12). <tt>Month</tt> must be &gt;=1 and &lt;13</li><li><b><tt>Day</tt></b> - scalar or vector of day of month numbers.             <tt>Day</tt> must be &gt;=1 and &lt;32. <tt>Day</tt> may either be a whole or fractional day             (e.g. the 12th of the month at noon could be 12.5); if fractional,             pvl_date2doy will maintain the fractional day.</li></ul></div><p><tt>Year</tt>, <tt>Month</tt>, and <tt>Day</tt> must be vectors of equal length. If <tt>Year</tt> or <tt>Month</tt> are non-integers, the decimal portion of the values will be dropped (floor function). The calculation utilizes the 400 year cycle for leap years.</p><h2 id="6">Outputs</h2><div><ul><li><b><tt>DOY</tt></b> - A column vector of the day of year (whole or   fractional) as a floating point number from 1 to 366.999...</li></ul></div><p>Note that <tt>Day</tt> must be &gt;=1 and &lt;32. The calculation does NOT check   to ensure that the day of month is valid for a given month. Thus   <tt>pvl_date2doy(2012, 4, 31) = pvl_date2doy(2012, 5, 1)</tt>.</p><h2 id="9">Example 1</h2><p>Determine day of year for January 1, 2012</p><pre class="codeinput">pvl_date2doy(2012, 1, 1)
 </pre><pre class="codeoutput">
 ans =
 
      1
 
-</pre><h2>Example 2<a name="10"></a></h2><p>Determine day of year for December 31, 2012 (leap year)</p><pre class="codeinput">pvl_date2doy(2012, 12, 31)
+</pre><h2 id="10">Example 2</h2><p>Determine day of year for December 31, 2012 (leap year)</p><pre class="codeinput">pvl_date2doy(2012, 12, 31)
 </pre><pre class="codeoutput">
 ans =
 
    366
 
-</pre><h2>Example 3<a name="11"></a></h2><p>Determine day of year for December 31, 2011 (not a leap year)</p><pre class="codeinput">pvl_date2doy(2011, 12, 31)
+</pre><h2 id="11">Example 3</h2><p>Determine day of year for December 31, 2011 (not a leap year)</p><pre class="codeinput">pvl_date2doy(2011, 12, 31)
 </pre><pre class="codeoutput">
 ans =
 
    365
 
-</pre><h2>See Also<a name="12"></a></h2><p><a href="pvl_leapyear_help.html"><tt>pvl_leapyear</tt></a>, <a href="pvl_doy2date_help.html"><tt>pvl_doy2date</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><h2 id="12">See Also</h2><p><a href="pvl_leapyear_help.html"><tt>pvl_leapyear</tt></a>, <a href="pvl_doy2date_help.html"><tt>pvl_doy2date</tt></a></p><p>Copyright 2014 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% pvl_date2doy 
 % Determine day of year from year, month of year, and day of month

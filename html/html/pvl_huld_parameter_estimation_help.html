@@ -1,0 +1,149 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>pvl_huld_parameter_estimation</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_huld_parameter_estimation_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>pvl_huld_parameter_estimation</h1><!--introduction--><p>PVL_HULD_PARAMETER_ESTIMATION estimates parameters for the Huld module performance model</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Output</a></li><li><a href="#5">Example</a></li><li><a href="#6">Reference</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>Model = pvl_huld_parameter_estimation(Pmp, Ee, Tm)</tt></p><h2 id="2">Description</h2><p><tt>pvl_huld_parameter_estimation</tt> returns parameters for the Huld module performance model [1]. The estimation uses robust regression to fit the Huld model, a polynomial in Tm and log(Ee), to Pmp.</p><h2 id="3">Inputs</h2><div><ul><li><b><tt>Pmp</tt></b> - a N x 1 vector of power (W) at the maximum power point.</li><li><b><tt>Ee</tt></b> - a N x 1 vector of effective irradiance (suns).</li><li><b><tt>Tm</tt></b> - a N x 1 vector of module (not cell) temperature (C).</li></ul></div><h2 id="4">Output</h2><div><ul><li><b><tt>Model</tt></b> - a structure containing the model parameters:</li><li><b><tt>Model.Pmp0</tt></b> - estimated Pmp at STC.</li><li><b><tt>Model.k</tt></b> - a vector of length 6 containing the coefficients k1 through k6.</li></ul></div><h2 id="5">Example</h2><pre class="codeinput">clearvars
+
+<span class="comment">% load IV curve data for a 36 cell Mitsubishi cSi module</span>
+load <span class="string">'Desoto_demo.mat'</span>
+
+<span class="comment">% Extract Pmp, Ee, and Tm data.  Actual data give cell temperature Tc, not</span>
+<span class="comment">% Tm, but here we'll use Tc as if it is Tm to illustrate the parameter estimation.</span>
+
+Ee = [IVCurves.Ee]'/1000;
+Tm = [IVCurves.Tc]';
+Pmp = [IVCurves.Imp]'.*[IVCurves.Vmp]';
+
+Model = pvl_huld_parameter_estimation(Pmp, Ee, Tm);
+
+pPmp = pvl_huld(Model,Ee,Tm);
+
+figure
+plot(Ee*1000,Pmp,<span class="string">'x'</span>)
+hold <span class="string">all</span>
+plot(Ee*1000,pPmp,<span class="string">'.'</span>)
+xlabel(<span class="string">'POA irradiance (W/m^2)'</span>);
+ylabel(<span class="string">'Power (W)'</span>)
+</pre><img vspace="5" hspace="5" src="pvl_huld_parameter_estimation_help_01.png" alt=""> <h2 id="6">Reference</h2><p>[1] A power-rating model for crystalline silicon PV modules, T. Huld, G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, Solar Energy Materials and Solar Cells 95(2011), pp 3359-3369.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% pvl_huld_parameter_estimation
+%
+% PVL_HULD_PARAMETER_ESTIMATION estimates parameters for the Huld module performance model
+%
+%% Syntax
+% |Model = pvl_huld_parameter_estimation(Pmp, Ee, Tm)|
+%
+%% Description
+% |pvl_huld_parameter_estimation| returns parameters for the Huld module
+% performance model [1]. The estimation uses robust regression to fit the
+% Huld model, a polynomial in Tm and log(Ee), to Pmp.
+%
+%% Inputs
+% * *|Pmp|* - a N x 1 vector of power (W) at the maximum power point.
+% * *|Ee|* - a N x 1 vector of effective irradiance (suns).
+% * *|Tm|* - a N x 1 vector of module (not cell) temperature (C).
+%
+%% Output
+% * *|Model|* - a structure containing the model parameters:
+% * *|Model.Pmp0|* - estimated Pmp at STC.
+% * *|Model.k|* - a vector of length 6 containing the coefficients k1 through k6.
+%
+%% Example
+
+clearvars
+
+% load IV curve data for a 36 cell Mitsubishi cSi module
+load 'Desoto_demo.mat'
+
+% Extract Pmp, Ee, and Tm data.  Actual data give cell temperature Tc, not
+% Tm, but here we'll use Tc as if it is Tm to illustrate the parameter estimation.
+
+Ee = [IVCurves.Ee]'/1000;
+Tm = [IVCurves.Tc]';
+Pmp = [IVCurves.Imp]'.*[IVCurves.Vmp]';
+
+Model = pvl_huld_parameter_estimation(Pmp, Ee, Tm);
+
+pPmp = pvl_huld(Model,Ee,Tm);
+
+figure
+plot(Ee*1000,Pmp,'x')
+hold all
+plot(Ee*1000,pPmp,'.')
+xlabel('POA irradiance (W/m^2)');
+ylabel('Power (W)')
+
+
+%% Reference
+% [1] A power-rating model for crystalline silicon PV modules, T. Huld,
+% G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, Solar
+% Energy Materials and Solar Cells 95(2011), pp 3359-3369.
+
+
+
+##### SOURCE END #####
+--></body></html>

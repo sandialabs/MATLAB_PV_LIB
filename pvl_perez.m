@@ -1,9 +1,9 @@
-function SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, varargin)
+function [SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, varargin)
 % PVL_PEREZ Determine diffuse irradiance from the sky on a tilted surface using the Perez model
 %
 % Syntax
-%   SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM)
-%   SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, model)
+%   [SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM)
+%   [SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, model)
 %
 % Description
 %   The Perez model [3] determines the sky diffuse irradiance on a tilted
@@ -54,10 +54,31 @@ function SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunA
 %       'capecanaveral1988', or 'albany1988'
 %
 % Output:
-%   SkyDiffuse - the diffuse component of the solar radiation  on an
+%   SkyDiffuse - the total diffuse component of the solar radiation on an
 %     arbitrarily tilted surface defined by the Perez model as given in
 %     reference [3].
 %     SkyDiffuse is the diffuse component ONLY and does not include the ground
+%     reflected irradiance or the irradiance due to the beam.
+%     SkyDiffuse is a column vector vector with a number of elements equal to
+%     the input vector(s).
+%   SkyDiffuse_Iso - the isotropic diffuse component of the solar radiation on an
+%     arbitrarily tilted surface defined by the Perez model as given in
+%     reference [3].
+%     SkyDiffuse_Iso is the isotropic diffuse component ONLY and does not include the ground
+%     reflected irradiance or the irradiance due to the beam.
+%     SkyDiffuse is a column vector vector with a number of elements equal to
+%     the input vector(s).
+%   SkyDiffuse_Cir - the circumsolar diffuse component of the solar radiation on an
+%     arbitrarily tilted surface defined by the Perez model as given in
+%     reference [3].
+%     SkyDiffuse_Cir is the circumsolar diffuse component ONLY and does not include the ground
+%     reflected irradiance or the irradiance due to the beam.
+%     SkyDiffuse is a column vector vector with a number of elements equal to
+%     the input vector(s).
+%   SkyDiffuse_Hor - the horizon brightening diffuse component of the solar radiation on an
+%     arbitrarily tilted surface defined by the Perez model as given in
+%     reference [3].
+%     SkyDiffuse_Cir is the horizon brightening diffuse component ONLY and does not include the ground
 %     reflected irradiance or the irradiance due to the beam.
 %     SkyDiffuse is a column vector vector with a number of elements equal to
 %     the input vector(s).
@@ -78,21 +99,24 @@ function SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunA
 %
 % See also PVL_EPHEMERIS   PVL_EXTRARADIATION   PVL_ISOTROPICSKY
 %       PVL_HAYDAVIES1980   PVL_REINDL1990   PVL_KLUCHER1979   PVL_KINGDIFFUSE
-%       PVL_RELATIVEAIRMASS
+%       PVL_RELATIVEAIRMASS 
 %
-%
+% Notes: pvl_perez original code by Sandia National Laboratories. Extension
+% of pvl_perez to output components of sky diffuse irradiance, i.e.,
+% circumsolar, horizon brightening and rest-of-sky, contributed by Xingshu
+% Sun of Purdue University, 2018.
 %
 %
 
 p=inputParser;
-p.addRequired('SurfTilt', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
-p.addRequired('SurfAz', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=360) | isnan(x)));
-p.addRequired('DHI', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('DNI', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('HExtra', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
-p.addRequired('SunZen', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=180) | isnan(x)));
-p.addRequired('SunAz', @(x) isnumeric(x) && isvector(x) && all((x>=0 & x<=360) | isnan(x)));
-p.addRequired('AM', @(x) isnumeric(x) && isvector(x) && all(x>=0 | isnan(x)));
+p.addRequired('SurfTilt', @(x) (isnumeric(x) && all(x<=180) && all(x>=0) && isvector(x)));
+p.addRequired('SurfAz', @(x) isnumeric(x) && all(x<=360) && all(x>=0) && isvector(x));
+p.addRequired('DHI', @(x) (isnumeric(x) && isvector(x) && all((x>=0) | isnan(x))));
+p.addRequired('DNI', @(x) isnumeric(x) && isvector(x) && all((x>=0) | isnan(x)));
+p.addRequired('HExtra', @(x) isnumeric(x) && isvector(x) && all((x>=0) | isnan(x)));
+p.addRequired('SunZen', @(x) isnumeric(x) && all(x<=180) && all((x>=0) | isnan(x)) && isvector(x));
+p.addRequired('SunAz', @(x) (isnumeric(x) && all(x<=360) && all((x>=0) | isnan(x)) && isvector(x)));
+p.addRequired('AM', @(x) (all(((isnumeric(x) & x>=0) | isnan(x))) & isvector(x)));
 p.addOptional('model', '1990', @(x) ischar(x));
 p.parse(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, varargin{:});
 
@@ -168,7 +192,6 @@ ebin(e>=6.2) = 8;
 % the airmass to the airmass value on the horizon (approximately 37-38).
 AM(SunZen >=90 & DHI >0) = 37;
 
-
 del = DHI.*AM./HExtra;
 
 ebinfilter = ebin > 0;
@@ -216,10 +239,24 @@ SkyDiffuse = zeros(length(DHI),1);
 SkyDiffuse(ebinfilter) = DHI(ebinfilter).* ...
     (0.5.* (1-F1(ebinfilter)).*(1+cosd(SurfTilt(ebinfilter))) +...
     F1(ebinfilter) .* A(ebinfilter)./ B(ebinfilter) + F2(ebinfilter).* sind(SurfTilt(ebinfilter)));
+
+SkyDiffuse_Iso(ebinfilter) = DHI(ebinfilter).*(0.5.* (1-F1(ebinfilter)).*(1+cosd(SurfTilt(ebinfilter))));
+SkyDiffuse_Cir(ebinfilter) = DHI(ebinfilter).*F1(ebinfilter) .* A(ebinfilter)./ B(ebinfilter);
+SkyDiffuse_Hor(ebinfilter) = DHI(ebinfilter).*F2(ebinfilter).* sind(SurfTilt(ebinfilter));
+
 % SkyDiffuse(ebinfilter) = DHI(ebinfilter).* 0.5.* (1-F1(ebinfilter)).*(1+cosd(SurfTilt)) +...
 %     F1(ebinfilter) .* A(ebinfilter)./ B(ebinfilter) + F2(ebinfilter).* sind(SurfTilt);
-SkyDiffuse(SkyDiffuse <= 0) = 0;
+con = (SkyDiffuse <= 0);
+SkyDiffuse(con) = 0;
+SkyDiffuse_Iso(con) = 0;
+SkyDiffuse_Cir(con) = 0;
+SkyDiffuse_Hor(con) = 0;
+
 SkyDiffuse = SkyDiffuse(:);
+SkyDiffuse_Iso = SkyDiffuse_Iso(:);
+SkyDiffuse_Cir = SkyDiffuse_Cir(:);
+SkyDiffuse_Hor = SkyDiffuse_Hor(:);
+
 end
 
 function [F1coeffs,F2coeffs] = GetPerezCoefficients(perezmodel)

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>pvl_readISH</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-07-07"><meta name="DC.source" content="pvl_readISH_help.m"><style type="text/css">
+      --><title>pvl_readISH</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-17"><meta name="DC.source" content="pvl_readISH_help.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>pvl_readISH</h1><!--introduction--><p>Read text file of Integrated Surface History (ISH) data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Input</a></li><li><a href="#4">Output</a></li><li><a href="#5">Example</a></li><li><a href="#6">Reference</a></li><li><a href="#7">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>data = readISH(ISHname)</tt></p><h2>Description<a name="2"></a></h2><p>Reads an ASCII file containing one year of from the Integrated Surface Database <a href="ftp://ftp.ncdc.noaa.gov/pub/data/noaa/">ftp://ftp.ncdc.noaa.gov/pub/data/noaa/</a> for a single station. Data are copied into a table with columns for each data field.</p><p>Requires Matlab 2013b or later.</p><h2>Input<a name="3"></a></h2><div><ul><li><b><tt>ISHname</tt></b> - string specifying the file (including path) containing the ISH data.</li></ul></div><h2>Output<a name="4"></a></h2><div><ul><li><b><tt>data</tt></b> - table containing ISH data, one row per observation,         one column for each mandatory data element. The         last column in the table contains a string with the         additional data and remarks.</li></ul></div><p>Data columns are as follows (see [1] for definition of each field):</p><p>
+  </style></head><body><div class="content"><h1>pvl_readISH</h1><!--introduction--><p>Read text file of Integrated Surface History (ISH) data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Input</a></li><li><a href="#4">Output</a></li><li><a href="#5">Example</a></li><li><a href="#6">Reference</a></li><li><a href="#7">See Also</a></li></ul></div><h2 id="1">Syntax</h2><p><tt>data = readISH(ISHname)</tt></p><h2 id="2">Description</h2><p>Reads an ASCII file containing one year of from the Integrated Surface Database <a href="ftp://ftp.ncdc.noaa.gov/pub/data/noaa/">ftp://ftp.ncdc.noaa.gov/pub/data/noaa/</a> for a single station. Data are copied into a table with columns for each data field.</p><p>Requires Matlab 2013b or later.</p><h2 id="3">Input</h2><div><ul><li><b><tt>ISHname</tt></b> - string specifying the file (including path) containing the ISH data.</li></ul></div><h2 id="4">Output</h2><div><ul><li><b><tt>data</tt></b> - table containing ISH data, one row per observation,         one column for each mandatory data element. The         last column in the table contains a string with the         additional data and remarks.</li></ul></div><p>Data columns are as follows (see [1] for definition of each field):</p><p>
 <table border=1>
 <tr><td>Label</td>      <td>Type</td>      <td>Description (units)</td></tr>
 <tr><td>len</td>        <td>int</td>       <td>length of variable portion of the record</td></tr>
@@ -101,7 +101,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <tr><td>pressure</td>   <td>double</td>    <td>Barometric pressure (hectopascals)</td></tr>
 <tr><td>pressureq</td>  <td>char</td>      <td>Barometric pressure quality</td></tr>
 <tr><td>remainder</td>  <td>string</td>    <td>Optional part of record (ADD + REM)</td></tr></table>
-</p><h2>Example<a name="5"></a></h2><pre class="codeinput">archive = <span class="string">'..\Example Data'</span>;
+</p><h2 id="5">Example</h2><pre class="codeinput">archive = <span class="string">'..\Example Data'</span>;
 fname = pvl_getISDdata(35.11,-106.61,2010,archive); <span class="comment">% get weather data for Albuquerque, NM</span>
 dir([archive <span class="string">'\isd-history.csv'</span>])  <span class="comment">% index of all data in ISD</span>
 dir([archive <span class="string">'\'</span> fname]) <span class="comment">% data for 2010 for Albuquerque, NM</span>
@@ -114,14 +114,16 @@ isd-history.csv
 723650-23050-2010  
 
 
-ans = 
+ans =
+
+  1&times;18 table
 
     len     catno       wban         date        time     source     lat       long       type      elev    station      qc      winddir    winddirq    windtype    windspeed    windspeedq    ceil 
     ___    ________    _______    __________    ______    ______    ______    _______    _______    ____    _______    ______    _______    ________    ________    _________    __________    _____
 
-    283    '723650'    '23050'    '20100101'    '0000'    '4'       35.033    -106.62    'SY-MT'    1618    'KABQ '    'V020'    30         '1'         'N'         4.6          '1'           22000
+    318    '723650'    '23050'    '20100101'    '0000'     '4'      35.033    -106.62    'SY-MT'    1618    'KABQ '    'V020'      30         '1'         'N'          4.6          '1'        22000
 
-</pre><h2>Reference<a name="6"></a></h2><p>[1] National Climatic Data Center, Federal Climate Complex Data Documentation for Integrated Surface Data 21 May 2014, <a href="ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf">ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf</a>, accessed 5 June 2014.</p><h2>See Also<a name="7"></a></h2><p><a href="pvl_getISDdata_help.html"><tt>pvl_getISDdata</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><h2 id="6">Reference</h2><p>[1] National Climatic Data Center, Federal Climate Complex Data Documentation for Integrated Surface Data 21 May 2014, <a href="ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf">ftp://ftp.ncdc.noaa.gov/pub/data/noaa/ish-format-document.pdf</a>, accessed 5 June 2014.</p><h2 id="7">See Also</h2><p><a href="pvl_getISDdata_help.html"><tt>pvl_getISDdata</tt></a></p><p>Copyright 2015 Sandia National Laboratories</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% pvl_readISH
 % Read text file of Integrated Surface History (ISH) data.

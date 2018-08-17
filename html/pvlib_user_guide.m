@@ -3,7 +3,7 @@
 %% What is "PV_LIB"?
 % PV_LIB is a set of Matlab functions that enable you to simulate the
 % electrical performance of a photovoltaic energy system in the
-% environment. Explore the detailed help for examples and on how top use
+% environment. Explore the detailed help for examples and how to use
 % the PV_LIB Toolbox.
 
 %%

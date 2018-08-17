@@ -11,14 +11,14 @@
 % Huld model, a polynomial in Tm and log(Ee), to Pmp.
 %
 %% Inputs
-% * * |Pmp|* - a N x 1 vector of power (W) at the maximum power point.
-% * * |Ee|* - a N x 1 vector of effective irradiance (suns).
-% * * |Tm|* - a N x 1 vector of module (not cell) temperature (C).
+% * *|Pmp|* - a N x 1 vector of power (W) at the maximum power point.
+% * *|Ee|* - a N x 1 vector of effective irradiance (suns).
+% * *|Tm|* - a N x 1 vector of module (not cell) temperature (C).
 %
 %% Output
-% * * |Model|* - a structure containing the model parameters:
-% * * |Model.Pmp0|* - estimated Pmp at STC.
-% * * |Model.k|* - a vector of length 6 containing the coefficients k1 through k6.
+% * *|Model|* - a structure containing the model parameters:
+% * *|Model.Pmp0|* - estimated Pmp at STC.
+% * *|Model.k|* - a vector of length 6 containing the coefficients k1 through k6.
 %
 %% Example
 
@@ -47,8 +47,8 @@ ylabel('Power (W)')
 
 
 %% Reference
-%   [1] A power-rating model for crystalline silicon PV modules, T. Huld,
-%   G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, Solar
-%   Energy Materials and Solar Cells 95(2011), pp 3359-3369.
+% [1] A power-rating model for crystalline silicon PV modules, T. Huld,
+% G. Friesen, A. Skoczek, R. Kenny, T. Sample, M. Field, E. Dunlop, Solar
+% Energy Materials and Solar Cells 95(2011), pp 3359-3369.
 
 

@@ -13,6 +13,11 @@
 % Report bugs and problems to Joshua Stein (jsstein@sandia.gov).
 %
 %% Credits for Non-Sandia contributions
+% * *Xingshu Sun of Purdue University:* Contributed the bifacial irradiance
+% model in functions |pvl_Purdue_albedo_model| and
+% |pvl_Purdue_bifacial_irradiance| along with examples of its use in
+% |example_pvl_Purdue_albedo_model| and
+% |example_pvl_Purdue_bifacial_irradiance|.
 % * *Mitchell Lee and Alex Panchula, FirstSolar:* Contributed the spectral
 % mismatch modifier model in functions |pvl_FSspeccorr| and |pvl_calcPwat|.
 % * *Rob Andrews, Queen's University:* Multiple bug finds and fixes in
@@ -26,6 +31,54 @@
 %
 %% Version History 
 %
+%% *Version 1.4:* August-2018
+%
+% *New Functions*
+%
+% |pvl_Purdue_bifacial_irradiance| - Calculate the irradiance on the front and rear sides of a bifacial solar module.
+%
+% |pvl_Purdue_albedo_model| - Calculate the collection of ground-reflected albedo light on the rear surface of a PV module.
+%
+% |pvl_translate_IV_curve_IEC60891_1| - translate IV curve in irradiance and temperature using method 1 in IEC60891
+%
+% |pvl_est_Rs_IEC60891_1| - estimate Rs for curve translation method 1 in IEC60891
+%
+% |pvl_est_kappa_IEC60891_1| - estimate kappa for curve translation method 1 in IEC60891
+%
+% |pvl_translate_IV_curve_IEC60891_2| - translate IV curve in irradiance and temperature using method 2 in IEC60891
+%
+% |pvl_est_Rs_IEC60891_2| - estimate Rs for curve translation method 2 in IEC60891
+%
+% |pvl_est_kappa_IEC60891_2| - estimate kappa for curve translation method 2 in IEC60891
+%
+% |pvl_est_Rs_Bowden| - estimate series resistance from IV curves using the method of Bowden and Rohatgi
+%
+% |pvl_est_Rs_Swanson| - estimate series resistance from IV curves using the method of Swanson
+%
+% |pvl_est_Rs_Pysch| - estimate series resistance from IV curves using Pysch's extension of the method of Swanson
+%
+% |pvl_est_Rs_sunsVoc| - estimate series resistance from IV curves using the suns-Voc method
+%
+% |pvl_iam_martinruiz_components| - Determine the incidence angle modifiers separately for beam, sky diffuse and ground reflected diffuse irradiance using the Martin and Ruiz incident angle model
+%
+% *API changes*
+%
+% |pvl_iam_physical| - was |pvl_physicaliam|
+%
+% |pvl_iam_ashrae| - was |pvl_ashraeiam|
+%
+% |pvl_iam_martinruiz| - was |pvl_martinruiziam|
+%
+% *Enhancements*
+%
+% |pvl_perez| now can return isotropic, circumsolar and horizon components of sky diffuse irradiance.
+%
+% *Bug fixes*
+%
+% |pvl_readTMY3| now correctly returns header information (thanks
+% @shirubana).
+%
+
 %% *Version 1.32:* February-2016
 %
 % *New Functions*
@@ -41,9 +94,14 @@
 % *Significant Changes*
 %
 % # Revised coefficients in |pvl_FSspeccorr| to new values provided by
-% FirstSolar.
+% FirstSolar. Added coefficients for CIGS and aSi cell types.
+%
 % # Corrected |pvl_snlinverter| to apply night tare losses based on AC
 % power rather than DC power.
+%
+% *Other changes*
+% Improvements to |pvl_singlediode.m| to better handle computation of IV
+% curves when points are requested, and to improvement convergence
 %
 %% *Version 1.31:* January-2016
 %

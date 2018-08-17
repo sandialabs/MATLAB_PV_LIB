@@ -1,10 +1,9 @@
-%% pvl_FSspeccorr
-% Spectral mismatch modifier based on precipitable water and 
+
+
+%
+%% Spectral mismatch modifier based on precipitable water and 
 %  absolute (pressure corrected) airmass.
 %
-% Function |pvl_FSspeccorr| was developed by Mitchell Lee and Alex Panchula,
-% at First Solar, 2015.
-
 %% Syntax
 % * |M = pvl_FSspeccorr(Pwat, AMa, pvModType)|
 % * |M = pvl_FSspeccorr(Pwat, AMa, custCoeff)|
@@ -15,7 +14,7 @@
 % M is estimated from absolute (pressure currected) air mass, AMa, and
 % precipitable water, Pwat, using the following function:
 %
-% $$M = c_1 + c_2 \times AMa  + c_3 \times Pwat  + c_4 \times AMa^{0.5} + c_5 \times Pwat^{0.5} + c_6 \times {\frac{AMa}{Pwat}}$$
+% $$M = c_1 + c_2 \times AMa  + c_3 \times Pwat  + c_4 \times AMa^{0.5} + c_5 \times Pwat^{0.5} + c_6 \times {\frac{AMa}{Pwat^{0.5}}}$$
 %
 % Default coefficients are determined for several cell types with 
 % known quantum efficiency curves, by using the Simple Model of the 
@@ -24,7 +23,7 @@
 % and Pwat where:
 %
 % * $0.5 cm \le Pwat \le 5 cm$
-% * $0.8 \le AMa \le 4.75$, i.e., pressure of 800 mbar and $1.01 \le AM \le 6$
+% * $0.8 \le AMa \le 5$
 % * Spectral range is limited to that of CMP11 (280 nm to 2800 nm)
 % * Spectrum simulated on a plane normal to the sun
 % * All other parameters fixed at G173 standard
@@ -33,6 +32,9 @@
 % efficiency curves. Multiple linear regression is then applied to fit 
 % Eq. 1 to determine the coefficients for each module.
 %
+%  Function pvl_FSspeccorr was developed by Mitchell Lee and Alex Panchula,
+%   at First Solar, 2015. Detailed description of spectral correction 
+%   can be found in [2] 
 %
 %% Inputs
 % * *|Pwat|* - atmospheric precipitable water (cm). Can be
@@ -48,7 +50,19 @@
 %           'multisi','polysi' - coefficients for multi-crystalline silicon 
 %               modules. The module used to calculate the spectral
 %               correction coefficients corresponds to the Mult-crystalline 
-%               silicon Manufacturer 2 Model C from [2].
+%               silicon Manufacturer 2 Model C from [4].
+%           'cigs' - coefficients for anonymous copper indium gallium selenide
+%               PV module. Lower and upper limits of QE are 350 nm and 1300 nm,
+%               respectively. Please note that the QE of CIGS modules
+%               can vary significantly depending on the PV manufacture and
+%               vintage. Spectral Response of module module used to derive
+%               CIGS coefficients can be found in [3]. 
+%           'asi' - coefficients for anonymous amorphous silicon PV module.
+%               Lower and upper limits of QE are 280 nm and 800 nm,
+%               respectively. Please note that the QE of a-Si modules
+%               can vary significantly depending on the PV manufacture and
+%               vintage.  Spectral Response of module module used to derive
+%               a-Si coefficients can be found in [3]. 
 % * *|custCoeff|* - allows for entry of user defined spectral correction
 %       coefficients. Coefficients must be entered as a numeric row or 
 %       column vector of length 6. Derivation of coefficients requires use 
@@ -84,8 +98,13 @@ legend('x-Si','CdTe','Location','South')
 % * [1]   Gueymard, Christian. SMARTS2: a simple model of the atmospheric 
 %           radiative transfer of sunshine: algorithms and performance 
 %           assessment. Cocoa, FL: Florida Solar Energy Center, 1995.
-%
-% * [2]   Marion, William F., et al. User's Manual for Data for Validating 
+% * [2]   Lee, Mitchell, and Panchula, Alex. "Spectral Correction for
+%           Photovoltaic Module Performance Based on Air Mass and Precipitable 
+%           Water." IEEE Photovoltaic Specialists Conference, Portland, 2016 
+% * [3]   Schweiger, M. and Hermann, W, Influence of Spectral Effects on 
+%           Energy Yield of Different PV Modules: Comparison of Pwat and 
+%           MMF Approach, TUV Rheinland Energy GmbH report 21237296.003, January 2017
+% * [4]   Marion, William F., et al. User's Manual for Data for Validating 
 %           Models for PV Module Performance. National Renewable Energy Laboratory, 2014.
 %           http://www.nrel.gov/docs/fy14osti/61610.pdf
 

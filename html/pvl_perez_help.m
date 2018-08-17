@@ -3,11 +3,9 @@
 %
 %% Syntax
 %%
-% |SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen,
-% SunAz, AM)|
+%   |[SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM)|
 %
-% |SkyDiffuse = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen,
-% SunAz, AM, model)|
+%   |[SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(SurfTilt, SurfAz, DHI, DNI, HExtra, SunZen, SunAz, AM, model)|
 %
 %% Description
 % The Perez model [3] determines the sky diffuse irradiance on a tilted
@@ -73,10 +71,24 @@
 %
 %% Outputs
 %%
-% * *|SkyDiffuse|* - the sky diffuse irradiance on a tilted surface in W/m^2.
-%     SkyDiffuse is a column vector vector with a number of elements equal to
+% * *|SkyDiffuse|* - the total sky diffuse irradiance on a tilted surface in W/m^2.
+%     |SkyDiffuse| is a column vector vector with a number of elements equal to
 %     the input vector(s).
+% * *|SkyDiffuse_Iso|* - the isotropic sky component of the sky diffuse irradiance.
+% * *|SkyDiffuse_Cir|* - the circumsolar component of the sky diffuse
+%     irradiance.
+% * *|SkyDiffuse_Hor|* - the horizon brightening component of the sky diffuse irradiance.
 %
+%%
+% The comparison between different Perez model pararameter sets 
+% demonstrates the sensitivity of this model to the various parameter sets.
+% The differences between models may be due to differences between
+% the underlying quality of the irradiance data used to calibrate each
+% parameter set.  As with any model and especially empirical models such as
+% this one, it is very important to verify parameter sets are adequate and
+% valid for their intended use.
+%
+
 %% Example
 % Compare all parameter sets
 clear
@@ -97,9 +109,11 @@ models = {'1990' 'allsitescomposite1988' 'sandiacomposite1988' 'usacomposite1988
     'france1988' 'phoenix1988' 'elmonte1988' 'osage1988' 'albuquerque1988' ...
     'capecanaveral1988' 'albany1988'};
 for mod = 1:11
-   Ediff(:,mod) = pvl_perez(SurfTilt, SurfAz, TMYData.DHI, TMYData.DNI, HExtra, SunZen, SunAz, AM, models{mod});
+   [Ediff(:,mod) Ediff_Iso(:,mod) Ediff_Cir(:,mod) Ediff_Hor(:,mod)] = ...
+       pvl_perez(SurfTilt, SurfAz, TMYData.DHI, TMYData.DNI, HExtra, SunZen, SunAz, AM, models{mod});
 end
 tfilter = and(Time.month == 8,Time.day == 2);
+
 figure
 plot(Time.hour(tfilter),Ediff(tfilter,1),'.-b')
 hold all
@@ -111,14 +125,20 @@ legend(models,'Location','NW')
 xlabel('Hour of Day')
 ylabel('Sky Diffuse POA Irradiance (W/m^2)')
 title({'Sky Diffuse Irradiance from the Perez Model';'Albuquerque - Aug 2'},'FontSize',14)
-%%
-% The comparison between different Perez model pararameter sets above
-% demonstrates the sensitivity of this model to the various parameter sets.
-% The differences between models may be due to differences between
-% the underlying quality of the irradiance data used to calibrate each
-% parameter set.  As with any model and especially empirical models such as
-% this one, it is very important to verify parameter sets are adequate and
-% valid for their intended use.
+
+figure
+plot(Time.hour(tfilter),Ediff(tfilter,1),'.-b')
+hold all
+i = 1; % select '1990' model results
+plot(Time.hour(tfilter),Ediff(tfilter,i))
+plot(Time.hour(tfilter),Ediff_Cir(tfilter,i))
+plot(Time.hour(tfilter),Ediff_Hor(tfilter,i))
+plot(Time.hour(tfilter),Ediff_Iso(tfilter,i))
+xlim([-5 22])
+legend('Total', 'Circumsolar', 'Horizon Brightening', 'Isotropic', 'Location','NW')
+xlabel('Hour of Day')
+ylabel('Sky Diffuse POA Irradiance (W/m^2)')
+title({'Components of Sky Diffuse Irradiance using 1990 Perez model';'Albuquerque - Aug 2'},'FontSize',14)
 %% References
 %%
 % [1] Loutzenhiser P.G. et al., 2007. Empirical validation of models to compute
@@ -147,5 +167,9 @@ title({'Sky Diffuse Irradiance from the Perez Model';'Albuquerque - Aug 2'},'Fon
 % <pvl_kingdiffuse_help.html |pvl_kingdiffuse|> ,
 % <pvl_relativeairmass_help.html |pvl_relativeairmass|> ,
 % <pvl_absoluteairmass_help.html |pvl_absoluteairmass|>
-%%
-% Copyright 2014 Sandia National Laboratories
+%
+%% Notes:
+% |pvl_perez| Copyright 2014 Sandia National Laboratories
+% |pvl_perez| modified to provide components by Xingshu Sun of Purdue
+% University, 2018.
+%
