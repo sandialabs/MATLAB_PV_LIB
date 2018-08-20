@@ -72,8 +72,13 @@ GHI(GHI<DHI) = DHI(GHI<DHI);    %Global horizontal should be >= Diffuse horizont
 GHI(GHI < 1E-6) = 1E-6; % Prevent division by 0 
 % Dec 2012: A bug was identified by Rob Andrews (Queens University) in this equation in PV_LIB
 % Version 1.0.  Fixed in Version 1.1.
+% COSTT is cos(angle between sun vector and array normal)
 COSTT = cosd(SurfTilt).*cosd(SunZen) + sind(SurfTilt).* ...
     sind(SunZen).*cosd(SunAz-SurfAz);
+
+% Aug 2018: Restrict COSTT>=0, so that circumsolar irradiance is not added
+% to total sky diffuse when the sun is behind the array
+COSTT(COSTT<0) = 0.0;
 
 F = 1 - ((DHI./GHI).^2);
 SkyDiffuse = DHI ...
