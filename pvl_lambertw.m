@@ -55,7 +55,7 @@ for k = 1:36
    dw = c2./(c1.*w1 - ((w + 2).*c2./(2*w1)));
    w = w - dw;
 
-   if all(abs(dw) < 0.7e-16*(2+abs(w)))
+   if all(abs(dw) < eps*(2+abs(w)))
       break;
    end
 end
