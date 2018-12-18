@@ -17,4 +17,4 @@ Bug fixes
 
 Contributors
 ~~~~~~~~~~~~
-* John Allen (:ghuser:'joallen6')
+* Jonathan Allen (:ghuser:'joallen6')
