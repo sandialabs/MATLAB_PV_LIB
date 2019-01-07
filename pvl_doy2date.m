@@ -7,19 +7,20 @@ function [yr, mo, da] = pvl_doy2date(year,dayofyear)
 % Description
 %   Produces the Year, Month of year, and Day of month in the Gregorian
 %   calendar, when given the year and day of year. 
-% 
-%   Input "year" must be a numeric vector or scalar of gregorian years. 
-%   If "year" is a scalar, it may not be NaN.
-%   If "year" is not an integer, the fractional part will be removed (floor).
-%   Input "dayofyear" must be a numeric vector with each element >=1 and
-%   <366 (< 367 for leap years); "dayofyear" may also be NaN. 
+%  
+% Input:
+%   year - scalar or vector of years (e.g. 1990). Year(i) corresponding 
+%           to dayofyear(i). 
+%   dayofyear - a numeric vector with each element >=1 and
+%   <366 (< 367 for leap years). dayofyear may also be NaN. 
 %
-%   Output "yr" is a column vector of same size as dayofyear returning the 
+% Output:
+%   yr - a column vector of same size as dayofyear returning the 
 %       year input. If the input "year" was a scalar, then "yr" is a vector 
 %       filled with "year".
-%   Output "mo" is a column vector of month of the year (1 = January, 
+%   mo - a column vector of month of the year (1 = January, 
 %       12 = December)
-%   Output "da" is a column vector of day of the month, including any 
+%   da - a column vector of day of the month, including any 
 %       fractional days given in dayofyear.
 %   All output variables are set to NaN if any of the corresponding input
 %       values are NaN.
