@@ -89,10 +89,10 @@ function [SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(S
 %   Solar Energy vol. 81. pp. 254-267.
 %   [2] Perez, R., Seals, R., Ineichen, P., Stewart, R., Menicucci, D., 1987. A new
 %   simplified version of the Perez diffuse irradiance model for tilted
-%   surfaces. Solar Energy 39 (3), 221–232.
+%   surfaces. Solar Energy 39 (3), 221â€“232.
 %   [3] Perez, R., Ineichen, P., Seals, R., Michalsky, J., Stewart, R., 1990.
 %   Modeling daylight availability and irradiance components from direct
-%   and global irradiance. Solar Energy 44 (5), 271–289.
+%   and global irradiance. Solar Energy 44 (5), 271â€“289.
 %   [4] Perez, R. et. al 1988. The Development and Verification of the
 %   Perez Diffuse Radiation Model,.SAND88-7030, Sandia National
 %   Laboratories.
@@ -246,11 +246,21 @@ SkyDiffuse_Hor(ebinfilter) = DHI(ebinfilter).*F2(ebinfilter).* sind(SurfTilt(ebi
 
 % SkyDiffuse(ebinfilter) = DHI(ebinfilter).* 0.5.* (1-F1(ebinfilter)).*(1+cosd(SurfTilt)) +...
 %     F1(ebinfilter) .* A(ebinfilter)./ B(ebinfilter) + F2(ebinfilter).* sind(SurfTilt);
-con = (SkyDiffuse <= 0);
-SkyDiffuse(con) = 0;
-SkyDiffuse_Iso(con) = 0;
-SkyDiffuse_Cir(con) = 0;
-SkyDiffuse_Hor(con) = 0;
+% con = (SkyDiffuse <= 0);
+% SkyDiffuse(con) = 0;
+% SkyDiffuse_Iso(con) = 0;
+% SkyDiffuse_Cir(con) = 0;
+% SkyDiffuse_Hor(con) = 0;
+
+% screen invalid SkyDiffuse and warn user
+idx = SkyDiffuse < 0 | SkyDiffuse > max(HExtra);
+if any(idx)
+    SkyDiffuse(idx) = NaN;
+    SkyDiffuse_Iso(idx) = NaN;
+    SkyDiffuse_Cir(idx) = NaN;
+    SkyDiffuse_Hor(idx) = NaN;
+    warning('NaNs returned for SkyDiffuse < 0 or > Extra Terrestrial.');
+end
 
 SkyDiffuse = SkyDiffuse(:);
 SkyDiffuse_Iso = SkyDiffuse_Iso(:);
