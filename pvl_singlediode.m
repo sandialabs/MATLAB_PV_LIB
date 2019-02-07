@@ -348,7 +348,7 @@ while max(abs(B-A))>1e-6   % set precision of estimate of Imp to 1e-6 (A)
     err = g(p,Iph,Io,a,Rs,Rsh);
     
     iterCount = iterCount + 1;
-    if iterCount > 1000
+    if iterCount > 50
         error('Convergence failed in calc_Imp_bisect');
     end
 end;
