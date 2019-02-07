@@ -61,6 +61,9 @@ function [SkyDiffuse,SkyDiffuse_Iso,SkyDiffuse_Cir,SkyDiffuse_Hor] = pvl_perez(S
 %     reflected irradiance or the irradiance due to the beam.
 %     SkyDiffuse is a column vector vector with a number of elements equal to
 %     the input vector(s).
+%     User is warned if calculated SkyDiffuse is negative or greater than 
+%     extraterrestrial radiation; all outputs are NaN for unreasonable
+%     calculated SkyDiffuse.
 %   SkyDiffuse_Iso - the isotropic diffuse component of the solar radiation on an
 %     arbitrarily tilted surface defined by the Perez model as given in
 %     reference [3].
