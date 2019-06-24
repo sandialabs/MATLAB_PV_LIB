@@ -24,7 +24,7 @@ function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 %      using the model type selected by ModelType. The user specifies the
 %      rain accumulation period (in hours) over which to determine whether
 %      sufficient rain has fallen to clean the module.
-%   [SR]=pvl_hsu_soiling(ModelType, Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
+%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
 %      Uses the parameters of the fixed models along with Land Use Category
 %      (LUC), wind speed, and ambient temperature to predict soiling ratio
 %      using the variable deposition velocity model.
