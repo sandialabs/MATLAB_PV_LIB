@@ -262,7 +262,7 @@ if any(idx)
     SkyDiffuse_Iso(idx) = NaN;
     SkyDiffuse_Cir(idx) = NaN;
     SkyDiffuse_Hor(idx) = NaN;
-    warning('NaNs returned for SkyDiffuse < 0 or > Extra Terrestrial.');
+    warning('NaNs returned for SkyDiffuse < 0 or > max(HExtra).');
 end
 
 SkyDiffuse = SkyDiffuse(:);
