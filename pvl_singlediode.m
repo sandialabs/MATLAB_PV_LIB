@@ -338,6 +338,7 @@ end
 p = (A+B)./2;
 err = g(p,Iph,Io,a,Rs,Rsh);  % value of dP/dV at initial guess p
 
+iterCount = 0;
 while max(abs(B-A))>1e-6   % set precision of estimate of Imp to 1e-6 (A)
     gA=g(A,Iph,Io,a,Rs,Rsh); % value of dP/dV at left endpoint
     u=(gA.*err)<0;
@@ -345,6 +346,11 @@ while max(abs(B-A))>1e-6   % set precision of estimate of Imp to 1e-6 (A)
     A(~u)=p(~u);
     p=(A+B)/2;
     err = g(p,Iph,Io,a,Rs,Rsh);
+    
+    iterCount = iterCount + 1;
+    if iterCount > 50
+        error('Convergence failed in calc_Imp_bisect');
+    end
 end;
 Imp = p;
 
