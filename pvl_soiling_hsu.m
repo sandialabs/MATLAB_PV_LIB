@@ -1,30 +1,30 @@
-function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargin)
-% PVL_HSU_SOILING Calculates soiling rate over time given particulate and rain data
+function SR = pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargin)
+% PVL_SOILING_HSU Calculates soiling rate over time given particulate and rain data
 %
 % Syntax
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10)
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType)
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod)
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
 %
 % Description  
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10)
 %      Uses the time, rainfall amounts, tilt angle, particulate matter
 %      concentrations, and rain cleaning threshold to predict soiling rate
 %      using the fixed settling model. Uses hourly rain accumulation to
 %      determine cleaning.
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType)
 %      Uses the time, rainfall amounts, tilt angle, particulate matter
 %      concentrations, and rain cleaning threshold to predict soiling rate
 %      using the model type selected by ModelType. Uses hourly rain
 %      accumulation to determine cleaning.
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod)
 %      Uses the time, rainfall amounts, tilt angle, particulate matter
 %      concentrations, and rain cleaning threshold to predict soiling rate
 %      using the model type selected by ModelType. The user specifies the
 %      rain accumulation period (in hours) over which to determine whether
 %      sufficient rain has fallen to clean the module.
-%   [SR]=pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
+%   [SR]=pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, ModelType, RainAccPeriod, LUC, WindSpeed, Temperature)
 %      Uses the parameters of the fixed models along with Land Use Category
 %      (LUC), wind speed, and ambient temperature to predict soiling ratio
 %      using the variable deposition velocity model.
@@ -34,14 +34,14 @@ function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 %     Time values for the soiling function do not need to be 
 %     regularly spaced, although large gaps in timing are discouraged.
 %
-%   Rain is a vector of rainfall values of the same length as the fields of
-%     Time, where each element of Rain correlates with the element of Time.
+%   Rain is a vector of rainfall in mm of the same length as Time, where
+%     each element of Rain correlates with the element of Time.
 %     Rainfall values should be in mm of rainfall. Programmatically, rain
 %     is accumulated over a given time period, and cleaning is applied
 %     immediately after a time period where the cleaning threshold is
 %     reached.
 %
-%   RainThresh is a scalar for the amount of rain, in mm, in a an accumulation
+%   RainThresh is a scalar for the amount of rain, in mm, in an accumulation
 %     period needed to clean the PV modules. In periods where the 
 %     accumulated rain meets or exceeds RainThresh, the panels are assumed 
 %     to be cleaned immediately after the accumulation period 
@@ -53,29 +53,29 @@ function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 %     angles (e.g. in tracking cases) can be accomodated, and tilt angles
 %     are correlated with the entries in Time.
 %
-%   PM2_5 is the concentration of particulate matter with diamter less than
-%     2.5 microns, in g/m^3. Historical US concentration data sets may be
+%   PM2_5 is the concentration of airborne particulate matter (PM) with diameter less 
+%     than 2.5 microns, in g/m^3. Historical US concentration data sets may be
 %     found at https://aws.epa.gov/aqsweb/airdata/download_files.html. With
 %     file descriptions (for hourly data sets) at 
 %     https://aqs.epa.gov/aqsweb/airdata/FileFormats.html#_hourly_data_files
 %   
-%   PM10 is the concentration of particulate matter with diamter less than
+%   PM10 is the concentration of airborne particulate matter (PM) with diameter less than
 %     10 microns, in g/m^3. Historical US PM data sets found as described
 %     above.
 %
 %   ModelType is an optional input to the function to determine the 
-%     the model type to be used in the soiling model. A
+%     the model type to be used in the soiling model, see [1]. A
 %     value of "1" indicates that the Variable Deposition Velocity model
 %     shall be used, a value of "2" indicates that the Fixed Settling
 %     Velocity model shall be used, and a value of "3" indicates that the
 %     Fixed Deposition Velocity model shall be used. [1] indicates that the
 %     Fixed Settling Velocity model performs best under a wide range of
-%     conditions, and thus "2" is the default ModelType if none is entered. 
+%     conditions, and thus "2" is the default ModelType if ModelType is omitted. 
 %     Validation efforts by Sandia National Laboratories
-%     confirms these findings. If an incorrect ModelType is provided, the
-%     Fixed Settling Velocity will be used (with a warning).
+%     confirm these findings. If an incorrect ModelType is provided, the
+%     Fixed Settling Velocity (type 2) will be used (with a warning).
 %
-%   RainAccPeriod is an optional input that specifies the period, in hours
+%   RainAccPeriod is an optional input that specifies the period, in hours,
 %     over which to accumulate rainfall totals before checking against the
 %     rain cleaning threshold. For example, if the rain threshold is
 %     0.5 mm per hour, then RainThresh should be 0.5 and RainAccPeriod
@@ -89,11 +89,8 @@ function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 %     Variable Deposition Model. LUC is the Land Use Category as specified
 %     in Table 19.2 of [2]. LUC must be a numeric scalar with value 1, 4,
 %     6, 8, or 10, corresponding to land with evergreen trees, deciduous
-%     trees, grass, desert, or shrubs with interrupted woodlands. The LUC
-%     changes the mass deposition by Brownian diffusion. If omitted, the
-%     default value of 8 (desert) is used. Note that the value of gamma is
-%     the only thing changed by the LUC. LUC 1 and 4 use gamma = 0.54,
-%     while LUC 6, 8, and 10 use gamma = 0.56.
+%     trees, grass, desert, or shrubs with interrupted woodlands. If 
+%     omitted, the default value of 8 (desert) is used. 
 %
 %   WindSpeed is an optional input to the function, but is required for the
 %     Variable Deposition Model. WindSpeed is a scalar or vector value with
@@ -109,7 +106,15 @@ function SR = pvl_hsu_soiling(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 % 
 % Output Parameters:
 %   SR = The soiling ratio (SR) of a tilted PV panel, this is a number
-%   between 0 and 1
+%   between 0 and 1. SR is a time series where each element of SR
+%   correlates with the accumulated soiling and rain cleaning at the times
+%   specified in Time.
+%
+% Background and recognition:
+%   This soiling model was developed by Liza Boyle and Merissa Coello at
+%   Humboldt State University (HSU). Many thanks to Liza and Merissa for
+%   model development, initial code, and subsequent code and performance
+%   reviews.
 %
 % References
 %   [1] M. Coello, L. Boyle. A Simple Model for Predicting Time Series
@@ -167,7 +172,7 @@ AccumRain(end) = RainAtAccTimes(end);
 
 switch ModelType
     case 1 % Variable Deposition Velocity
-        vd = pvl_depo_veloc(Temperature, WindSpeed, LUC);
+        vd = depo_veloc(Temperature, WindSpeed, LUC);
     case 2 % Fixed Settling Velocity in m/s
         vd(1,2) = 0.004;
         vd(1,1) = 0.0009;
@@ -241,7 +246,7 @@ end
 
 % This function creates deposition velocities for the variable deposition
 % model.
-function vd = pvl_depo_veloc(T, WindSpeed, LUC)
+function vd = depo_veloc(T, WindSpeed, LUC)
 
     % convert temperature into Kelvin 
     T = T + 273.15;
@@ -269,12 +274,12 @@ function vd = pvl_depo_veloc(T, WindSpeed, LUC)
     end
 
 
-    %Dimeter of particle in um
+    %Diameter of particle in um
     Dpum=[2.5,10];
     Dpm=Dpum*10^-6;   %Diameter of particle in m
 
     %Calculations
-    mu=1.8*10^-5.*(T./298).^0.85;      %viscocity of air in kg/m s
+    mu=1.8*10^-5.*(T./298).^0.85;      %viscosity of air in kg/m s
     nu=mu/rhoair;
     lambda1=2*mu./(P.*(8.*0.0288./(pi.*R.*T)).^(1/2));   %mean free path
     
