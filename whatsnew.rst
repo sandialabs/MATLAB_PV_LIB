@@ -8,7 +8,7 @@ API Changes
 
 Enhancements
 ~~~~~~~~~~~~
-
+* Sky diffuse from `pvl_perez.m` is limited between 0.0 W/m^2 and extraterrestrial horizontal irradiance. Values outside this range are set to NaN.
 
 Bug fixes
 ~~~~~~~~~
