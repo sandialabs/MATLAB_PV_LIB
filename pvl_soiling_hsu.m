@@ -117,12 +117,11 @@ function SR = pvl_soiling_hsu(Time, Rain, RainThresh, Tilt, PM2_5, PM10, varargi
 %   reviews.
 %
 % References
-%   [1] M. Coello, L. Boyle. A Simple Model for Predicting Time Series
-%   Soiling of Photovoltaic Panels. IEEE PVSC/ World Conference on
-%   Photoltaic Energy Conversion (WCPEC) 2018 (based on pre-print of paper 
-%   to be published in IEEE JPV with reference updated upon publishing).
+%   [1] M. Coello and L. Boyle, "Simple Model For Predicting Time Series 
+%       Soiling of Photovoltaic Panels," in IEEE Journal of Photovoltaics.
+%       doi: 10.1109/JPHOTOV.2019.2919628
 %   [2] Atmospheric Chemistry and Physics: From Air Pollution to Climate
-%   Change. J. Seinfeld and S. Pandis. Wiley and Sons 2001.
+%       Change. J. Seinfeld and S. Pandis. Wiley and Sons 2001.
 %
 % See also PVL_MAKETIMESTRUCT 
 
