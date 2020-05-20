@@ -1,5 +1,5 @@
 
-function [DNI, DHI, Kt] = pvl_orgill_hollands(GHI,Z, doy)
+function [DNI, DHI, Kt] = pvl_orgill_hollands(GHI, Z, doy)
 % PVL_ORGILL_HOLLANDS Estimate DNI and DHI from GHI using the Orgill and Hollands model
 %
 % Syntax
@@ -9,7 +9,7 @@ function [DNI, DHI, Kt] = pvl_orgill_hollands(GHI,Z, doy)
 % Description
 %   The Orgill and Hollands model estimates the diffuse fraction DF from global horizontal
 %   irradiance through an empirical relationship between DF and the ratio of GHI to 
-%   extraterrestrial irradiance, Kt.  pvl_erbs uses the diffuse 
+%   extraterrestrial irradiance, Kt.  pvl_orgill_hollands uses the diffuse 
 %   fraction to compute DHI. DNI is then estimated as DNI = (GHI - DHI)/cos(Z).
 %
 % Inputs:   
@@ -53,20 +53,6 @@ Z=Z(:);
 doy=doy(:);
 DF = zeros(length(GHI),1);
 
-% The following code and comments utilize the model's calculations for
-% extraterrestrial radiation. I'm not exactly sure what Maxwell was using
-% as the "Eccentricity of the Earth's orbit", but I can't figure out what
-% to put in to make the equations work out correctly.
-% % It is unclear in Maxwell whether the trigonometric functions should
-% % operate on degrees or radians. Spencer's work also does not explicitly
-% % state the units to determine re (denoted as 1/r^2 in Spencer's work).
-% % However, Spencer uses radian measures for earlier calculations, and it is
-% % assumed to be similar for this calculation. In either case (radians or
-% % degrees) the difference between the two methods is approximately 0.0015%.
-% re = 1.00011 + 0.034221 .* cos(Eccentricity) + (0.00128) .* sin(Eccentricity)...
-%     +0.000719.*cos(2.*Eccentricity) + (7.7E-5).*sin(2.*Eccentricity);
-% I0= re.*Hextra;
-
 HExtra = pvl_extraradiation(doy);
 I0h= HExtra.*cosd(Z);
 
@@ -80,8 +66,8 @@ for i = 1:length(GHI)
         DF(i) = 1.0 - 0.249*Kt(i);
         
         % For Kt > 0.35 and Kt <= 0.75, set the diffuse fraction
-    elseif Kt(i)>.35 && Kt(i)<.75
-        DF(i) = 1.577 - 1.84*Kt(i);
+    elseif Kt(i)>.35 && Kt(i)<=.75
+        DF(i) = 1.557 - 1.84*Kt(i);
         
         % For Kt > 0.75, set the diffuse fraction
     else
