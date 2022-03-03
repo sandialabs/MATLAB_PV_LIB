@@ -109,7 +109,7 @@ Sref = 1000;  % Reference effective irradiance in W/m2
 Tref_K=25+273.15; % Reference cell temperature in Kelvin
 Tcell_K=Tcell+273.15; % cell temperature in Kelvin
 EgRef = 1.121;   % in eV, see [1]
-dEgdT = -0.00002677;  % see [1]
+dEgdT = -0.0002677;  % see [1]
 
 % adjust temperature coefficient for short-circuit current, Eq. 9.11 of [1]
 aIsc = alpha_sc .* ( 1 - adjust/100);
